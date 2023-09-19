@@ -1,10 +1,11 @@
 import Head from "next/head"
 import type { AppProps } from "next/app"
-import { Global } from "@emotion/react"
+import { Global, ThemeProvider } from "@emotion/react"
 import { useState } from "react"
 import globalStyle from "../styles/globalStyle"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { theme } from "../styles/theme"
 
 export default function App({ Component, pageProps }: AppProps) {
     const [queryClient] = useState(
@@ -31,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <Global styles={globalStyle} />
             <QueryClientProvider client={queryClient}>
                 <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-                <Component {...pageProps} />
+                <ThemeProvider theme={theme}>
+                    <Component {...pageProps} />
+                </ThemeProvider>
             </QueryClientProvider>
         </>
     )
