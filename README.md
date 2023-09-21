@@ -1,38 +1,12 @@
-<p align="center"><img src="https://i.imgur.com/3UKgyH7.png"></p>
-
-## Usage
-
-### Create an App
-
-```
-# with npx
-$ npx create-nextron-app my-app --example with-emotion
-
-# with yarn
-$ yarn create nextron-app my-app --example with-emotion
-
-# with pnpm
-$ pnpm dlx create-nextron-app my-app --example with-emotion
-```
-
-### Install Dependencies
-
-```
-$ cd my-app
-
-# using yarn or npm
-$ yarn (or `npm install`)
-
-# using pnpm
-$ pnpm install --shamefully-hoist
-```
-
-### Use it
-
-```
-# development mode
-$ yarn dev (or `npm run dev` or `pnpm run dev`)
-
-# production build
-$ yarn build (or `npm run build` or `pnpm run build`)
-```
+| 태그     | 설명                                               |
+|----------|----------------------------------------------------|
+| Feat     | 새로운 기능 추가 또는 기존 기능 수정             |
+| Fix      | 기능 관련 버그 수정                               |
+| Build    | 빌드 관련 수정                                    |
+| Chore    | 패키지 매니저 수정 또는 기타 수정                 |
+| Ci       | CI 설정 수정                                      |
+| Docs     | 문서(주석) 수정                                   |
+| Style    | 코드 스타일 및 포맷팅 수정                        |
+| Refactor | 기능 변경 없이 코드 리팩터링                      |
+| Test     | 테스트 코드 추가 또는 수정                         |
+| Release  | 버전 릴리즈                                       |
