@@ -35,22 +35,29 @@ const globalStyle = css`
         margin: 0;
         padding: 0;
     }
+    *::-webkit-scrollbar {
+        display: none;
+    }
+    *::-webkit-scrollbar {
+        display: none;
+    }
+    div::-webkit-scrollbar-thumb {
+        background-color: #141414;
+    }
     * {
+        -ms-user-select: none;
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
         box-sizing: border-box;
-        font-family: "Noto Sans KR", sans-serif !important;
+        font-family: Gmarket Sans, sans-serif !important;
+        outline: none;
     }
 
     #__next {
         width: 100%;
         height: 100%;
-    }
-    *::-webkit-scrollbar {
-        width: 8px;
-    }
-    *::-webkit-scrollbar-thumb {
-        height: 30%;
-        background: #9e9e9e;
-        border-radius: 10px;
     }
 
     :root {
