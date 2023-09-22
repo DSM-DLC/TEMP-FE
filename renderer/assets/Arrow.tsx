@@ -2,6 +2,7 @@ import styled from "@emotion/styled"
 
 interface DirectionType {
     direction?: "left" | "top" | "right" | "bottom"
+    onClick?: () => void
 }
 
 const rotateDeg = {
@@ -11,7 +12,7 @@ const rotateDeg = {
     bottom: "270deg",
 }
 
-export const Arrow = ({ direction }: DirectionType) => {
+export const Arrow = ({ direction, onClick }: DirectionType) => {
     return (
         <Svg
             xmlns="http://www.w3.org/2000/svg"
@@ -19,6 +20,7 @@ export const Arrow = ({ direction }: DirectionType) => {
             height="32.828"
             viewBox="0 0 17.414 32.828"
             direction={direction}
+            onClick={onClick}
         >
             <path
                 id="패스_4"
