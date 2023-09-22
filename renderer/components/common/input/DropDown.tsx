@@ -99,7 +99,7 @@ const slideDown = keyframes`
 `
 const OptionWrapper = styled.div`
     width: 100%;
-    max-height: 8vh;
+    max-height: 12vh;
     overflow-y: auto;
     display: flex;
     top: 5vh;
@@ -109,8 +109,10 @@ const OptionWrapper = styled.div`
     justify-content: space-between;
     gap: 1px;
     position: absolute;
+    border-radius: 10px;
     background: ${({ theme }) => theme.color.white};
-    animation: ${slideDown} 0.05s ease-in-out; /* Apply the keyframes animation */
+    animation: ${slideDown} 0.05s ease-in-out;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `
 
 const PlaceHolderValueInner = styled.div<{ isOpen: string }>`
@@ -126,8 +128,8 @@ const Option = styled.div`
     width: 100%;
     height: 4vh;
     padding: 15px;
-    border: 1px solid black;
-    border-radius: 10px;
+    /* border: 1px solid black;
+    border-radius: 10px; */
     font-family: Gmarket Sans;
     font-size: 12px;
     font-style: normal;
