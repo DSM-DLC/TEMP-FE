@@ -44,12 +44,14 @@ const InputBox = styled.input<InputPropsType>`
     border: ${props => props.border ?? "1px solid black"};
     border-radius: 10px;
     color: ${({ theme }) => theme.color.black};
+    vertical-align: middle;
     font-family: "Gmarket Sans";
-    font-size: 11px;
+    font-size: 17px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     &::placeholder {
+        font-size: 11px;
         color: ${({ theme }) => theme.color.gray500};
     }
 `
