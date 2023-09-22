@@ -1,21 +1,26 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import logo from "../assets/logo.png"
+import backGround from "@/assets/background.png"
+import { Box } from "@/components/common/box/Box"
+import { Button } from "@/components/common/button/Button"
+import styled from "@emotion/styled"
 
 function Home() {
     return (
         <React.Fragment>
-            <div>
-                <div>
-                    <Image src={logo.src} alt="logo" layout="fill"></Image>
-                </div>
-                <button>
+            <BackGroundImage style={{ backgroundImage: `url(${backGround.src})` }}>
+                <div></div>
+                <Box>
+                    <span>로그인 유형을 선택하세요</span>
                     <Link href="/user/login">
-                        <a>sddf</a>
+                        <Button label="직원으로 로그인하기" />
                     </Link>
-                </button>
-            </div>
+                    <Link href="/admin/login">
+                        <Button label="어드민으로 로그인하기" />
+                    </Link>
+                </Box>
+            </BackGroundImage>
         </React.Fragment>
     )
 }
@@ -23,3 +28,11 @@ function Home() {
 //getSersideRendering Function
 
 export default Home
+
+const BackGroundImage = styled.div`
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
