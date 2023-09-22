@@ -10,7 +10,6 @@ function Home() {
     return (
         <React.Fragment>
             <BackGroundImage style={{ backgroundImage: `url(${backGround.src})` }}>
-                <div></div>
                 <Box>
                     <span>로그인 유형을 선택하세요</span>
                     <Link href="/user/login">
