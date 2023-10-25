@@ -3,7 +3,7 @@ import styled from "@emotion/styled"
 
 export interface InputPropsType extends HTMLAttributes<HTMLInputElement> {
     //Input 요소
-    type?: "text" | "password" | "number" | "email" | "tel"
+    type?: "text" | "password" | "number" | "email" | "tel" | "date"
     value?: string
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
     name?: string
