@@ -1,3 +1,11 @@
+import { Nav } from "@/components/nav/Nav"
+
 export const Profile = () => {
-    return 123
+    return (
+        <div>
+            <Nav account="Employee" />
+        </div>
+    )
 }
+
+export default Profile
