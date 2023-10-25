@@ -44,11 +44,7 @@ export const DashBoard = () => {
                                     <Input type="date" />
                                     <Search onClick={() => console.log("hi")} />
                                 </InputBoxWrapper>
-<<<<<<< Updated upstream
-                            </InputBoxInner>
-=======
                             </InputBoxInner>    
->>>>>>> Stashed changes
                             <ResultWrapper>
                                 {lists &&
                                     lists?.map(e => (
