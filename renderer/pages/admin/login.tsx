@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import backGround from "@/assets/background.png"
-import { Box } from "@/components/common/box/LoginBox"
+import { LoginBox } from "@/components/common/box/LoginBox"
 import styled from "@emotion/styled"
 import { Input } from "@/components/common/input/Input"
 import { Button } from "@/components/common/button/Button"
@@ -27,7 +27,7 @@ function Home() {
     return (
         <React.Fragment>
             <BackGroundImage style={{ backgroundImage: `url(${backGround.src})` }}>
-                <Box>
+                <LoginBox>
                     <BoxHeader>
                         <Arrow onClick={() => router.push("/home")} />
                     </BoxHeader>
@@ -54,7 +54,7 @@ function Home() {
                         }
                     />
                     <Button label="Sign in" margin="10px 0 60px 0" onClick={onClickLogin} />
-                </Box>
+                </LoginBox>
             </BackGroundImage>
         </React.Fragment>
     )
