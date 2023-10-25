@@ -2,7 +2,7 @@ import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import backGround from "@/assets/background.png"
-import { Box } from "@/components/common/box/Box"
+import { Box } from "@/components/common/box/LoginBox"
 import { Button } from "@/components/common/button/Button"
 import styled from "@emotion/styled"
 
