@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import styled from "@emotion/styled"
-import { Nav } from "@/components/nav/Nav"
+import { Nav } from "@/components/nav/nav"
 import { Input } from "@/components/common/input/Input"
 import { Search } from "@/assets/Search"
 import { useDepartment } from "@/apis/department"
@@ -44,7 +44,7 @@ export const DashBoard = () => {
                                     <Input type="date" />
                                     <Search onClick={() => console.log("hi")} />
                                 </InputBoxWrapper>
-                            </InputBoxInner>    
+                            </InputBoxInner>
                             <ResultWrapper>
                                 {lists &&
                                     lists?.map(e => (
@@ -77,7 +77,7 @@ const DashBoardWrapper = styled.div`
 
 const SectionInner = styled.div`
     width: 85vw;
-    padding: 32vw 
+    padding: 32vw;
 `
 
 const SectionWrapper = styled.div``

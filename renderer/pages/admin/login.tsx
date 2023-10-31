@@ -53,7 +53,11 @@ function Home() {
                             setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
                         }
                     />
-                    <Button label="Sign in" margin="10px 0 60px 0" onClick={onClickLogin} />
+                    <Button
+                        label="Sign in"
+                        margin="10px 0 60px 0"
+                        onClick={() => router.push("/admin/dashBoard")}
+                    />
                 </LoginBox>
             </BackGroundImage>
         </React.Fragment>

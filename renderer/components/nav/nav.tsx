@@ -41,7 +41,7 @@ export const Nav = ({ account }: accountType) => {
                                                 : "transparent",
                                     }}
                                 />
-                                <Link href="/admin/manage">
+                                <Link href="/admin/dashBoard">
                                     <Button
                                         width="calc(15vw - 5px)"
                                         label="Manage"
