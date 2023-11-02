@@ -1,8 +1,14 @@
+import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
 import { useState } from "react"
 
 export const CreateAcc = () => {
+    const [Naming, setNaming] = useState("")
+    const [depart, setdepart] = useState("")
+    const [Contact, setContact] = useState("")
+    const [id, setid] = useState("")
+    const [pass, setpass] = useState("")
     return (
         <Container>
             <Nav account="Admin" />
@@ -11,25 +17,75 @@ export const CreateAcc = () => {
                 <CreateBox>
                     <CreatTextBoxGroup>
                         <CreatTextBox>
-                            <NameBox>이름</NameBox>
-                            <TextBox placeholder="이름을 입력해주세요"></TextBox>
+                            <Input
+                                label="이름"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="450px"
+                                placeholder="이름을 입력해주세요"
+                                margin="20px 0 0 0"
+                                value={Naming}
+                                onChange={Naming => {
+                                    setNaming(Naming.target.value)
+                                }}
+                            />
                         </CreatTextBox>
                         <CreatTextBox>
-                            <NameBox>부서</NameBox>
-                            <TextBox placeholder="부서를 선택해주세요"></TextBox>
+                            <Input
+                                label="부서"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="450px"
+                                placeholder="부서를 입력해주세요"
+                                margin="20px 0 0 0"
+                                value={depart}
+                                onChange={e => {
+                                    setdepart(e.target.value)
+                                }}
+                            />
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <CreatTextBox>
-                        <NameBox>연락처</NameBox>
-                        <TextBox placeholder="연락처를 입력해주세요"></TextBox>
+                        <Input
+                            label="연락처"
+                            border="none"
+                            backgroundColor="#e0e0e0"
+                            width="1050px"
+                            placeholder="연락처를 입력해주세요"
+                            margin="20px 0 0 0"
+                            value={Contact}
+                            onChange={e => {
+                                setContact(e.target.value)
+                            }}
+                        />
                     </CreatTextBox>
                     <CreatTextBox>
-                        <NameBox>아이디</NameBox>
-                        <TextBox placeholder="아이디를 입력해주세요"></TextBox>
+                        <Input
+                            label="아이디"
+                            border="none"
+                            backgroundColor="#e0e0e0"
+                            width="1050px"
+                            placeholder="아이디를 입력해주세요"
+                            margin="20px 0 0 0"
+                            value={id}
+                            onChange={e => {
+                                setid(e.target.value)
+                            }}
+                        />
                     </CreatTextBox>
                     <CreatTextBox>
-                        <NameBox>비밀번호</NameBox>
-                        <TextBox placeholder="비밀번호를 입력해주세요"></TextBox>
+                        <Input
+                            label="비밀번호"
+                            border="none"
+                            backgroundColor="#e0e0e0"
+                            width="1050px"
+                            placeholder="비밀번호를 입력해주세요"
+                            margin="20px 0 0 0"
+                            value={pass}
+                            onChange={e => {
+                                setpass(e.target.value)
+                            }}
+                        />
                     </CreatTextBox>
                     <ActionBox>
                         <UploadButton>업로드</UploadButton>
@@ -73,6 +129,7 @@ const CreateBox = styled.div`
 `
 const CreatTextBoxGroup = styled.div`
     display: flex;
+    justify-content: space-between;
 `
 
 const CreatTextBox = styled.div`
@@ -80,7 +137,6 @@ const CreatTextBox = styled.div`
     height: auto;
     justify-content: center;
     align-items: center;
-    padding-right: 100px;
     margin-bottom: 50px;
 `
 
@@ -106,7 +162,7 @@ const TextBox = styled.input`
     align-items: center;
     border-radius: 5px;
     border: 0;
-    background-color: #b5b5b5;
+    background-color: ${({ theme }) => theme.color.gray300};
 `
 
 const ActionBox = styled.div`
@@ -115,6 +171,7 @@ const ActionBox = styled.div`
     flex-direction: row;
     display: flex;
     justify-content: right;
+    gap: 40px;
 `
 
 const UploadButton = styled.button`
@@ -122,7 +179,9 @@ const UploadButton = styled.button`
     height: 50px;
     font-size: 20px;
     border-radius: 5px;
-    background-color: blue;
+    border: none;
+    color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.blue400};
 `
 
 const CancelButton = styled.button`
@@ -130,5 +189,7 @@ const CancelButton = styled.button`
     height: 50px;
     font-size: 20px;
     border-radius: 5px;
-    background-color: gray;
+    border: none;
+    color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.gray400};
 `
