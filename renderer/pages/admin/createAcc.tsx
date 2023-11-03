@@ -1,7 +1,9 @@
+import { Visibilty } from "@/assets/visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
 import { useState } from "react"
+import { toast, Toaster } from "react-hot-toast"
 
 export const CreateAcc = () => {
     const [Naming, setNaming] = useState("")
@@ -9,8 +11,15 @@ export const CreateAcc = () => {
     const [Contact, setContact] = useState("")
     const [id, setid] = useState("")
     const [pass, setpass] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+
+    const TouchUploadClick = () => {
+        toast.success("계정이 발급되었습니다.")
+    }
     return (
         <Container>
+            <Toaster position="top-right" reverseOrder={false} />
+            {/* <Toaster position="top-right" reverseOrder={false} /> */}
             <Nav account="Admin" />
             <TitleBoxContainer>
                 <CreateTitleBox>계정 발급</CreateTitleBox>
@@ -55,7 +64,26 @@ export const CreateAcc = () => {
                             margin="20px 0 0 0"
                             value={Contact}
                             onChange={e => {
-                                setContact(e.target.value)
+                                const value = e.target.value.replace(/[^\d]/g, "")
+                                let formattedValue = ""
+
+                                if (value.length <= 3) {
+                                    formattedValue = value
+                                } else if (value.length <= 7) {
+                                    formattedValue = `${value.slice(0, 3)}-${value.slice(3)}`
+                                } else {
+                                    formattedValue = `${value.slice(0, 3)}-${value.slice(
+                                        3,
+                                        7,
+                                    )}-${value.slice(7, 11)}`
+                                }
+
+                                setContact(formattedValue)
+                            }}
+                            onKeyPress={event => {
+                                if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault()
+                                }
                             }}
                         />
                     </CreatTextBox>
@@ -74,22 +102,28 @@ export const CreateAcc = () => {
                         />
                     </CreatTextBox>
                     <CreatTextBox>
-                        <Input
-                            label="비밀번호"
-                            border="none"
-                            backgroundColor="#e0e0e0"
-                            width="1050px"
-                            placeholder="비밀번호를 입력해주세요"
-                            margin="20px 0 0 0"
-                            value={pass}
-                            onChange={e => {
-                                setpass(e.target.value)
-                            }}
-                        />
+                        <InputWrapper>
+                            <Input
+                                type={showPassword ? "text" : "password"}
+                                label="비밀번호"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="1050px"
+                                placeholder="비밀번호를 입력해주세요"
+                                margin="20px 0 0 0"
+                                value={pass}
+                                onChange={e => {
+                                    setpass(e.target.value)
+                                }}
+                            />
+                            <ShowPasswordButton onClick={() => setShowPassword(!showPassword)}>
+                                <Visibilty show={showPassword} />
+                            </ShowPasswordButton>
+                        </InputWrapper>
                     </CreatTextBox>
                     <ActionBox>
-                        <UploadButton>업로드</UploadButton>
-                        <CancelButton>취소</CancelButton>
+                        <UploadButton onClick={TouchUploadClick}>업로드</UploadButton>
+                        <CancelButton>초기화</CancelButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
@@ -140,30 +174,45 @@ const CreatTextBox = styled.div`
     margin-bottom: 50px;
 `
 
-const NameBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100px;
-    height: 30px;
-    padding-left: 5px;
-    justify-content: center;
-    align-items: flex-start;
-    border-left-style: solid;
-    border-left-width: 5px;
-    border-color: #3d8bfd;
-    font-size: 20px;
+const InputWrapper = styled.div`
+    position: relative;
 `
-const TextBox = styled.input`
-    width: 450px;
-    height: 35px;
-    margin-top: 20px;
-    padding-left: 10px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    border: 0;
-    background-color: ${({ theme }) => theme.color.gray300};
+
+const ShowPasswordButton = styled.button`
+    position: absolute;
+    border: none;
+    background: none;
+    right: 10px;
+    top: 72px;
+    transform: translateY(-50%);
+    z-index: 10;
 `
+
+// const NameBox = styled.div`
+//     display: flex;
+//     flex-direction: column;
+//     width: 100px;
+//     height: 30px;
+//     padding-left: 5px;
+//     justify-content: center;
+//     align-items: flex-start;
+//     border-left-style: solid;
+//     border-left-width: 5px;
+//     border-color: #3d8bfd;
+//     font-size: 20px;
+// `
+
+// const TextBox = styled.input`
+//     width: 450px;
+//     height: 35px;
+//     margin-top: 20px;
+//     padding-left: 10px;
+//     justify-content: center;
+//     align-items: center;
+//     border-radius: 5px;
+//     border: 0;
+//     background-color: ${({ theme }) => theme.color.gray300};
+// `
 
 const ActionBox = styled.div`
     width: auto;

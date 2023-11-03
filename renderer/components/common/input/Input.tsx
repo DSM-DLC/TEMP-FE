@@ -45,7 +45,7 @@ const InputBox = styled.input<InputPropsType>`
     padding: ${props => props.padding ?? "15px"};
     background: ${props => props.backgroundColor ?? "#fafafa"};
     border: ${props => props.border ?? "1px solid black"};
-    border-radius: 10px;
+    border-radius: 5px;
     color: ${({ theme }) => theme.color.black};
     vertical-align: middle;
     font-size: 17px;
