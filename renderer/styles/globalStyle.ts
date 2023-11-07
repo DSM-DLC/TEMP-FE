@@ -51,7 +51,8 @@ const globalStyle = css`
         -webkit-user-select: none;
         user-select: none;
         box-sizing: border-box;
-        font-family: Gmarket Sans, sans-serif !important;
+        font-family: Gmarket Sans TTF;
+        font-style: normal;
         outline: none;
     }
 

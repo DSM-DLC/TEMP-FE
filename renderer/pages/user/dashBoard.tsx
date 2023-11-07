@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import styled from "@emotion/styled"
-import { Nav } from "@/components/nav/Nav"
+import { Nav } from "@/components/nav/nav"
 import { Input } from "@/components/common/input/Input"
 import { Search } from "@/assets/Search"
 import { useDepartment } from "@/apis/department"

@@ -8,6 +8,8 @@ export interface InputPropsType extends HTMLAttributes<HTMLInputElement> {
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
     name?: string
     placeholder?: string
+    backgroundColor?: string
+    label?: string
     spellCheck?: boolean
 
     //Input 스타일 요소
@@ -22,6 +24,7 @@ export interface InputPropsType extends HTMLAttributes<HTMLInputElement> {
 export const Input = ({ ...props }: InputPropsType) => {
     return (
         <InputInner>
+            {props.label && <LabelBox>{props.label}</LabelBox>}
             <InputBox {...props} />
         </InputInner>
     )
@@ -32,7 +35,7 @@ const InputInner = styled.div`
     height: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 `
 
@@ -41,18 +44,31 @@ const InputBox = styled.input<InputPropsType>`
     height: ${props => props.height ?? "4vh"};
     margin: ${props => props.margin ?? "10px 0 30px 0"};
     padding: ${props => props.padding ?? "15px"};
-    background: ${({ theme }) => theme.color.gray50};
+    background: ${props => props.backgroundColor ?? "#fafafa"};
     border: ${props => props.border ?? "1px solid black"};
-    border-radius: 10px;
+    border-radius: 5px;
     color: ${({ theme }) => theme.color.black};
     vertical-align: middle;
-    font-family: "Gmarket Sans";
     font-size: 17px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     &::placeholder {
-        font-size: 11px;
+        font-size: 15px;
         color: ${({ theme }) => theme.color.gray500};
     }
+`
+
+const LabelBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 30px;
+    padding-left: 5px;
+    justify-content: center;
+    align-items: flex-start;
+    border-left-style: solid;
+    border-left-width: 5px;
+    border-color: #3d8bfd;
+    font-size: 20px;
 `

@@ -6,30 +6,27 @@ import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
 export const Profile = () => {
+  
+
     return (
-        <Container>
-            <Nav account="Employee" />
-            <TitleBoxContainer>
-                <CreateTitleBox>프로필</CreateTitleBox>
-                <CreateBox>
-                    <CreateTextBoxGroup>
-                        <CreateTextBox>
-                            <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <NameBox>아이디</NameBox>
-                            <NameBox>이름</NameBox>
-                            <NameBox>소속부서</NameBox>
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <NameBox>연락처 : </NameBox>
-                            {/* onclick 들어가야함 */}
-                            <UploadButton>프로필 수정하기</UploadButton>
-                        </CreateTextBox>
-                    </CreateTextBoxGroup>
-                </CreateBox>
-            </TitleBoxContainer>
-        </Container>
+    <Container>
+      <Nav account="Employee" />
+      <TitleBoxContainer>
+          <CreateTitleBox>관리자 프로필</CreateTitleBox>
+          <CreateBox>
+          <CreateTextBoxGroup>
+            <CreateTextBox>
+              <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
+            </CreateTextBox>
+              <CreateTextBox>
+                <NameBox>아이디</NameBox>
+              </CreateTextBox> 
+                <UploadButton>프로필 수정하기</UploadButton>
+          </CreateTextBoxGroup>
+          </CreateBox >
+          
+      </TitleBoxContainer >
+  </Container >
     )
 }
 
@@ -113,7 +110,7 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-    margin-top: 80px;
+    margin-top: 250px;
 `
 
 const CancelButton = styled.button`
@@ -127,10 +124,11 @@ const CancelButton = styled.button`
 `
 
 const ProfileIcon = styled.div`
-    height: 250px;
-    width: 200px;
-    background-color: #d9d9d9;
-    border-radius: 20px;
-    position: relative;
-    text-align: center;
+  height: 250px;
+  width: 200px;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+  position: relative;
+  text-align: center;
 `
+
