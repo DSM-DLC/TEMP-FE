@@ -9,6 +9,7 @@ interface DropDownElementType {
     fullHeight?: string
     dropDownHeight?: string
     margin?: string
+    label?: string
 }
 
 interface DropDownPropsType<T> extends DropDownElementType {
@@ -52,6 +53,7 @@ export const DropDown = <T extends string | number | object>({
                 setDropDown(false)
             }}
         >
+            {props.label && <LabelBox>{props.label}</LabelBox>}
             <DropDownInner
                 height={props.fullHeight}
                 width={props.width}
@@ -62,7 +64,11 @@ export const DropDown = <T extends string | number | object>({
                     onClick={() => setDropDown(true)}
                 >
                     {dropDown ? (
-                        <DropDownInput value={inputValue} onChange={onChange} placeholder="검색을 해주세요"/>
+                        <DropDownInput
+                            value={inputValue}
+                            onChange={onChange}
+                            placeholder="검색을 해주세요"
+                        />
                     ) : (
                         <PlaceHolderValueInner
                             onClick={() => setDropDown(true)}
@@ -71,7 +77,7 @@ export const DropDown = <T extends string | number | object>({
                             {value ? value[props.objectKey as string] : props.placeholder}
                         </PlaceHolderValueInner>
                     )}
-                    <Arrow direction={dropDown ? "top" : "bottom"} />
+                    <Arrow direction={dropDown ? "bottom" : "top"} />
                 </DropDownWrapper>
                 {dropDown &&
                     (inputValue.length !== 0 ? (
@@ -99,13 +105,14 @@ export const DropDown = <T extends string | number | object>({
 }
 
 const DropDownInner = styled.div<{ width: string; height: string }>`
-    width: ${props => props.width ?? "15vw"};
+    width: ${props => props.width ?? "450px"};
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
     height: auto;
-    position: relative; /* 상대 위치 지정 */
+    position: relative;
+    margin: 20px 0 0 0;
 `
 
 const DropDownWrapper = styled.div<{ dropDownHeight: string }>`
@@ -113,10 +120,8 @@ const DropDownWrapper = styled.div<{ dropDownHeight: string }>`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin: "40px 0 0 0";
-    background: ${({ theme }) => theme.color.gray50};
-    border-radius: 10px;
-    border: 1px solid black;
+    background: #e0e0e0;
+    border-radius: 5px;
     padding: 15px;
     width: 100%;
     height: ${props => props.dropDownHeight ?? "4vh"};
@@ -130,6 +135,21 @@ const slideDown = keyframes`
     max-height: 8vh;
   }
 `
+
+const LabelBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 30px;
+    padding-left: 5px;
+    justify-content: center;
+    align-items: flex-start;
+    border-left-style: solid;
+    border-left-width: 5px;
+    border-color: #3d8bfd;
+    font-size: 20px;
+`
+
 const OptionWrapper = styled.div`
     width: 100%;
     max-height: 12vh;
@@ -149,8 +169,7 @@ const OptionWrapper = styled.div`
 `
 
 const PlaceHolderValueInner = styled.div<{ isOpen: string }>`
-    font-family: Gmarket Sans;
-    font-size: 12px;
+    font-size: 17px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -158,20 +177,18 @@ const PlaceHolderValueInner = styled.div<{ isOpen: string }>`
 `
 
 const Option = styled.div`
-    width: 100%;
-    height: 4vh;
-    padding: 15px;
-    font-family: Gmarket Sans;
-    font-size: 12px;
+    font-size: 17px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    width: 100%;
+    height: 4vh;
+    padding: 15px;
     background: ${({ theme }) => theme.color.gray50};
 `
 
 const DropDownInput = styled.input`
-    font-family: Gmarket Sans;
-    font-size: 12px;
+    font-size: 17px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;

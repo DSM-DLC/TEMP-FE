@@ -1,28 +1,48 @@
 import { Visibilty } from "@/assets/Visibilty"
+import { DropDown } from "@/components/common/input/DropDown"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
 import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
+const list = [
+    {
+        id: "123-5125-12345",
+        depart: "부서1",
+    },
+    {
+        id: "345-124-5-12-4",
+        depart: "부서2",
+    },
+    {
+        id: "12356-35-6",
+        depart: "부서3",
+    },
+]
+
 export const CreateAcc = () => {
-    const [Naming, setNaming] = useState("")
-    const [depart, setdepart] = useState("")
-    const [Contact, setContact] = useState("")
-    const [id, setid] = useState("")
-    const [pass, setpass] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
+    const [values, setValues] = useState({
+        naming: "",
+        depart: "",
+        contact: "",
+        id: "",
+        pass: "",
+        showPassword: false,
+    })
 
     const TouchUploadClick = () => {
         toast.success("계정이 발급되었습니다.")
     }
     const ResetInputs = () => {
-        setNaming("")
-        setdepart("")
-        setContact("")
-        setid("")
-        setpass("")
-        setShowPassword(false)
+        setValues({
+            naming: "",
+            depart: "",
+            contact: "",
+            id: "",
+            pass: "",
+            showPassword: false,
+        })
     }
 
     return (
@@ -37,29 +57,36 @@ export const CreateAcc = () => {
                         <CreatTextBox>
                             <Input
                                 label="이름"
+                                name="naming"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="450px"
                                 placeholder="이름을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={Naming}
+                                value={values.naming}
                                 onChange={Naming => {
-                                    setNaming(Naming.target.value)
+                                    setValues({ ...values, naming: Naming.target.value })
                                 }}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
-                            <Input
+                            {/* <Input
                                 label="부서"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="450px"
                                 placeholder="부서를 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={depart}
-                                onChange={e => {
-                                    setdepart(e.target.value)
+                                value={values.depart}
+                                onChange={Depart => {
+                                    setValues({ ...values, depart: Depart.target.value })
                                 }}
+                            /> */}
+                            <DropDown
+                                list={list}
+                                objectKey="depart"
+                                label="부서"
+                                placeholder="부서를 선택해주세요"
                             />
                         </CreatTextBox>
                     </CreatTextBoxGroup>
@@ -71,9 +98,9 @@ export const CreateAcc = () => {
                             width="1050px"
                             placeholder="연락처를 입력해주세요"
                             margin="20px 0 0 0"
-                            value={Contact}
-                            onChange={e => {
-                                const value = e.target.value.replace(/[^\d]/g, "")
+                            value={values.contact}
+                            onChange={Contact => {
+                                const value = Contact.target.value.replace(/[^\d]/g, "")
                                 let formattedValue = ""
 
                                 if (value.length <= 3) {
@@ -87,12 +114,7 @@ export const CreateAcc = () => {
                                     )}-${value.slice(7, 11)}`
                                 }
 
-                                setContact(formattedValue)
-                            }}
-                            onKeyPress={event => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault()
-                                }
+                                setValues({ ...values, contact: formattedValue })
                             }}
                         />
                     </CreatTextBox>
@@ -104,29 +126,33 @@ export const CreateAcc = () => {
                             width="1050px"
                             placeholder="아이디를 입력해주세요"
                             margin="20px 0 0 0"
-                            value={id}
-                            onChange={e => {
-                                setid(e.target.value)
+                            value={values.id}
+                            onChange={Id => {
+                                setValues({ ...values, id: Id.target.value })
                             }}
                         />
                     </CreatTextBox>
                     <CreatTextBox>
                         <InputWrapper>
                             <Input
-                                type={showPassword ? "text" : "password"}
+                                type={values.showPassword ? "text" : "password"}
                                 label="비밀번호"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="1050px"
                                 placeholder="비밀번호를 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={pass}
-                                onChange={e => {
-                                    setpass(e.target.value)
+                                value={values.pass}
+                                onChange={Pass => {
+                                    setValues({ ...values, pass: Pass.target.value })
                                 }}
                             />
-                            <ShowPasswordButton onClick={() => setShowPassword(!showPassword)}>
-                                <Visibilty show={showPassword} />
+                            <ShowPasswordButton
+                                onClick={() =>
+                                    setValues({ ...values, showPassword: !values.showPassword })
+                                }
+                            >
+                                <Visibilty show={values.showPassword} />
                             </ShowPasswordButton>
                         </InputWrapper>
                     </CreatTextBox>
@@ -196,32 +222,6 @@ const ShowPasswordButton = styled.button`
     transform: translateY(-50%);
     z-index: 10;
 `
-
-// const NameBox = styled.div`
-//     display: flex;
-//     flex-direction: column;
-//     width: 100px;
-//     height: 30px;
-//     padding-left: 5px;
-//     justify-content: center;
-//     align-items: flex-start;
-//     border-left-style: solid;
-//     border-left-width: 5px;
-//     border-color: #3d8bfd;
-//     font-size: 20px;
-// `
-
-// const TextBox = styled.input`
-//     width: 450px;
-//     height: 35px;
-//     margin-top: 20px;
-//     padding-left: 10px;
-//     justify-content: center;
-//     align-items: center;
-//     border-radius: 5px;
-//     border: 0;
-//     background-color: ${({ theme }) => theme.color.gray300};
-// `
 
 const ActionBox = styled.div`
     width: auto;
