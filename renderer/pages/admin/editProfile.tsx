@@ -1,4 +1,4 @@
-import { Visibilty } from "@/assets/visibilty"
+import { Visibilty } from "@/assets/Visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
