@@ -85,7 +85,7 @@ export const Nav = ({ account }: accountType) => {
                                 <LinkTab
                                     style={{
                                         backgroundColor:
-                                            router.pathname === "/user/dashBoard"
+                                            router.pathname === "/user/e"
                                                 ? "white"
                                                 : "transparent",
                                     }}

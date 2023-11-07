@@ -1,5 +1,3 @@
-
-
 import { Visibilty } from "@/assets/visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
@@ -8,34 +6,64 @@ import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
 export const Profile = () => {
-  
 
-    return (
+
+  return (
     <Container>
       <Nav account="Employee" />
       <TitleBoxContainer>
-          <CreateTitleBox>프로필</CreateTitleBox>
-          <CreateBox>
+        <CreateTitleBox>관리자 프로필 수정</CreateTitleBox>
+        <CreateBox>
           <CreateTextBoxGroup>
             <CreateTextBox>
               <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
             </CreateTextBox>
-              <CreateTextBox>
-                <NameBox>아이디</NameBox>
-                <NameBox>이름</NameBox>
-                <NameBox>소속부서</NameBox>
-              </CreateTextBox> 
-              <CreateTextBox>
-                <NameBox>연락처 : </NameBox>
-                {/* onclick 들어가야함 */}
-                <UploadButton>프로필 수정하기</UploadButton>
-              </CreateTextBox>
+            <CreateTextBox>
+              <Input
+                label="아이디"
+                border="none"
+                backgroundColor="#e0e0e0"
+                width="250px"
+                placeholder="번경할 아이디를 입력해주세요"
+                margin="10px 0 10px 0"
+              />
+              <Input
+                label="이름"
+                border="none"
+                backgroundColor="#e0e0e0"
+                width="250px"
+                placeholder="번경할 이름을 입력해주세요"
+                margin="10px 0 10px 0"
+              />
+              <Input
+                label="소속부서"
+                border="none"
+                backgroundColor="#e0e0e0"
+                width="250px"
+                placeholder="번경할 소속부서를 입력해주세요"
+                margin="10px 0 10px 0"
+              />
+            </CreateTextBox>
+            <CreateTextBox>
+            <Input
+                label="연락처"
+                border="none"
+                backgroundColor="#e0e0e0"
+                width="250px"
+                placeholder="번경할 연락처를 입력해주세요"
+                margin="10px 0 10px 0"
+              />
+            </CreateTextBox>
           </CreateTextBoxGroup>
-          </CreateBox >
-          
+          <ActionBox>
+            <UploadButton>수정완료</UploadButton>
+            <UploadButton style={{backgroundColor:"#E84045"}}>취소</UploadButton>
+          </ActionBox>
+        </CreateBox >
+
       </TitleBoxContainer >
-  </Container >
-    )
+    </Container >
+  )
 }
 
 export default Profile
@@ -48,7 +76,7 @@ const Container = styled.div`
 const TitleBoxContainer = styled.div``
 
 const CreateTitleBox = styled.div`
-    width: 400px;
+    width: 450px;
     height: 200px;
     display: flex;
     align-items: center;
@@ -106,8 +134,30 @@ const NameBox = styled.div`
     border-left-width: 5px;
     border-color: #3d8bfd;
     font-size: 20px;
-    margin-right: 150px;
-    margin-bottom: 70px;
+    margin-right: 80px;
+    margin-bottom: 60px;
+`
+
+// const TextBox = styled.input`
+//     width: 450px;
+//     height: 35px;
+//     margin-top: 20px;
+//     padding-left: 10px;
+//     justify-content: center;
+//     align-items: center;
+//     border-radius: 5px;
+//     border: 0;
+//     background-color: ${({ theme }) => theme.color.gray300};
+// `
+
+const ActionBox = styled.div`
+    margin-top: 20px;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    display: flex;
+    justify-content: right;
+    gap: 40px;
 `
 
 const UploadButton = styled.button`
@@ -118,7 +168,6 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-    margin-top: 80px;
 `
 
 const CancelButton = styled.button`
@@ -139,5 +188,6 @@ const ProfileIcon = styled.div`
   position: relative;
   text-align: center;
 `
+
 
 

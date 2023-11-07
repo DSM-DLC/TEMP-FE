@@ -1,5 +1,3 @@
-
-
 import { Visibilty } from "@/assets/visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
@@ -14,7 +12,7 @@ export const Profile = () => {
     <Container>
       <Nav account="Employee" />
       <TitleBoxContainer>
-          <CreateTitleBox>프로필</CreateTitleBox>
+          <CreateTitleBox>관리자 프로필</CreateTitleBox>
           <CreateBox>
           <CreateTextBoxGroup>
             <CreateTextBox>
@@ -22,14 +20,8 @@ export const Profile = () => {
             </CreateTextBox>
               <CreateTextBox>
                 <NameBox>아이디</NameBox>
-                <NameBox>이름</NameBox>
-                <NameBox>소속부서</NameBox>
               </CreateTextBox> 
-              <CreateTextBox>
-                <NameBox>연락처 : </NameBox>
-                {/* onclick 들어가야함 */}
                 <UploadButton>프로필 수정하기</UploadButton>
-              </CreateTextBox>
           </CreateTextBoxGroup>
           </CreateBox >
           
@@ -118,7 +110,7 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-    margin-top: 80px;
+    margin-top: 250px;
 `
 
 const CancelButton = styled.button`
@@ -139,5 +131,4 @@ const ProfileIcon = styled.div`
   position: relative;
   text-align: center;
 `
-
 
