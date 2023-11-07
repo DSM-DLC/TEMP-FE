@@ -16,6 +16,15 @@ export const CreateAcc = () => {
     const TouchUploadClick = () => {
         toast.success("계정이 발급되었습니다.")
     }
+    const ResetInputs = () => {
+        setNaming("")
+        setdepart("")
+        setContact("")
+        setid("")
+        setpass("")
+        setShowPassword(false)
+    }
+
     return (
         <Container>
             <Toaster position="top-right" reverseOrder={false} />
@@ -123,7 +132,7 @@ export const CreateAcc = () => {
                     </CreatTextBox>
                     <ActionBox>
                         <UploadButton onClick={TouchUploadClick}>업로드</UploadButton>
-                        <CancelButton>초기화</CancelButton>
+                        <CancelButton onClick={ResetInputs}>초기화</CancelButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
