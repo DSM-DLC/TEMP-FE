@@ -1,9 +1,13 @@
-module.exports = {
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.target = 'electron-renderer'
-    }
+const path = require("path")
 
-    return config
-  },
+module.exports = {
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            config.target = "electron-renderer"
+        }
+
+        config.resolve.alias["@"] = path.join(__dirname, "renderer")
+
+        return config
+    },
 }
