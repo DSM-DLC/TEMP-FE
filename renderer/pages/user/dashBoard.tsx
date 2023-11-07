@@ -7,64 +7,76 @@ import { useDepartment } from "@/apis/department"
 
 const lists = [
     {
-        id: "123123",
-        department_name: "wewe",
+        id: "1231wefwefwg23",
+        name: "박서영",
+        birthDate: "2154-12-31",
+        address: "대전광역시 유성구 가정북로 76",
     },
     {
-        id: "123123",
-        department_name: "wewe",
+        id: "1231wefwefwg23",
+        name: "박서영",
+        birthDate: "2154-12-31",
+        address: "대전광역시 유성구 가정북로 76",
     },
     {
-        id: "123123",
-        department_name: "wewe",
+        id: "1231wefwefwg23",
+        name: "박서영",
+        birthDate: "2154-12-31",
+        address: "대전광역시 유성구 가정북로 76",
     },
     {
-        id: "123123",
-        department_name: "wewe",
+        id: "1231wefwefwg23",
+        name: "박서영",
+        birthDate: "2154-12-31",
+        address: "대전광역시 유성구 가정북로 76",
     },
 ]
 
 export const DashBoard = () => {
-    // const { data: list } = useDepartment()
-
     useEffect(() => {
         console.log(lists)
     }, [])
 
     return (
-        <React.Fragment>
-            <DashBoardInner>
-                <DashBoardWrapper>
-                    <Nav account="Employee" />
-                    <SectionInner>
-                        <SectionWrapper>
-                            <InputBoxInner>
-                                <InputBoxWrapper>
-                                    <Input placeholder="이름을 입력해주세요" />
-                                    <Input type="date" />
-                                    <Search onClick={() => console.log("hi")} />
-                                </InputBoxWrapper>
-                            </InputBoxInner>
-                            <ResultWrapper>
-                                {lists &&
-                                    lists?.map(e => (
-                                        <div key={e.id}>
-                                            <span>{e.department_name}</span>
-                                        </div>
-                                    ))}
-                            </ResultWrapper>
-                        </SectionWrapper>
-                    </SectionInner>
-                </DashBoardWrapper>
-            </DashBoardInner>
-        </React.Fragment>
+        <DashBoardInner>
+            <DashBoardWrapper>
+                <Nav account="Employee" />
+                <SectionInner>
+                    <SectionWrapper>
+                        <title>기간제 인력 정보</title>
+                        <InputBoxInner>
+                            <InputBoxWrapper>
+                                <Input placeholder="이름을 입력해주세요" margin="0" />
+                                <Input type="date" margin="0" />
+                                <Search onClick={() => console.log("hi")} />
+                            </InputBoxWrapper>
+                        </InputBoxInner>
+                        <ResultWrapper>
+                            <ResultCard>
+                                <Name>이름</Name>
+                                <Date>생년월일</Date>
+                                <Add>주소</Add>
+                            </ResultCard>
+                            {lists &&
+                                lists?.map((e, index) => (
+                                    <ResultCard key={index}>
+                                        <Name>{e.name}</Name>
+                                        <Date>{e.birthDate}</Date>
+                                        <Add>부산광역시 강서구 녹산산단382로14번가길 10~29번지</Add>
+                                    </ResultCard>
+                                ))}
+                        </ResultWrapper>
+                    </SectionWrapper>
+                </SectionInner>
+            </DashBoardWrapper>
+        </DashBoardInner>
     )
 }
 
 export default DashBoard
 
 const DashBoardInner = styled.div`
-    width: 100vh;
+    width: 100vw;
     height: auto;
 `
 
@@ -77,15 +89,63 @@ const DashBoardWrapper = styled.div`
 
 const SectionInner = styled.div`
     width: 85vw;
-    padding: 32vw;
+    height: 100vh;
 `
 
-const SectionWrapper = styled.div``
+const SectionWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 60px;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+`
 
 const InputBoxInner = styled.div`
-    display: flex;
+    width: calc(85vw - 60px);
+    height: 100px;
+    border-radius: 25px;
+    background: ${({ theme }) => theme.color.blue50};
 `
 
-const InputBoxWrapper = styled.div``
+const InputBoxWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+`
 
-const ResultWrapper = styled.div``
+const ResultWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 660px;
+`
+
+const Date = styled.span`
+    font-size: 20px;
+    width: 200px;
+`
+
+const Name = styled.span`
+    font-size: 20px;
+    width: 80px;
+`
+
+const Add = styled.span`
+    font-size: 20px;
+    width: auto;
+`
+
+const ResultCard = styled.div`
+    width: calc(85vw - 60px);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: calc(19vw - 20px);
+    border-bottom: 1px solid black;
+`

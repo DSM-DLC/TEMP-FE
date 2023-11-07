@@ -15,6 +15,7 @@ export interface InputPropsType extends HTMLAttributes<HTMLInputElement> {
     //Input 스타일 요소
     width?: string
     height?: string
+    color?: string
     margin?: string
     border?: string
     padding?: string
