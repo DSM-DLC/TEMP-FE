@@ -36,7 +36,7 @@ export const Nav = ({ account }: accountType) => {
                                 <LinkTab
                                     style={{
                                         backgroundColor:
-                                            router.pathname === "/admin/manage"
+                                            router.pathname === "/admin/dashBoard"
                                                 ? "white"
                                                 : "transparent",
                                     }}
@@ -81,24 +81,52 @@ export const Nav = ({ account }: accountType) => {
                         </LinkInner>
                     ) : (
                         <LinkInner>
-                            <Link href="/user/dashboard">
-                                <Button
-                                    label="DashBoard"
-                                    margin="none"
-                                    border="none"
-                                    borderRadius="0"
-                                    fontSize="17px"
+                            <LinkTabWrapper>
+                                <LinkTab
+                                    style={{
+                                        backgroundColor:
+                                            router.pathname === "/user/dashBoard"
+                                                ? "white"
+                                                : "transparent",
+                                    }}
                                 />
-                            </Link>
-                            <Link href="/user/profile">
-                                <Button
-                                    label="Profile"
-                                    margin="none"
-                                    border="none"
-                                    borderRadius="0"
-                                    fontSize="17px"
+                                <Link href="/user/dashBoard">
+                                    <Button
+                                        width="calc(15vw - 5px)"
+                                        label="DashBoard"
+                                        justifyContent="flex-start"
+                                        padding="0 0 0 calc(3vw - 5px) "
+                                        border="none"
+                                        margin="none"
+                                        textAlign="left"
+                                        borderRadius="0"
+                                        fontSize="17px"
+                                    />
+                                </Link>
+                            </LinkTabWrapper>
+                            <LinkTabWrapper>
+                                <LinkTab
+                                    style={{
+                                        backgroundColor:
+                                            router.pathname === "/user/profile"
+                                                ? "white"
+                                                : "transparent",
+                                    }}
                                 />
-                            </Link>
+                                <Link href="/user/profile">
+                                    <Button
+                                        width="calc(15vw - 5px)"
+                                        label="Profile"
+                                        justifyContent="flex-start"
+                                        padding="0 0 0 calc(3vw - 5px) "
+                                        border="none"
+                                        margin="none"
+                                        textAlign="left"
+                                        borderRadius="0"
+                                        fontSize="17px"
+                                    />
+                                </Link>
+                            </LinkTabWrapper>
                         </LinkInner>
                     )}
                 </LinkWrapper>

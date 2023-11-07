@@ -22,16 +22,33 @@ export const DropDown = <T extends string | number | object>({
 }: DropDownPropsType<T>) => {
     const [dropDown, setDropDown] = useState<boolean>(false)
     const [value, setValue] = useState<T>()
+    const [inputValue, setInputValue] = useState<string>("")
+    const [filteredOptions, setFilteredOptions] = useState<T[]>(props.list || [])
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value
+        setInputValue(inputValue)
+
+        const filteredList =
+            props.list?.filter(item =>
+                props.objectKey
+                    ? String(item[props.objectKey]).includes(inputValue)
+                    : String(item).includes(inputValue),
+            ) || []
+
+        setFilteredOptions(filteredList)
+    }
 
     const onClick = (e: T) => {
         setValue(e)
+        setInputValue("")
         setDropDown(!dropDown)
     }
 
     return (
         <ReactOutSideClickHandler
             display="inline-block"
-            onOutsideClick={e => {
+            onOutsideClick={() => {
                 setDropDown(false)
             }}
         >
@@ -42,24 +59,40 @@ export const DropDown = <T extends string | number | object>({
             >
                 <DropDownWrapper
                     dropDownHeight={props.dropDownHeight}
-                    onClick={() => setDropDown(!dropDown)}
+                    onClick={() => setDropDown(true)}
                 >
-                    <PlaceHolderValueInner isOpen={value && value[props.objectKey as string]}>
-                        {value ? value[props.objectKey as string] : props.placeholder}
-                    </PlaceHolderValueInner>
+                    {dropDown ? (
+                        <DropDownInput value={inputValue} onChange={onChange} placeholder="검색을 해주세요"/>
+                    ) : (
+                        <PlaceHolderValueInner
+                            onClick={() => setDropDown(true)}
+                            isOpen={value && value[props.objectKey as string]}
+                        >
+                            {value ? value[props.objectKey as string] : props.placeholder}
+                        </PlaceHolderValueInner>
+                    )}
                     <Arrow direction={dropDown ? "top" : "bottom"} />
                 </DropDownWrapper>
-                {dropDown && (
-                    <OptionWrapper>
-                        {props.list.map(e => {
-                            return (
-                                <Option onClick={() => onClick(e)}>
-                                    {props.list ? e[props.objectKey as string] : e}
+                {dropDown &&
+                    (inputValue.length !== 0 ? (
+                        <OptionWrapper>
+                            {filteredOptions.map((e, index) => (
+                                <Option onClick={() => onClick(e)} key={index}>
+                                    {props.objectKey ? e[props.objectKey] : e}
                                 </Option>
-                            )
-                        })}
-                    </OptionWrapper>
-                )}
+                            ))}
+                        </OptionWrapper>
+                    ) : (
+                        <OptionWrapper>
+                            {props.list.map(e => {
+                                return (
+                                    <Option onClick={() => onClick(e)}>
+                                        {props.list ? e[props.objectKey as string] : e}
+                                    </Option>
+                                )
+                            })}
+                        </OptionWrapper>
+                    ))}
             </DropDownInner>
         </ReactOutSideClickHandler>
     )
@@ -128,12 +161,21 @@ const Option = styled.div`
     width: 100%;
     height: 4vh;
     padding: 15px;
-    /* border: 1px solid black;
-    border-radius: 10px; */
     font-family: Gmarket Sans;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     background: ${({ theme }) => theme.color.gray50};
+`
+
+const DropDownInput = styled.input`
+    font-family: Gmarket Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: ${props => props.theme.color.black};
+    background: none;
+    border: none;
 `
