@@ -36,12 +36,12 @@ export const Nav = ({ account }: accountType) => {
                                 <LinkTab
                                     style={{
                                         backgroundColor:
-                                            router.pathname === "/admin/dashBoard"
+                                            router.pathname === "/admin/accountManage"
                                                 ? "white"
                                                 : "transparent",
                                     }}
                                 />
-                                <Link href="/admin/dashBoard">
+                                <Link href="/admin/accountManage">
                                     <Button
                                         width="calc(15vw - 5px)"
                                         label="Manage"
@@ -59,12 +59,12 @@ export const Nav = ({ account }: accountType) => {
                                 <LinkTab
                                     style={{
                                         backgroundColor:
-                                            router.pathname === "/admin/createAcc"
+                                            router.pathname === "/admin/profile"
                                                 ? "white"
                                                 : "transparent",
                                     }}
                                 />
-                                <Link href="/admin/createAcc">
+                                <Link href="/admin/profile">
                                     <Button
                                         width="calc(15vw - 5px)"
                                         label="CreateAcc"

@@ -2,6 +2,7 @@ import { Visibilty } from "@/assets/Visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
+import Link from "next/link"
 import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
@@ -23,8 +24,9 @@ export const Profile = () => {
                         </CreateTextBox>
                         <CreateTextBox>
                             <NameBox>연락처 : </NameBox>
-                            {/* onclick 들어가야함 */}
-                            <UploadButton>프로필 수정하기</UploadButton>
+                            <Link href={"/user/editProfile"}>
+                                <UploadButton>프로필 수정하기</UploadButton>
+                            </Link>
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                 </CreateBox>

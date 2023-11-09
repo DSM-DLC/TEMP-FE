@@ -2,8 +2,11 @@ import { Visibilty } from "@/assets/Visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
+import path from "path"
+import { useRouter } from "next/router"
 import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
+import Link from "next/link"
 
 export const Profile = () => {
   
@@ -21,7 +24,10 @@ export const Profile = () => {
               <CreateTextBox>
                 <NameBox>아이디</NameBox>
               </CreateTextBox> 
+              <Link href={"/admin/editProfile"}>
                 <UploadButton>프로필 수정하기</UploadButton>
+              </Link>
+                
           </CreateTextBoxGroup>
           </CreateBox >
           

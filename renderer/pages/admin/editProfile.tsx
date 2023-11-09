@@ -2,6 +2,7 @@ import { Visibilty } from "@/assets/Visibilty"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
 import styled from "@emotion/styled"
+import Link from "next/link"
 import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
@@ -24,23 +25,23 @@ export const Profile = () => {
                 border="none"
                 backgroundColor="#e0e0e0"
                 width="250px"
-                placeholder="번경할 아이디를 입력해주세요"
+                placeholder="변경할 아이디를 입력해주세요"
                 margin="10px 0 10px 0"
               />
               <Input
-                label="이름"
+                label="비밀번호"
                 border="none"
                 backgroundColor="#e0e0e0"
                 width="250px"
-                placeholder="번경할 이름을 입력해주세요"
+                placeholder="변경할 비밀번호를 입력해주세요"
                 margin="10px 0 10px 0"
               />
               <Input
-                label="소속부서"
+                label="비밀번호 확인"
                 border="none"
                 backgroundColor="#e0e0e0"
                 width="250px"
-                placeholder="번경할 소속부서를 입력해주세요"
+                placeholder="수정한 비밀번호를 다시 입력해주세요"
                 margin="10px 0 10px 0"
               />
             </CreateTextBox>
@@ -50,14 +51,18 @@ export const Profile = () => {
                 border="none"
                 backgroundColor="#e0e0e0"
                 width="250px"
-                placeholder="번경할 연락처를 입력해주세요"
+                placeholder="변경할 연락처를 입력해주세요"
                 margin="10px 0 10px 0"
               />
             </CreateTextBox>
           </CreateTextBoxGroup>
           <ActionBox>
-            <UploadButton>수정완료</UploadButton>
-            <UploadButton style={{backgroundColor:"#E84045"}}>취소</UploadButton>
+            <Link href={"/admin/profile"}>
+              <UploadButton>수정완료</UploadButton>
+            </Link>
+            <Link href={"/admin/profile"}>
+              <UploadButton style={{backgroundColor:"#E84045"}}>취소</UploadButton>
+            </Link>
           </ActionBox>
         </CreateBox >
 
