@@ -22,7 +22,7 @@ export const useAdminLoginMutation = () => {
             console.log("로그인 성공")
             const { accessToken, refreshToken } = res
             customCookie.set.token(accessToken, refreshToken)
-            router.push("/dashboard")
+            router.push("/admin/dashBoard")
         },
     })
 }
