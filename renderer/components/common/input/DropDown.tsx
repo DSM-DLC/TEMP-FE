@@ -90,10 +90,10 @@ export const DropDown = <T extends string | number | object>({
                         </OptionWrapper>
                     ) : (
                         <OptionWrapper>
-                            {props.list.map(e => {
+                            {props?.list?.map(e => {
                                 return (
                                     <Option onClick={() => onClick(e)}>
-                                        {props.list ? e[props.objectKey as string] : e}
+                                        {props?.list ? e[props.objectKey as string] : e}
                                     </Option>
                                 )
                             })}
