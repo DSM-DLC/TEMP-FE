@@ -1,7 +1,7 @@
 import { customCookie } from "@/libs/cookie/cookie"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { useMutation, useQueries } from "react-query"
+import { useMutation, useQueries } from "@tanstack/react-query"
 import { IAdminPasswordParam, IAdminProfile, IAmdinLoginParam, IIssueParam } from "./type"
 import { IAuthorization } from "../type"
 import { TEMPBaseURL, adminInstance } from ".."

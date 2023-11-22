@@ -8,20 +8,20 @@ import { Button } from "@/components/common/button/Button"
 import { Arrow } from "@/assets/Arrow"
 import router from "next/router"
 import { useState } from "react"
-import { useSigninMutation } from "@/apis/user"
-import { UserParamType } from "@/apis/type"
+import { useAdminLoginMutation } from "@/apis/admin"
+import { IAmdinLoginParam } from "@/apis/admin/type"
 
 function Home() {
-    const [loginData, setLoginData] = useState<UserParamType>({
-        user_id: "",
+    const [loginData, setLoginData] = useState<IAmdinLoginParam>({
+        adminId: "",
         password: "",
     })
 
-    const { mutate: loginMutate } = useSigninMutation()
+    const { mutate: loginMutate } = useAdminLoginMutation()
 
     const onClickLogin = () => {
         loginMutate(loginData)
-        setLoginData({ user_id: "", password: "" })
+        setLoginData({ adminId: "", password: "" })
     }
 
     return (
@@ -38,8 +38,8 @@ function Home() {
                     <Input
                         type="text"
                         placeholder="아이디를 입력해주세요"
-                        name="user_id"
-                        value={loginData.user_id}
+                        name="adminId"
+                        value={loginData.adminId}
                         onChange={e =>
                             setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
                         }
@@ -56,7 +56,7 @@ function Home() {
                     <Button
                         label="Sign in"
                         margin="10px 0 60px 0"
-                        onClick={() => router.push("/admin/dashBoard")}
+                        onClick={onClickLogin}
                     />
                 </LoginBox>
             </BackGroundImage>
