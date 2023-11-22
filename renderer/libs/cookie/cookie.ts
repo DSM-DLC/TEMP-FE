@@ -6,12 +6,15 @@ export const customCookie = {
         refresh_token: () => getCookie("refresh_token"),
     },
     set: {
-        token: (access: string, refresh: string, accessExpires: string, refreshExpires: string) => {
-            const date = new Date()
-            date.setDate(date.getDate() + 5)
+        token: (access: string, refresh: string) => {
+            const accessDate = new Date()
+            accessDate.setHours(accessDate.getHours() + 1)
 
-            setCookie("access_token", access, { expires: new Date(accessExpires) })
-            setCookie("refresh_token", refresh, { expires: new Date(refreshExpires) })
+            const refreshDate = new Date()
+            refreshDate.setDate(refreshDate.getDate() + 1)
+
+            setCookie("access_token", access, { expires: accessDate })
+            setCookie("refresh_token", refresh, { expires: refreshDate })
         },
     },
     remove: {

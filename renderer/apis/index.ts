@@ -2,21 +2,29 @@ import axios from "axios"
 import router from "next/router"
 import { customCookie } from "@/libs/cookie/cookie"
 
-const TEMPBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL
+export const TEMPBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL
 
-const userInstance = axios.create({
+export const authInstance = axios.create({
     baseURL: `${TEMPBaseURL}/user`,
 })
 
-const adminInstance = axios.create({
+export const userInstance = axios.create({
+    baseURL: `${TEMPBaseURL}/user`,
+})
+
+export const adminInstance = axios.create({
     baseURL: `${TEMPBaseURL}/amdin`,
 })
 
-const infoInstance = axios.create({
+export const infoInstance = axios.create({
     baseURL: `${TEMPBaseURL}/info`,
 })
 
-const instanceArr = [userInstance, adminInstance, infoInstance]
+export const departInstance = axios.create({
+    baseURL: `${TEMPBaseURL}/department`,
+})
+
+const instanceArr = [userInstance, adminInstance, infoInstance, departInstance]
 
 instanceArr.map(instance => {
     instance.interceptors.request.use(
@@ -53,7 +61,7 @@ instanceArr.map(instance => {
                         )
 
                         const { access_token, refresh_token } = response.data
-                        customCookie.set.token(access_token, refresh_token, "12h", "5d")
+                        customCookie.set.token(access_token, refresh_token)
                         if (config.headers) config.headers.Authorization = `Bearer ${access_token}`
 
                         return axios(config)
