@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
-export const Profile = () => {
+export const EditProfile = () => {
 
 
   return (
@@ -71,7 +71,7 @@ export const Profile = () => {
   )
 }
 
-export default Profile
+export default EditProfile
 
 const Container = styled.div`
     display: flex;
