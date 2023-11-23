@@ -6,6 +6,7 @@ import globalStyle from "../styles/globalStyle"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { theme } from "../styles/theme"
+import { Toaster } from "react-hot-toast"
 
 export default function App({ Component, pageProps }: AppProps) {
     const [queryClient] = useState(
@@ -30,6 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </Head>
             <Global styles={globalStyle} />
             <QueryClientProvider client={queryClient}>
+                <Toaster position="top-right" reverseOrder={false} />
                 <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
                 <ThemeProvider theme={theme}>
                     <Component {...pageProps} />
