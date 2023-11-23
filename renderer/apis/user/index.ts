@@ -10,7 +10,7 @@ export const useUserLoginMutation = () => {
     const router = useRouter()
 
     const response = async (param: IUserLoginParam) => {
-        const { data } = await axios.post<IAuthorization>(`${TEMPBaseURL}/admin/login`, param)
+        const { data } = await axios.post<IAuthorization>(`${TEMPBaseURL}/user/login`, param)
         return data
     }
     return useMutation(response, {
