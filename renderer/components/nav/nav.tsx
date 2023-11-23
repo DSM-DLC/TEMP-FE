@@ -4,6 +4,14 @@ import logo from "@/assets/logo.svg"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { Button } from "@/components/common/button/Button"
+import { AdminNavMenu, EmployeeNavMenu } from "@/constant/Nav"
+import { useUserProfileQuery } from "@/apis/user"
+import { useAdminProfileQuery } from "@/apis/admin"
+import { IAdminProfile } from "@/apis/admin/type"
+import { IUserProfile } from "@/apis/user/type"
+import { Logout } from "@/assets/Logout"
+import { customCookie } from "@/libs/cookie/cookie"
+import { useLogoutMutation } from "@/apis/auth"
 
 interface accountType {
     account: "Admin" | "Employee"
@@ -16,6 +24,24 @@ const accountBool = {
 
 export const Nav = ({ account }: accountType) => {
     const router = useRouter()
+
+    const { mutate: LogoutMutation } = useLogoutMutation()
+    const { data: profileInfo } = accountBool[account]
+        ? useAdminProfileQuery()
+        : useUserProfileQuery()
+
+    const displayName = accountBool[account]
+        ? (profileInfo as IAdminProfile)?.adminId
+        : (profileInfo as IUserProfile)?.name
+
+    const displayRole = accountBool[account] ? "관리자" : (profileInfo as IUserProfile)?.department
+
+    const refreshToken = customCookie.get.refresh_token()
+
+    const onLogout = () => {
+        LogoutMutation(refreshToken)
+    }
+
     return (
         <NavWrapper>
             <NavInner>
@@ -25,118 +51,78 @@ export const Nav = ({ account }: accountType) => {
                         <Span1>TEMP</Span1>
                     </LogoInner>
                     <InfoInner>
-                        <Span2>박서영</Span2>
-                        <Span2>산악협력부</Span2>
+                        <Span2>{displayName}</Span2>
+                        <Span2>{displayRole}</Span2>
                     </InfoInner>
                 </InfoWrapper>
-                <LinkWrapper>
-                    {accountBool[account] ? (
-                        <LinkInner>
-                            <LinkTabWrapper>
-                                <LinkTab
-                                    style={{
-                                        backgroundColor:
-                                            router.pathname === "/admin/dashBoard"
-                                                ? "white"
-                                                : "transparent",
-                                    }}
-                                />
-                                <Link href="/admin/dashBoard">
-                                    <Button
-                                        width="calc(15vw - 5px)"
-                                        label="Manage"
-                                        justifyContent="flex-start"
-                                        padding="0 0 0 calc(3vw - 5px) "
-                                        border="none"
-                                        margin="none"
-                                        textAlign="left"
-                                        borderRadius="0"
-                                        fontSize="17px"
-                                    />
-                                </Link>
-                            </LinkTabWrapper>
-                            <LinkTabWrapper>
-                                <LinkTab
-                                    style={{
-                                        backgroundColor:
-                                            router.pathname === "/admin/createAcc"
-                                                ? "white"
-                                                : "transparent",
-                                    }}
-                                />
-                                <Link href="/admin/createAcc">
-                                    <Button
-                                        width="calc(15vw - 5px)"
-                                        label="CreateAcc"
-                                        justifyContent="flex-start"
-                                        padding="0 0 0 calc(3vw - 5px) "
-                                        border="none"
-                                        margin="none"
-                                        textAlign="left"
-                                        borderRadius="0"
-                                        fontSize="17px"
-                                    />
-                                </Link>
-                            </LinkTabWrapper>
-                        </LinkInner>
-                    ) : (
-                        <LinkInner>
-                            <LinkTabWrapper>
-                                <LinkTab
-                                    style={{
-                                        backgroundColor:
-                                            router.pathname === "/user/e"
-                                                ? "white"
-                                                : "transparent",
-                                    }}
-                                />
-                                <Link href="/user/dashBoard">
-                                    <Button
-                                        width="calc(15vw - 5px)"
-                                        label="DashBoard"
-                                        justifyContent="flex-start"
-                                        padding="0 0 0 calc(3vw - 5px) "
-                                        border="none"
-                                        margin="none"
-                                        textAlign="left"
-                                        borderRadius="0"
-                                        fontSize="17px"
-                                    />
-                                </Link>
-                            </LinkTabWrapper>
-                            <LinkTabWrapper>
-                                <LinkTab
-                                    style={{
-                                        backgroundColor:
-                                            router.pathname === "/user/profile"
-                                                ? "white"
-                                                : "transparent",
-                                    }}
-                                />
-                                <Link href="/user/profile">
-                                    <Button
-                                        width="calc(15vw - 5px)"
-                                        label="Profile"
-                                        justifyContent="flex-start"
-                                        padding="0 0 0 calc(3vw - 5px) "
-                                        border="none"
-                                        margin="none"
-                                        textAlign="left"
-                                        borderRadius="0"
-                                        fontSize="17px"
-                                    />
-                                </Link>
-                            </LinkTabWrapper>
-                        </LinkInner>
-                    )}
-                </LinkWrapper>
+                <LinkContainer>
+                    <LinkWrapper>
+                        {accountBool[account]
+                            ? AdminNavMenu.map(e => {
+                                  return (
+                                      <LinkTabWrapper>
+                                          <LinkTab
+                                              style={{
+                                                  backgroundColor:
+                                                      router.pathname == `/admin/${e.url}`
+                                                          ? "white"
+                                                          : "transparent",
+                                              }}
+                                          />
+                                          <Link href={`/admin/${e.url}`}>
+                                              <Button
+                                                  width="100%"
+                                                  label={`${e.tab}`}
+                                                  justifyContent="flex-start"
+                                                  padding="0 0 0 55px "
+                                                  border="none"
+                                                  margin="none"
+                                                  textAlign="left"
+                                                  borderRadius="0"
+                                                  fontSize="17px"
+                                              />
+                                          </Link>
+                                      </LinkTabWrapper>
+                                  )
+                              })
+                            : EmployeeNavMenu.map(e => {
+                                  return (
+                                      <LinkTabWrapper>
+                                          <LinkTab
+                                              style={{
+                                                  backgroundColor:
+                                                      router.pathname === `/user/${e.url}`
+                                                          ? "white"
+                                                          : "transparent",
+                                              }}
+                                          />
+                                          <Link href={`/user/${e.url}`}>
+                                              <Button
+                                                  width="100%"
+                                                  label={`${e.tab}`}
+                                                  justifyContent="flex-start"
+                                                  padding="0 0 0 55px "
+                                                  border="none"
+                                                  margin="none"
+                                                  textAlign="left"
+                                                  borderRadius="0"
+                                                  fontSize="17px"
+                                              />
+                                          </Link>
+                                      </LinkTabWrapper>
+                                  )
+                              })}
+                    </LinkWrapper>
+                    <Logout onClick={onLogout} />
+                </LinkContainer>
             </NavInner>
         </NavWrapper>
     )
 }
 
 const NavWrapper = styled.div`
-    width: 15vw;
+    width: 270px;
+    min-width: 270px;
     height: 100vh;
     background: ${({ theme }) => theme.color.blue400};
 `
@@ -155,7 +141,7 @@ const InfoWrapper = styled.div`
     flex-direction: column;
     width: 100%;
     height: 23%;
-    padding: 3vw;
+    padding: 60px;
     justify-content: space-between;
     align-content: flex-start;
 `
@@ -196,10 +182,10 @@ const InfoInner = styled.div`
 
 const LinkWrapper = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 `
-
-const LinkInner = styled.div``
 
 const LinkTab = styled.div`
     width: 5px;
@@ -209,8 +195,19 @@ const LinkTab = styled.div`
 `
 
 const LinkTabWrapper = styled.div`
+    width: 100%;
+    height: 60px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+`
+
+const LinkContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 70%;
 `
