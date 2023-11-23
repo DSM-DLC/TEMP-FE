@@ -11,15 +11,17 @@ export const LoginBox = ({ children }) => {
                     <Image src={logo} />
                 </LogoDiv>
                 <WhiteDiv>{children}</WhiteDiv>
-                <CircleImage src={circle.src} width="12.8vw" height="12.8vw" />
+                <CircleImage src={circle.src} width="150px" height="150px" />
             </BoxWrapper>
         </BoxContainer>
     )
 }
 
 const BoxContainer = styled.div`
-    height: 66vh;
-    width: 66vw;
+    min-height: 720px;
+    height: 720px;
+    min-width: 540px;
+    width: 1280px;
     background: ${({ theme }) => theme.color.blue400};
     border-radius: 30px;
 `
@@ -56,6 +58,7 @@ const WhiteDiv = styled.div`
     align-items: center;
     height: 100%;
     width: 50%;
+    gap: 60px;
     background: ${({ theme }) => theme.color.white};
     border-radius: 0px 30px 30px 0px;
 `

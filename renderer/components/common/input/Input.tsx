@@ -40,8 +40,8 @@ const InputInner = styled.div`
 `
 
 const InputBox = styled.input<InputPropsType>`
-    width: ${props => props.width ?? "15vw"};
-    height: ${props => props.height ?? "4vh"};
+    width: ${props => props.width ?? "300px"};
+    height: ${props => props.height ?? "40px"};
     margin: ${props => props.margin ?? "10px 0 30px 0"};
     padding: ${props => props.padding ?? "15px"};
     background: ${props => props.backgroundColor ?? "#fafafa"};
