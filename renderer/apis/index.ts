@@ -5,7 +5,7 @@ import { customCookie } from "@/libs/cookie/cookie"
 export const TEMPBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export const authInstance = axios.create({
-    baseURL: `${TEMPBaseURL}/user`,
+    baseURL: `${TEMPBaseURL}/auth`,
 })
 
 export const userInstance = axios.create({
@@ -13,7 +13,7 @@ export const userInstance = axios.create({
 })
 
 export const adminInstance = axios.create({
-    baseURL: `${TEMPBaseURL}/amdin`,
+    baseURL: `${TEMPBaseURL}/admin`,
 })
 
 export const infoInstance = axios.create({
@@ -24,7 +24,7 @@ export const departInstance = axios.create({
     baseURL: `${TEMPBaseURL}/department`,
 })
 
-const instanceArr = [userInstance, adminInstance, infoInstance, departInstance]
+const instanceArr = [userInstance, adminInstance, infoInstance, departInstance, authInstance]
 
 instanceArr.map(instance => {
     instance.interceptors.request.use(
@@ -51,11 +51,11 @@ instanceArr.map(instance => {
                         if (!beforeRefresh) throw error
 
                         const response = await axios.put(
-                            `${TEMPBaseURL}/auth/login`,
+                            `${TEMPBaseURL}/auth/refresh`,
                             {},
                             {
                                 headers: {
-                                    "Refresh-Token": `Bearer ${beforeRefresh}`,
+                                    refreshToken: `Bearer ${beforeRefresh}`,
                                 },
                             },
                         )
@@ -65,12 +65,12 @@ instanceArr.map(instance => {
                         if (config.headers) config.headers.Authorization = `Bearer ${access_token}`
 
                         return axios(config)
-                    } catch (e) {
+                    } catch (error) {
                         if (
-                            error.response.data.status === 403 ||
-                            error.response.data.status === 404
+                            error.response.data.status === 400 ||
+                            error.response.data.status === 403
                         ) {
-                            router.push("/")
+                            router.push("/home")
                             customCookie.remove.access_token()
                             customCookie.remove.refresh_token()
                         }
