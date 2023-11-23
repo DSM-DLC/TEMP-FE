@@ -29,7 +29,7 @@ export const useAdminLoginMutation = () => {
 
 export const useAdminIssueMutation = () => {
     const response = async (param: IIssueParam) => {
-        const { data } = await adminInstance.post(`Issue`, param)
+        const { data } = await adminInstance.post(`issue`, param)
         return data
     }
     return useMutation(response, {
