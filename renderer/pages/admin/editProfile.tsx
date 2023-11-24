@@ -1,5 +1,5 @@
 import { Input } from "@/components/common/input/Input"
-import { Nav } from "@/components/nav/Nav"
+import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 
 export const EditProfile = () => {

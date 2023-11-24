@@ -4,7 +4,7 @@ import { useDepartmentQuery } from "@/apis/department"
 import { Visibilty } from "@/assets/Visibilty"
 import { DropDown } from "@/components/common/input/DropDown"
 import { Input } from "@/components/common/input/Input"
-import { Nav } from "@/components/nav/Nav"
+import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 import { useState } from "react"
 

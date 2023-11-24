@@ -1,4 +1,4 @@
-import { Nav } from "@/components/nav/Nav"
+import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 
 export const Profile = () => {
