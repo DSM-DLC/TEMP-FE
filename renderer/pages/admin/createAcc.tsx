@@ -1,54 +1,49 @@
+import { useAdminIssueMutation } from "@/apis/admin"
+import { IIssueParam } from "@/apis/admin/type"
+import { useDepartmentQuery } from "@/apis/department"
 import { Visibilty } from "@/assets/Visibilty"
 import { DropDown } from "@/components/common/input/DropDown"
 import { Input } from "@/components/common/input/Input"
-import { Nav } from "@/components/nav/nav"
+import { Nav } from "@/components/nav/Nav"
 import styled from "@emotion/styled"
 import { useState } from "react"
-import { toast, Toaster } from "react-hot-toast"
-
-const list = [
-    {
-        id: "123-5125-12345",
-        depart: "부서1",
-    },
-    {
-        id: "345-124-5-12-4",
-        depart: "부서2",
-    },
-    {
-        id: "12356-35-6",
-        depart: "부서3",
-    },
-]
 
 export const CreateAcc = () => {
-    const [values, setValues] = useState({
-        naming: "",
-        depart: "",
+    const { data: depart } = useDepartmentQuery()
+    const { mutate: CreateAccoutMutation } = useAdminIssueMutation()
+
+    const [showPassword, setShowPassword] = useState(false)
+    const [values, setValues] = useState<IIssueParam>({
+        name: "",
+        department: "",
         contact: "",
-        id: "",
-        pass: "",
-        showPassword: false,
+        userId: "",
+        password: "",
     })
 
     const TouchUploadClick = () => {
-        toast.success("계정이 발급되었습니다.")
+        if (
+            values.name &&
+            values.department &&
+            values.contact &&
+            values.userId &&
+            values.password
+        ) {
+            CreateAccoutMutation(values)
+        }
     }
     const ResetInputs = () => {
         setValues({
-            naming: "",
-            depart: "",
+            name: "",
+            department: "",
             contact: "",
-            id: "",
-            pass: "",
-            showPassword: false,
+            userId: "",
+            password: "",
         })
     }
 
     return (
         <Container>
-            <Toaster position="top-right" reverseOrder={false} />
-            {/* <Toaster position="top-right" reverseOrder={false} /> */}
             <Nav account="Admin" />
             <TitleBoxContainer>
                 <CreateTitleBox>계정 발급</CreateTitleBox>
@@ -63,28 +58,20 @@ export const CreateAcc = () => {
                                 width="450px"
                                 placeholder="이름을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={values.naming}
-                                onChange={Naming => {
-                                    setValues({ ...values, naming: Naming.target.value })
+                                value={values.name}
+                                onChange={name => {
+                                    setValues({ ...values, name: name.target.value })
                                 }}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
-                            {/* <Input
-                                label="부서"
-                                border="none"
-                                backgroundColor="#e0e0e0"
-                                width="450px"
-                                placeholder="부서를 입력해주세요"
-                                margin="20px 0 0 0"
-                                value={values.depart}
-                                onChange={Depart => {
-                                    setValues({ ...values, depart: Depart.target.value })
-                                }}
-                            /> */}
                             <DropDown
-                                list={list}
-                                objectKey="depart"
+                                value={values.department}
+                                onClick={department => {
+                                    setValues({ ...values, department: department })
+                                }}
+                                list={depart}
+                                objectKey="departmentName"
                                 label="부서"
                                 placeholder="부서를 선택해주세요"
                             />
@@ -126,33 +113,29 @@ export const CreateAcc = () => {
                             width="1050px"
                             placeholder="아이디를 입력해주세요"
                             margin="20px 0 0 0"
-                            value={values.id}
+                            value={values.userId}
                             onChange={Id => {
-                                setValues({ ...values, id: Id.target.value })
+                                setValues({ ...values, userId: Id.target.value })
                             }}
                         />
                     </CreatTextBox>
                     <CreatTextBox>
                         <InputWrapper>
                             <Input
-                                type={values.showPassword ? "text" : "password"}
+                                type={showPassword ? "text" : "password"}
                                 label="비밀번호"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="1050px"
                                 placeholder="비밀번호를 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={values.pass}
+                                value={values.password}
                                 onChange={Pass => {
-                                    setValues({ ...values, pass: Pass.target.value })
+                                    setValues({ ...values, password: Pass.target.value })
                                 }}
                             />
-                            <ShowPasswordButton
-                                onClick={() =>
-                                    setValues({ ...values, showPassword: !values.showPassword })
-                                }
-                            >
-                                <Visibilty show={values.showPassword} />
+                            <ShowPasswordButton onClick={() => setShowPassword(!showPassword)}>
+                                <Visibilty show={showPassword} />
                             </ShowPasswordButton>
                         </InputWrapper>
                     </CreatTextBox>
