@@ -1,4 +1,4 @@
-import { Nav } from "@/components/nav/nav"
+import { Nav } from "@/components/nav/Nav"
 import Link from "next/link"
 
 export const DashBoard = () => {
