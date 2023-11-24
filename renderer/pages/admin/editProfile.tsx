@@ -2,7 +2,7 @@ import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/Nav"
 import styled from "@emotion/styled"
 
-export const Profile = () => {
+export const EditProfile = () => {
     return (
         <Container>
             <Nav account="Admin" />
@@ -60,7 +60,7 @@ export const Profile = () => {
     )
 }
 
-export default Profile
+export default EditProfile
 
 const Container = styled.div`
     display: flex;
