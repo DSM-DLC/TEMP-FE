@@ -1,11 +1,12 @@
 import axios from "axios"
 import router from "next/router"
 import { customCookie } from "@/libs/cookie/cookie"
+import { IAuthorization } from "./type"
 
 export const TEMPBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export const authInstance = axios.create({
-    baseURL: `${TEMPBaseURL}/user`,
+    baseURL: `${TEMPBaseURL}/auth`,
 })
 
 export const userInstance = axios.create({
@@ -13,7 +14,7 @@ export const userInstance = axios.create({
 })
 
 export const adminInstance = axios.create({
-    baseURL: `${TEMPBaseURL}/amdin`,
+    baseURL: `${TEMPBaseURL}/admin`,
 })
 
 export const infoInstance = axios.create({
@@ -24,12 +25,12 @@ export const departInstance = axios.create({
     baseURL: `${TEMPBaseURL}/department`,
 })
 
-const instanceArr = [userInstance, adminInstance, infoInstance, departInstance]
+const instanceArr = [userInstance, adminInstance, infoInstance, departInstance, authInstance]
 
 instanceArr.map(instance => {
     instance.interceptors.request.use(
         config => {
-            const access_token = customCookie.get.access_token
+            const access_token = customCookie.get.access_token()
             access_token && (config.headers!["Authorization"] = `Bearer ${access_token}`)
             return config
         },
@@ -39,7 +40,7 @@ instanceArr.map(instance => {
     )
     instance.interceptors.response.use(
         config => {
-            return Promise.reject(config)
+            return config
         },
         async error => {
             if (axios.isAxiosError(error) && error.response) {
@@ -50,27 +51,27 @@ instanceArr.map(instance => {
                         const beforeRefresh = customCookie.get.refresh_token()
                         if (!beforeRefresh) throw error
 
-                        const response = await axios.put(
-                            `${TEMPBaseURL}/auth/login`,
+                        const response = await axios.put<IAuthorization>(
+                            `${TEMPBaseURL}/auth/refresh`,
                             {},
                             {
                                 headers: {
-                                    "Refresh-Token": `Bearer ${beforeRefresh}`,
+                                    "refresh-token": `${beforeRefresh}`,
                                 },
                             },
                         )
 
-                        const { access_token, refresh_token } = response.data
-                        customCookie.set.token(access_token, refresh_token)
-                        if (config.headers) config.headers.Authorization = `Bearer ${access_token}`
+                        const { accessToken, refreshToken } = response.data
+                        customCookie.set.token(accessToken, refreshToken)
+                        if (config.headers) config.headers.Authorization = `Bearer ${accessToken}`
 
                         return axios(config)
-                    } catch (e) {
+                    } catch (error) {
                         if (
-                            error.response.data.status === 403 ||
-                            error.response.data.status === 404
+                            error.response.data.status === 400 ||
+                            error.response.data.status === 403
                         ) {
-                            router.push("/")
+                            router.push("/home")
                             customCookie.remove.access_token()
                             customCookie.remove.refresh_token()
                         }

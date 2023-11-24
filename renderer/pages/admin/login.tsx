@@ -37,6 +37,7 @@ function Home() {
                     </LabelWrapper>
                     <Input
                         type="text"
+                        margin="0"
                         placeholder="아이디를 입력해주세요"
                         name="adminId"
                         value={loginData.adminId}
@@ -46,6 +47,7 @@ function Home() {
                     />
                     <Input
                         type="password"
+                        margin="0"
                         placeholder="비밀번호를 입력해주세요"
                         name="password"
                         value={loginData.password}
@@ -53,11 +55,7 @@ function Home() {
                             setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
                         }
                     />
-                    <Button
-                        label="Sign in"
-                        margin="10px 0 60px 0"
-                        onClick={onClickLogin}
-                    />
+                    <Button label="Sign in" margin="0" onClick={onClickLogin} />
                 </LoginBox>
             </BackGroundImage>
         </React.Fragment>
@@ -79,12 +77,11 @@ const BackGroundImage = styled.div`
 const BoxHeader = styled.div`
     width: 100%;
     align-items: center;
-    padding-left: 75px;
-    margin-bottom: 127px;
+    padding-left: 100px;
+    margin-bottom: 60px;
 `
 
 const LabelWrapper = styled.div`
-    margin: 10px 0 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;

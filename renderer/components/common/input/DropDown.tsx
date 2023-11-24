@@ -16,13 +16,15 @@ interface DropDownPropsType<T> extends DropDownElementType {
     list?: T[]
     objectKey?: string
     placeholder?: string
+    value: string
+    onClick: (value: string) => void
 }
 
 export const DropDown = <T extends string | number | object>({
     ...props
 }: DropDownPropsType<T>) => {
     const [dropDown, setDropDown] = useState<boolean>(false)
-    const [value, setValue] = useState<T>()
+    const [value, setValue] = useState<string>(props.value)
     const [inputValue, setInputValue] = useState<string>("")
     const [filteredOptions, setFilteredOptions] = useState<T[]>(props.list || [])
 
@@ -41,7 +43,8 @@ export const DropDown = <T extends string | number | object>({
     }
 
     const onClick = (e: T) => {
-        setValue(e)
+        props.onClick(props.objectKey ? e[props.objectKey] : e)
+        setValue(props.objectKey ? e[props.objectKey] : e)
         setInputValue("")
         setDropDown(!dropDown)
     }
@@ -74,7 +77,7 @@ export const DropDown = <T extends string | number | object>({
                             onClick={() => setDropDown(true)}
                             isOpen={value && value[props.objectKey as string]}
                         >
-                            {value ? value[props.objectKey as string] : props.placeholder}
+                            { value ? value : props.placeholder}
                         </PlaceHolderValueInner>
                     )}
                     <Arrow direction={dropDown ? "bottom" : "top"} />
@@ -90,10 +93,10 @@ export const DropDown = <T extends string | number | object>({
                         </OptionWrapper>
                     ) : (
                         <OptionWrapper>
-                            {props.list.map(e => {
+                            {props?.list?.map(e => {
                                 return (
                                     <Option onClick={() => onClick(e)}>
-                                        {props.list ? e[props.objectKey as string] : e}
+                                        {props?.list ? e[props.objectKey as string] : e}
                                     </Option>
                                 )
                             })}

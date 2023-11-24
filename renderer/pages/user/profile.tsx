@@ -1,9 +1,5 @@
-import { Visibilty } from "@/assets/Visibilty"
-import { Input } from "@/components/common/input/Input"
-import { Nav } from "@/components/nav/nav"
+import { Nav } from "@/components/nav/Nav"
 import styled from "@emotion/styled"
-import { useState } from "react"
-import { toast, Toaster } from "react-hot-toast"
 
 export const Profile = () => {
     return (

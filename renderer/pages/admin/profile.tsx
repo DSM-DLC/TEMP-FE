@@ -1,31 +1,25 @@
-import { Visibilty } from "@/assets/Visibilty"
-import { Input } from "@/components/common/input/Input"
-import { Nav } from "@/components/nav/nav"
+import { Nav } from "@/components/nav/Nav"
 import styled from "@emotion/styled"
-import { useState } from "react"
-import { toast, Toaster } from "react-hot-toast"
 
 export const Profile = () => {
-
     return (
-    <Container>
-      <Nav account="Employee" />
-      <TitleBoxContainer>
-          <CreateTitleBox>관리자 프로필</CreateTitleBox>
-          <CreateBox>
-          <CreateTextBoxGroup>
-            <CreateTextBox>
-              <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
-            </CreateTextBox>
-              <CreateTextBox>
-                <NameBox>아이디</NameBox>
-              </CreateTextBox> 
-                <UploadButton>프로필 수정하기</UploadButton>
-          </CreateTextBoxGroup>
-          </CreateBox >
-          
-      </TitleBoxContainer >
-  </Container >
+        <Container>
+            <Nav account="Admin" />
+            <TitleBoxContainer>
+                <CreateTitleBox>관리자 프로필</CreateTitleBox>
+                <CreateBox>
+                    <CreateTextBoxGroup>
+                        <CreateTextBox>
+                            <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
+                        </CreateTextBox>
+                        <CreateTextBox>
+                            <NameBox>아이디</NameBox>
+                        </CreateTextBox>
+                        <UploadButton>프로필 수정하기</UploadButton>
+                    </CreateTextBoxGroup>
+                </CreateBox>
+            </TitleBoxContainer>
+        </Container>
     )
 }
 
@@ -123,11 +117,10 @@ const CancelButton = styled.button`
 `
 
 const ProfileIcon = styled.div`
-  height: 250px;
-  width: 200px;
-  background-color: #d9d9d9;
-  border-radius: 20px;
-  position: relative;
-  text-align: center;
+    height: 250px;
+    width: 200px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    position: relative;
+    text-align: center;
 `
-

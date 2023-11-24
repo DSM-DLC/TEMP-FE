@@ -4,7 +4,7 @@ import { IDepartment } from "./type"
 
 export const useDepartmentQuery = () => {
     const response = async () => {
-        const { data } = await departInstance.get<IDepartment>(``)
+        const { data } = await departInstance.get<IDepartment[]>(``)
         return data
     }
     return useQuery(["depart"], response)

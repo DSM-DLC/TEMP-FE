@@ -1,69 +1,63 @@
-import { Visibilty } from "@/assets/Visibilty"
 import { Input } from "@/components/common/input/Input"
-import { Nav } from "@/components/nav/nav"
+import { Nav } from "@/components/nav/Nav"
 import styled from "@emotion/styled"
-import { useState } from "react"
-import { toast, Toaster } from "react-hot-toast"
 
 export const Profile = () => {
-
-
-  return (
-    <Container>
-      <Nav account="Employee" />
-      <TitleBoxContainer>
-        <CreateTitleBox>프로필 수정</CreateTitleBox>
-        <CreateBox>
-          <CreateTextBoxGroup>
-            <CreateTextBox>
-              <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
-            </CreateTextBox>
-            <CreateTextBox>
-              <Input
-                label="아이디"
-                border="none"
-                backgroundColor="#e0e0e0"
-                width="250px"
-                placeholder="번경할 아이디를 입력해주세요"
-                margin="10px 0 10px 0"
-              />
-              <Input
-                label="이름"
-                border="none"
-                backgroundColor="#e0e0e0"
-                width="250px"
-                placeholder="번경할 이름을 입력해주세요"
-                margin="10px 0 10px 0"
-              />
-              <Input
-                label="소속부서"
-                border="none"
-                backgroundColor="#e0e0e0"
-                width="250px"
-                placeholder="번경할 소속부서를 입력해주세요"
-                margin="10px 0 10px 0"
-              />
-            </CreateTextBox>
-            <CreateTextBox>
-            <Input
-                label="연락처"
-                border="none"
-                backgroundColor="#e0e0e0"
-                width="250px"
-                placeholder="번경할 연락처를 입력해주세요"
-                margin="10px 0 10px 0"
-              />
-            </CreateTextBox>
-          </CreateTextBoxGroup>
-          <ActionBox>
-            <UploadButton>수정완료</UploadButton>
-            <UploadButton style={{backgroundColor:"#E84045"}}>취소</UploadButton>
-          </ActionBox>
-        </CreateBox >
-
-      </TitleBoxContainer >
-    </Container >
-  )
+    return (
+        <Container>
+            <Nav account="Employee" />
+            <TitleBoxContainer>
+                <CreateTitleBox>프로필 수정</CreateTitleBox>
+                <CreateBox>
+                    <CreateTextBoxGroup>
+                        <CreateTextBox>
+                            <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
+                        </CreateTextBox>
+                        <CreateTextBox>
+                            <Input
+                                label="아이디"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="250px"
+                                placeholder="번경할 아이디를 입력해주세요"
+                                margin="10px 0 10px 0"
+                            />
+                            <Input
+                                label="이름"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="250px"
+                                placeholder="번경할 이름을 입력해주세요"
+                                margin="10px 0 10px 0"
+                            />
+                            <Input
+                                label="소속부서"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="250px"
+                                placeholder="번경할 소속부서를 입력해주세요"
+                                margin="10px 0 10px 0"
+                            />
+                        </CreateTextBox>
+                        <CreateTextBox>
+                            <Input
+                                label="연락처"
+                                border="none"
+                                backgroundColor="#e0e0e0"
+                                width="250px"
+                                placeholder="번경할 연락처를 입력해주세요"
+                                margin="10px 0 10px 0"
+                            />
+                        </CreateTextBox>
+                    </CreateTextBoxGroup>
+                    <ActionBox>
+                        <UploadButton>수정완료</UploadButton>
+                        <UploadButton style={{ backgroundColor: "#E84045" }}>취소</UploadButton>
+                    </ActionBox>
+                </CreateBox>
+            </TitleBoxContainer>
+        </Container>
+    )
 }
 
 export default Profile
@@ -181,13 +175,10 @@ const CancelButton = styled.button`
 `
 
 const ProfileIcon = styled.div`
-  height: 250px;
-  width: 200px;
-  background-color: #d9d9d9;
-  border-radius: 20px;
-  position: relative;
-  text-align: center;
+    height: 250px;
+    width: 200px;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    position: relative;
+    text-align: center;
 `
-
-
-

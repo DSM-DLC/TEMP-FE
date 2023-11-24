@@ -24,42 +24,38 @@ export const Home = () => {
     }
 
     return (
-        <React.Fragment>
-            <BackGroundImage style={{ backgroundImage: `url(${backGround.src})` }}>
-                <LoginBox>
-                    <BoxHeader>
-                        <Arrow onClick={() => router.push("/home")} />
-                    </BoxHeader>
-                    <LabelWrapper>
-                        <span>직원 로그인 페이지</span>
-                        <span>Please Sign in</span>
-                    </LabelWrapper>
-                    <Input
-                        type="text"
-                        placeholder="아이디를 입력해주세요"
-                        name="user_id"
-                        value={loginData.userId}
-                        onChange={e =>
-                            setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
-                        }
-                    />
-                    <Input
-                        type="password"
-                        placeholder="비밀번호를 입력해주세요"
-                        name="password"
-                        value={loginData.password}
-                        onChange={e =>
-                            setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
-                        }
-                    />
-                    <Button
-                        label="Sign in"
-                        margin="10px 0 60px 0"
-                        onClick={onClickLogin}
-                    />
-                </LoginBox>
-            </BackGroundImage>
-        </React.Fragment>
+        <BackGroundImage style={{ backgroundImage: `url(${backGround.src})` }}>
+            <LoginBox>
+                <BoxHeader>
+                    <Arrow onClick={() => router.push("/home")} />
+                </BoxHeader>
+                <LabelWrapper>
+                    <span>직원 로그인 페이지</span>
+                    <span>Please Sign in</span>
+                </LabelWrapper>
+                <Input
+                    type="text"
+                    placeholder="아이디를 입력해주세요"
+                    name="userId"
+                    margin="0"
+                    value={loginData.userId}
+                    onChange={e =>
+                        setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
+                    }
+                />
+                <Input
+                    type="password"
+                    placeholder="비밀번호를 입력해주세요"
+                    margin="0"
+                    name="password"
+                    value={loginData.password}
+                    onChange={e =>
+                        setLoginData(state => ({ ...state, [e.target.name]: e.target.value }))
+                    }
+                />
+                <Button label="Sign in" margin="0" onClick={onClickLogin} />
+            </LoginBox>
+        </BackGroundImage>
     )
 }
 
@@ -78,12 +74,11 @@ const BackGroundImage = styled.div`
 const BoxHeader = styled.div`
     width: 100%;
     align-items: center;
-    padding-left: 75px;
-    margin-bottom: 127px;
+    padding-left: 100px;
+    margin-bottom: 60px;
 `
 
 const LabelWrapper = styled.div`
-    margin: 10px 0 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;
