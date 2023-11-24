@@ -78,6 +78,7 @@ const BoxHeader = styled.div`
     width: 100%;
     align-items: center;
     padding-left: 100px;
+    margin-bottom: 60px;
 `
 
 const LabelWrapper = styled.div`
