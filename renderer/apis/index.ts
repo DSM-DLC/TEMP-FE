@@ -1,6 +1,7 @@
 import axios from "axios"
 import router from "next/router"
 import { customCookie } from "@/libs/cookie/cookie"
+import { IAuthorization } from "./type"
 
 export const TEMPBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -50,19 +51,19 @@ instanceArr.map(instance => {
                         const beforeRefresh = customCookie.get.refresh_token()
                         if (!beforeRefresh) throw error
 
-                        const response = await axios.put(
+                        const response = await axios.put<IAuthorization>(
                             `${TEMPBaseURL}/auth/refresh`,
                             {},
                             {
                                 headers: {
-                                    refreshToken: `Bearer ${beforeRefresh}`,
+                                    "refresh-token": `${beforeRefresh}`,
                                 },
                             },
                         )
 
-                        const { access_token, refresh_token } = response.data
-                        customCookie.set.token(access_token, refresh_token)
-                        if (config.headers) config.headers.Authorization = `Bearer ${access_token}`
+                        const { accessToken, refreshToken } = response.data
+                        customCookie.set.token(accessToken, refreshToken)
+                        if (config.headers) config.headers.Authorization = `Bearer ${accessToken}`
 
                         return axios(config)
                     } catch (error) {

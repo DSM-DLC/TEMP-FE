@@ -1,24 +1,20 @@
 import { useMutation } from "@tanstack/react-query"
 import { authInstance } from ".."
-import { IAuthorization } from "../type"
-
-export const useRefreshToken = async (refreshToken: string) => {
-    const response = await authInstance.put<IAuthorization>(`/refresh`, null, {
-        headers: {
-            "refreshToken": `${refreshToken}`,
-        },
-    })
-    return response.data
-}
+import { useRouter } from "next/router"
 
 export const useLogoutMutation = () => {
+    const router = useRouter()
     const response = async (refreshToken: string) => {
         const { data } = await authInstance.delete(`/logout`, {
             headers: {
-                "refreshToken": `${refreshToken}`,
+                "refresh-token": `${refreshToken}`,
             },
         })
         return data
     }
-    return useMutation(response)
+    return useMutation(response, {
+        onSuccess: () => {
+            router.push("/home")
+        },
+    })
 }
