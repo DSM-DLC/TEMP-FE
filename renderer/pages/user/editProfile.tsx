@@ -1,8 +1,26 @@
+import { useUserProfileMutation } from "@/apis/user"
+import { IUserProfile } from "@/apis/user/type"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
+import router from "next/router"
+import { useState } from "react"
 
 export const Profile = () => {
+    const [userProfile, setUserProfile] = useState<IUserProfile>({
+        userId: "",
+        name: "",
+        department: "",
+        contact: ""
+    })
+
+    const { mutate: userProfileMutate } = useUserProfileMutation()
+
+    const onClickUserProfile = () => {
+        userProfileMutate(userProfile)
+        setUserProfile({userId: "", name: "", department: "", contact: ""})
+    }
+
     return (
         <Container>
             <Nav account="Employee" />
@@ -21,6 +39,10 @@ export const Profile = () => {
                                 width="250px"
                                 placeholder="번경할 아이디를 입력해주세요"
                                 margin="10px 0 10px 0"
+                                value={userProfile.userId}
+                                onChange={e => 
+                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                }
                             />
                             <Input
                                 label="이름"
@@ -29,6 +51,10 @@ export const Profile = () => {
                                 width="250px"
                                 placeholder="번경할 이름을 입력해주세요"
                                 margin="10px 0 10px 0"
+                                value={userProfile.name}
+                                onChange={e => 
+                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                }
                             />
                             <Input
                                 label="소속부서"
@@ -37,6 +63,10 @@ export const Profile = () => {
                                 width="250px"
                                 placeholder="번경할 소속부서를 입력해주세요"
                                 margin="10px 0 10px 0"
+                                value={userProfile.department}
+                                onChange={e => 
+                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                }
                             />
                         </CreateTextBox>
                         <CreateTextBox>
@@ -47,12 +77,16 @@ export const Profile = () => {
                                 width="250px"
                                 placeholder="번경할 연락처를 입력해주세요"
                                 margin="10px 0 10px 0"
+                                value={userProfile.contact}
+                                onChange={e => 
+                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                }
                             />
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                     <ActionBox>
-                        <UploadButton>수정완료</UploadButton>
-                        <UploadButton style={{ backgroundColor: "#E84045" }}>취소</UploadButton>
+                        <UploadButton onClick={onClickUserProfile}>수정완료</UploadButton>
+                        <UploadButton style={{ backgroundColor: "#E84045" }} onClick={() => router.push("/user/profile")}>취소</UploadButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
