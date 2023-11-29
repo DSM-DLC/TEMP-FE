@@ -1,40 +1,29 @@
-import React, { useEffect } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import styled from "@emotion/styled"
 import { Nav } from "@/components/nav"
 import { Input } from "@/components/common/input/Input"
 import { Search } from "@/assets/Search"
-
-const lists = [
-    {
-        id: "1231wefwefwg23",
-        name: "박서영",
-        birthDate: "2154-12-31",
-        address: "대전광역시 유성구 가정북로 76",
-    },
-    {
-        id: "1231wefwefwg23",
-        name: "박서영",
-        birthDate: "2154-12-31",
-        address: "대전광역시 유성구 가정북로 76",
-    },
-    {
-        id: "1231wefwefwg23",
-        name: "박서영",
-        birthDate: "2154-12-31",
-        address: "대전광역시 유성구 가정북로 76",
-    },
-    {
-        id: "1231wefwefwg23",
-        name: "박서영",
-        birthDate: "2154-12-31",
-        address: "대전광역시 유성구 가정북로 76",
-    },
-]
+import { Paginations } from "@/components/pagination"
+import { dayFormat } from "@/libs/utils/dayFormat"
+import { useInfoListMutation } from "@/apis/info"
 
 export const DashBoard = () => {
+    const [page, setPage] = useState<number>(1)
+    const [name, setName] = useState<string>("")
+    const [birthDate, setBirthDate] = useState<string>("")
+    const handleChange = (_event: ChangeEvent<unknown>, value: number) => {
+        setPage(value)
+    }
+
+    const { data: info, mutate: pageInfoMutation } = useInfoListMutation()
+
+    const onClickSearch = () => {
+        pageInfoMutation({ page: page - 1, birthDate, name })
+    }
+
     useEffect(() => {
-        console.log(lists)
-    }, [])
+        pageInfoMutation({ page: page - 1, birthDate, name })
+    }, [page])
 
     return (
         <DashBoardInner>
@@ -45,9 +34,23 @@ export const DashBoard = () => {
                         <title>기간제 인력 정보</title>
                         <InputBoxInner>
                             <InputBoxWrapper>
-                                <Input placeholder="이름을 입력해주세요" margin="0" />
-                                <Input type="date" margin="0" />
-                                <Search onClick={() => console.log("hi")} />
+                                <Input
+                                    placeholder="이름을 입력해주세요"
+                                    margin="0"
+                                    value={name}
+                                    onChange={e => {
+                                        setName(e.target.value)
+                                    }}
+                                />
+                                <Input
+                                    type="date"
+                                    margin="0"
+                                    value={birthDate}
+                                    onChange={e => {
+                                        setBirthDate(e.target.value)
+                                    }}
+                                />
+                                <Search onClick={onClickSearch} />
                             </InputBoxWrapper>
                         </InputBoxInner>
                         <ResultWrapper>
@@ -56,15 +59,20 @@ export const DashBoard = () => {
                                 <Date>생년월일</Date>
                                 <Add>주소</Add>
                             </ResultCard>
-                            {lists &&
-                                lists?.map((e, index) => (
+                            {info &&
+                                info.contents?.map((e, index) => (
                                     <ResultCard key={index}>
                                         <Name>{e.name}</Name>
-                                        <Date>{e.birthDate}</Date>
-                                        <Add>부산광역시 강서구 녹산산단382로14번가길 10~29번지</Add>
+                                        <Date>{dayFormat(e.birthDate)}</Date>
+                                        <Add>{e.address}</Add>
                                     </ResultCard>
                                 ))}
                         </ResultWrapper>
+                        <Paginations
+                            count={info?.count ? Math.ceil(info?.count / 10) : 1}
+                            page={page}
+                            handleChange={handleChange}
+                        />
                     </SectionWrapper>
                 </SectionInner>
             </DashBoardWrapper>
@@ -87,8 +95,10 @@ const DashBoardWrapper = styled.div`
 `
 
 const SectionInner = styled.div`
-    width: 85vw;
+    width: 100%;
+    min-width: 1280px;
     height: 100vh;
+    padding: 60px;
 `
 
 const SectionWrapper = styled.div`
@@ -102,7 +112,7 @@ const SectionWrapper = styled.div`
 `
 
 const InputBoxInner = styled.div`
-    width: calc(85vw - 60px);
+    width: 100%;
     height: 100px;
     border-radius: 25px;
     background: ${({ theme }) => theme.color.blue50};
@@ -122,11 +132,12 @@ const ResultWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     height: 660px;
+    width: 100%;
 `
 
 const Date = styled.span`
     font-size: 20px;
-    width: 200px;
+    width: 180px;
 `
 
 const Name = styled.span`
@@ -136,15 +147,15 @@ const Name = styled.span`
 
 const Add = styled.span`
     font-size: 20px;
-    width: auto;
+    width: 430px;
 `
 
 const ResultCard = styled.div`
-    width: calc(85vw - 60px);
+    width: 100%;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: calc(19vw - 20px);
+    gap: 280px;
     border-bottom: 1px solid black;
 `
