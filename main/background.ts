@@ -15,7 +15,7 @@ if (isProd) {
 
   const mainWindow = createWindow("main", {
     width: 1280,
-    height: 720,
+    height: 748,
   });
 
   if (isProd) {
