@@ -5,7 +5,6 @@ export const AdminNavMenu = [
 ]
 
 export const EmployeeNavMenu = [
-    { url: "dashbBoard", tab: "DashBoard" },
-    { url: "createAcc", tab: "CreateAcc" },
+    { url: "dashBoard", tab: "DashBoard" },
     { url: "profile", tab: "Profile" },
 ]
