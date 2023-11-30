@@ -77,7 +77,7 @@ export const DropDown = <T extends string | number | object>({
                             onClick={() => setDropDown(true)}
                             isOpen={value && value[props.objectKey as string]}
                         >
-                            { value ? value : props.placeholder}
+                            {value ? value : props.placeholder}
                         </PlaceHolderValueInner>
                     )}
                     <Arrow direction={dropDown ? "bottom" : "top"} />
@@ -115,7 +115,6 @@ const DropDownInner = styled.div<{ width: string; height: string }>`
     flex-direction: column;
     height: auto;
     position: relative;
-    margin: 20px 0 0 0;
 `
 
 const DropDownWrapper = styled.div<{ dropDownHeight: string }>`
@@ -151,6 +150,7 @@ const LabelBox = styled.div`
     border-left-width: 5px;
     border-color: #3d8bfd;
     font-size: 20px;
+    margin-bottom: 15px;
 `
 
 const OptionWrapper = styled.div`
