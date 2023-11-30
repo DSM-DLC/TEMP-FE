@@ -6,13 +6,8 @@ import router from "next/router"
 import { useEffect, useState } from "react"
 
 export const Profile = () => {
-  const [profileData, setProfileData] = useState<IAdminProfile>({
-    adminId: ""
-  })
 
   const { data } = useAdminProfileQuery();
-
-
 
     return (
         <Container>
@@ -25,7 +20,7 @@ export const Profile = () => {
                             <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
                         </CreateTextBox>
                         <CreateTextBox>
-                            <NameBox>아이디: {profileData.adminId}</NameBox>
+                            <NameBox>아이디: {data?.adminId}</NameBox>
                         </CreateTextBox>
                         <UploadButton onClick={() => router.push("/admin/editProfile")}>프로필 수정하기</UploadButton>
                     </CreateTextBoxGroup>
