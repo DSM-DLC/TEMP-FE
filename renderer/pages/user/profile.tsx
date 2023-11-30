@@ -6,21 +6,9 @@ import router from "next/router"
 import { useEffect, useState } from "react"
 
 export const Profile = () => {
-    const [profileData, setProfileData] = useState<IUserProfile>({
-        userId: "",
-        name: "",
-        department: "",
-        contact: ""
-    })
 
-    const { data } = useUserProfileQuery()
+    const { data } = useUserProfileQuery();
 
-    useEffect(() => {
-        if (data) {
-          setProfileData(data)
-        }
-      }, [data])
-    
     return (
         <Container>
             <Nav account="Employee" />
@@ -32,12 +20,12 @@ export const Profile = () => {
                             <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
                         </CreateTextBox>
                         <CreateTextBox>
-                            <NameBox>아이디: {profileData.userId}</NameBox>
-                            <NameBox>이름: {profileData.name}</NameBox>
-                            <NameBox>소속부서: {profileData.department}</NameBox>
+                            <NameBox>아이디: {data?.userId}</NameBox>
+                            <NameBox>이름: {data?.name}</NameBox>
+                            <NameBox>소속부서: {data?.department}</NameBox>
                         </CreateTextBox>
                         <CreateTextBox>
-                            <NameBox>연락처 : {profileData.contact}</NameBox>
+                            <NameBox>연락처 : {data?.contact}</NameBox>
                             <UploadButton onClick={() => router.push("/user/editProfile")}>프로필 수정하기</UploadButton>
                         </CreateTextBox>
                     </CreateTextBoxGroup>

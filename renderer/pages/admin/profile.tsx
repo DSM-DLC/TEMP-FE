@@ -12,11 +12,7 @@ export const Profile = () => {
 
   const { data } = useAdminProfileQuery();
 
-  useEffect(() => {
-    if (data) {
-      setProfileData(data)
-    }
-  }, [data])
+
 
     return (
         <Container>
