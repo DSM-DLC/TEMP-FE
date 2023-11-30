@@ -1,7 +1,14 @@
+import { useUserProfileQuery } from "@/apis/user"
+import { IUserProfile } from "@/apis/user/type"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
+import router from "next/router"
+import { useEffect, useState } from "react"
 
 export const Profile = () => {
+
+    const { data } = useUserProfileQuery();
+
     return (
         <Container>
             <Nav account="Employee" />
@@ -13,14 +20,13 @@ export const Profile = () => {
                             <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
                         </CreateTextBox>
                         <CreateTextBox>
-                            <NameBox>아이디</NameBox>
-                            <NameBox>이름</NameBox>
-                            <NameBox>소속부서</NameBox>
+                            <NameBox>아이디: {data?.userId}</NameBox>
+                            <NameBox>이름: {data?.name}</NameBox>
+                            <NameBox>소속부서: {data?.department}</NameBox>
                         </CreateTextBox>
                         <CreateTextBox>
-                            <NameBox>연락처 : </NameBox>
-                            {/* onclick 들어가야함 */}
-                            <UploadButton>프로필 수정하기</UploadButton>
+                            <NameBox>연락처 : {data?.contact}</NameBox>
+                            <UploadButton onClick={() => router.push("/user/editProfile")}>프로필 수정하기</UploadButton>
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                 </CreateBox>

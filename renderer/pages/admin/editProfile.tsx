@@ -1,8 +1,26 @@
+import { useAdminPasswordMutation } from "@/apis/admin"
+import { IAdminPasswordParam } from "@/apis/admin/type"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
+import router from "next/router"
+import { useState } from "react"
 
 export const EditProfile = () => {
+
+    const [adminPassword, setAdminPassword] = useState<IAdminPasswordParam>({
+      password: "",
+      newPassword: "",
+      newPasswordCheck: ""
+    })
+
+    const { mutate: adminPasswordMutate } = useAdminPasswordMutation()
+
+    const onClickAdminPassword = () => {
+      adminPasswordMutate(adminPassword)
+      setAdminPassword({password: "", newPassword: "", newPasswordCheck: ""})
+    }
+
     return (
         <Container>
             <Nav account="Admin" />
@@ -15,44 +33,42 @@ export const EditProfile = () => {
                         </CreateTextBox>
                         <CreateTextBox>
                             <Input
-                                label="아이디"
+                                label="현재 비밀번호"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="250px"
-                                placeholder="번경할 아이디를 입력해주세요"
+                                placeholder={adminPassword.password}
                                 margin="10px 0 10px 0"
                             />
                             <Input
-                                label="이름"
+                                label="비밀번호 수정"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="250px"
-                                placeholder="번경할 이름을 입력해주세요"
+                                placeholder="수정할 비밀번호를 입력해주세요"
                                 margin="10px 0 10px 0"
+                                value={adminPassword.newPassword}
+                                onChange={e => 
+                                  setAdminPassword(state => ({ ...state, [e.target.name]: e.target.value }))
+                                }
                             />
                             <Input
-                                label="소속부서"
+                                label="수정한 비밀번호 재확인"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="250px"
-                                placeholder="번경할 소속부서를 입력해주세요"
+                                placeholder="비밀번호를  다시 입력해주세요"
                                 margin="10px 0 10px 0"
-                            />
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <Input
-                                label="연락처"
-                                border="none"
-                                backgroundColor="#e0e0e0"
-                                width="250px"
-                                placeholder="번경할 연락처를 입력해주세요"
-                                margin="10px 0 10px 0"
+                                value={adminPassword.newPasswordCheck}
+                                onChange={e => 
+                                  setAdminPassword(state => ({ ...state, [e.target.name]: e.target.value }))
+                                }
                             />
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                     <ActionBox>
-                        <UploadButton>수정완료</UploadButton>
-                        <UploadButton style={{ backgroundColor: "#E84045" }}>취소</UploadButton>
+                        <UploadButton onClick={onClickAdminPassword}>수정완료</UploadButton>
+                        <UploadButton onClick={() => router.push("/admin/profile")}>취소</UploadButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
@@ -162,6 +178,9 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
+    &:nth-child(2) {
+      background-color: ${({ theme }) => theme.color.red};
+    }
 `
 
 const CancelButton = styled.button`

@@ -1,7 +1,14 @@
+import { useAdminProfileQuery } from "@/apis/admin"
+import { IAdminProfile } from "@/apis/admin/type"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
+import router from "next/router"
+import { useEffect, useState } from "react"
 
 export const Profile = () => {
+
+  const { data } = useAdminProfileQuery();
+
     return (
         <Container>
             <Nav account="Admin" />
@@ -13,9 +20,9 @@ export const Profile = () => {
                             <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
                         </CreateTextBox>
                         <CreateTextBox>
-                            <NameBox>아이디</NameBox>
+                            <NameBox>아이디: {data?.adminId}</NameBox>
                         </CreateTextBox>
-                        <UploadButton>프로필 수정하기</UploadButton>
+                        <UploadButton onClick={() => router.push("/admin/editProfile")}>프로필 수정하기</UploadButton>
                     </CreateTextBoxGroup>
                 </CreateBox>
             </TitleBoxContainer>
