@@ -1,13 +1,22 @@
+import { useAdminProfileQuery } from "@/apis/admin"
 import { IAdminProfile } from "@/apis/admin/type"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 import router from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState<IAdminProfile>({
     adminId: ""
   })
+
+  const { data } = useAdminProfileQuery();
+
+  useEffect(() => {
+    if (data) {
+      setProfileData(data)
+    }
+  }, [data])
 
     return (
         <Container>

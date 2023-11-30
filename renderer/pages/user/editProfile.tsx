@@ -86,7 +86,7 @@ export const Profile = () => {
                     </CreateTextBoxGroup>
                     <ActionBox>
                         <UploadButton onClick={onClickUserProfile}>수정완료</UploadButton>
-                        <UploadButton style={{ backgroundColor: "#E84045" }} onClick={() => router.push("/user/profile")}>취소</UploadButton>
+                        <UploadButton onClick={() => router.push("/user/profile")}>취소</UploadButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
@@ -196,6 +196,9 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
+    &:nth-child(2) {
+      background-color: ${({ theme }) => theme.color.red};
+    }
 `
 
 const CancelButton = styled.button`
