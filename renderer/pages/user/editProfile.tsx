@@ -1,5 +1,7 @@
+import { useDepartmentQuery } from "@/apis/department"
 import { useUserProfileMutation } from "@/apis/user"
 import { IUserProfile } from "@/apis/user/type"
+import { DropDown } from "@/components/common/input/DropDown"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
@@ -7,12 +9,15 @@ import router from "next/router"
 import { useState } from "react"
 
 export const Profile = () => {
+  const { data: depart } = useDepartmentQuery()
   const [userProfile, setUserProfile] = useState<IUserProfile>({
     userId: "",
     name: "",
     department: "",
     contact: "",
   })
+
+
 
   const { mutate: userProfileMutate } = useUserProfileMutation()
 
@@ -22,77 +27,98 @@ export const Profile = () => {
   }
 
   return (
-      <Container>
-        <Nav account="Employee" />
-        <SectionContainer>
-          <TitleBox>프로필 수정</TitleBox>
-          <BoxContainer>
-            <BoxWrapper>
-              <InfoContainer>
-                <ProfileIcon></ProfileIcon>
-                <InfoWrapper>
-                  <InfoBox>
-                    <NameBox>아이디</NameBox>
-                    <Input
-                      border="none"
-                      backgroundColor="#e0e0e0"
-                      width="250px"
-                      placeholder="번경할 아이디를 입력해주세요"
-                      value={userProfile.userId}
-                      onChange={e =>
-                        setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+    <Container>
+      <Nav account="Employee" />
+      <SectionContainer>
+        <TitleBox>프로필 수정</TitleBox>
+        <BoxContainer>
+          <BoxWrapper>
+            <InfoContainer>
+              <ProfileIcon></ProfileIcon>
+              <InfoWrapper>
+                <InfoBox>
+                  <NameBox>아이디</NameBox>
+                  <Input
+                    type="text"
+                    border="none"
+                    backgroundColor="#e0e0e0"
+                    width="250px"
+                    placeholder="번경할 아이디를 입력해주세요"
+                    name="userId"
+                    value={userProfile.userId}
+                    onChange={e =>
+                      setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                    }
+
+                  />
+                </InfoBox>
+                <InfoBox>
+                  <NameBox>이름</NameBox>
+                  <Input
+                    type="text"
+                    border="none"
+                    backgroundColor="#e0e0e0"
+                    width="250px"
+                    placeholder="번경할 이름을 입력해주세요"
+                    name="name"
+                    value={userProfile.name}
+                    onChange={e =>
+                      setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                    }
+                  />
+                </InfoBox>
+                <InfoBox>
+                  <DropDown
+                    width="250px"
+                    value={userProfile.department}
+                    onClick={department => {
+                      setUserProfile({ ...userProfile, department: department })
+                    }}
+                    list={depart}
+                    objectKey="departmentName"
+                    label="부서"
+                    placeholder="부서를 선택해주세요"
+                  />
+                </InfoBox>
+                <InfoBox>
+                  <NameBox>연락처</NameBox>
+                  <Input
+                    type="tel"
+                    border="none"
+                    backgroundColor="#e0e0e0"
+                    width="250px"
+                    placeholder="번경할 연락처를 입력해주세요"
+                    name="contact"
+                    value={userProfile.contact}
+                    onChange={Contact => {
+                      const value = Contact.target.value.replace(/[^\d]/g, "")
+                      let formattedValue = ""
+
+                      if (value.length <= 3) {
+                        formattedValue = value
+                      } else if (value.length <= 7) {
+                        formattedValue = `${value.slice(0, 3)}-${value.slice(3)}`
+                      } else {
+                        formattedValue = `${value.slice(0, 3)}-${value.slice(
+                          3,
+                          7,
+                        )}-${value.slice(7, 11)}`
                       }
-                    />
-                  </InfoBox>
-                  <InfoBox>
-                    <NameBox>이름</NameBox>
-                    <Input
-                      border="none"
-                      backgroundColor="#e0e0e0"
-                      width="250px"
-                      placeholder="번경할 아이디를 입력해주세요"
-                      value={userProfile.userId}
-                      onChange={e =>
-                        setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
-                      }
-                    />
-                  </InfoBox>
-                  <InfoBox>
-                    <NameBox>소속부서</NameBox>
-                    <Input
-                      border="none"
-                      backgroundColor="#e0e0e0"
-                      width="250px"
-                      placeholder="번경할 아이디를 입력해주세요"
-                      value={userProfile.userId}
-                      onChange={e =>
-                        setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
-                      }
-                    />
-                  </InfoBox>
-                  <InfoBox>
-                    <NameBox>연락처</NameBox>
-                    <Input
-                      border="none"
-                      backgroundColor="#e0e0e0"
-                      width="250px"
-                      placeholder="번경할 아이디를 입력해주세요"
-                      value={userProfile.userId}
-                      onChange={e =>
-                        setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
-                      }
-                    />
-                  </InfoBox>
-                </InfoWrapper>
-              </InfoContainer>
-              <ActionBox>
-                <UploadButton onClick={onClickUserProfile}>수정완료</UploadButton>
-                <CancelButton onClick={() => router.push("/user/profile")}>취소</CancelButton>
-              </ActionBox>
-            </BoxWrapper>
-          </BoxContainer>
-        </SectionContainer>
-      </Container>
+
+                      setUserProfile({ ...userProfile, contact: formattedValue })
+                    }}
+                  />
+                </InfoBox>
+              </InfoWrapper>
+            </InfoContainer>
+            <ActionBox>
+              <UploadButton onClick={onClickUserProfile}>수정완료</UploadButton>
+              <CancelButton onClick={() => router.push("/user/profile")}>취소</CancelButton>
+            </ActionBox>
+          </BoxWrapper>
+        </BoxContainer>
+      </SectionContainer>
+    </Container>
   )
 }
 
