@@ -3,7 +3,7 @@ import styled from "@emotion/styled"
 import { Nav } from "@/components/nav/nav"
 import { Input } from "@/components/common/input/Input"
 import { Search } from "@/assets/Search"
-import { useDepartment } from "@/apis/department"
+import { useDepartmentQuery } from "@/apis/department"
 
 const lists = [
     {
@@ -33,9 +33,6 @@ const lists = [
 ]
 
 export const DashBoard = () => {
-    useEffect(() => {
-        console.log(lists)
-    }, [])
 
     return (
         <DashBoardInner>

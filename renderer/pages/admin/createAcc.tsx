@@ -1,27 +1,22 @@
+import { useDepartmentQuery } from "@/apis/department"
 import { Visibilty } from "@/assets/Visibilty"
 import { DropDown } from "@/components/common/input/DropDown"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav/nav"
+import { customCookie } from "@/libs/cookie/cookie"
 import styled from "@emotion/styled"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast, Toaster } from "react-hot-toast"
 
-const list = [
-    {
-        id: "123-5125-12345",
-        depart: "부서1",
-    },
-    {
-        id: "345-124-5-12-4",
-        depart: "부서2",
-    },
-    {
-        id: "12356-35-6",
-        depart: "부서3",
-    },
-]
-
 export const CreateAcc = () => {
+    const { data: depart } = useDepartmentQuery()
+
+    useEffect(() => {
+        const a = customCookie.get.access_token()
+        console.log(a)
+        console.log(depart)
+    }, [depart])
+
     const [values, setValues] = useState({
         naming: "",
         depart: "",
@@ -48,7 +43,6 @@ export const CreateAcc = () => {
     return (
         <Container>
             <Toaster position="top-right" reverseOrder={false} />
-            {/* <Toaster position="top-right" reverseOrder={false} /> */}
             <Nav account="Admin" />
             <TitleBoxContainer>
                 <CreateTitleBox>계정 발급</CreateTitleBox>
@@ -70,21 +64,9 @@ export const CreateAcc = () => {
                             />
                         </CreatTextBox>
                         <CreatTextBox>
-                            {/* <Input
-                                label="부서"
-                                border="none"
-                                backgroundColor="#e0e0e0"
-                                width="450px"
-                                placeholder="부서를 입력해주세요"
-                                margin="20px 0 0 0"
-                                value={values.depart}
-                                onChange={Depart => {
-                                    setValues({ ...values, depart: Depart.target.value })
-                                }}
-                            /> */}
                             <DropDown
-                                list={list}
-                                objectKey="depart"
+                                list={depart}
+                                objectKey="departmentName"
                                 label="부서"
                                 placeholder="부서를 선택해주세요"
                             />

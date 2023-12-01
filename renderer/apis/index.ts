@@ -24,13 +24,13 @@ export const departInstance = axios.create({
     baseURL: `${TEMPBaseURL}/department`,
 })
 
-const instanceArr = [userInstance, adminInstance, infoInstance, departInstance]
+const instanceArr = [ authInstance, userInstance, adminInstance, infoInstance, departInstance]
 
 instanceArr.map(instance => {
     instance.interceptors.request.use(
         config => {
-            const access_token = customCookie.get.access_token
-            access_token && (config.headers!["Authorization"] = `Bearer ${access_token}`)
+            const access_token = customCookie.get.access_token()
+            access_token && (config.headers.Authorization = `Bearer ${access_token}`)
             return config
         },
         error => {
@@ -39,8 +39,7 @@ instanceArr.map(instance => {
     )
     instance.interceptors.response.use(
         config => {
-            return Promise.reject(config)
-        },
+            return config        },
         async error => {
             if (axios.isAxiosError(error) && error.response) {
                 const { config, response } = error
@@ -55,7 +54,7 @@ instanceArr.map(instance => {
                             {},
                             {
                                 headers: {
-                                    "Refresh-Token": `Bearer ${beforeRefresh}`,
+                                    "RefreshToken": `Bearer ${beforeRefresh}`,
                                 },
                             },
                         )

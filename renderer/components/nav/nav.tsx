@@ -13,7 +13,6 @@ const accountBool = {
     Admin: true,
     Employee: false,
 }
-
 export const Nav = ({ account }: accountType) => {
     const router = useRouter()
     return (
@@ -78,6 +77,29 @@ export const Nav = ({ account }: accountType) => {
                                     />
                                 </Link>
                             </LinkTabWrapper>
+                            <LinkTabWrapper>
+                                <LinkTab
+                                    style={{
+                                        backgroundColor:
+                                            router.pathname === "/admin/profile"
+                                                ? "white"
+                                                : "transparent",
+                                    }}
+                                />
+                                <Link href="/admin/profile">
+                                    <Button
+                                        width="calc(15vw - 5px)"
+                                        label="Profile"
+                                        justifyContent="flex-start"
+                                        padding="0 0 0 calc(3vw - 5px) "
+                                        border="none"
+                                        margin="none"
+                                        textAlign="left"
+                                        borderRadius="0"
+                                        fontSize="17px"
+                                    />
+                                </Link>
+                            </LinkTabWrapper>
                         </LinkInner>
                     ) : (
                         <LinkInner>
@@ -85,9 +107,7 @@ export const Nav = ({ account }: accountType) => {
                                 <LinkTab
                                     style={{
                                         backgroundColor:
-                                            router.pathname === "/user/e"
-                                                ? "white"
-                                                : "transparent",
+                                            router.pathname === "/user/e" ? "white" : "transparent",
                                     }}
                                 />
                                 <Link href="/user/dashBoard">

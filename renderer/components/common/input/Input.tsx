@@ -62,7 +62,7 @@ const InputBox = styled.input<InputPropsType>`
 const LabelBox = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100px;
+    width: auto;
     height: 30px;
     padding-left: 5px;
     justify-content: center;
