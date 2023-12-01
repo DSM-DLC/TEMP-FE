@@ -11,14 +11,14 @@ export const Profile = () => {
         userId: "",
         name: "",
         department: "",
-        contact: ""
+        contact: "",
     })
 
     const { mutate: userProfileMutate } = useUserProfileMutation()
 
     const onClickUserProfile = () => {
         userProfileMutate(userProfile)
-        setUserProfile({userId: "", name: "", department: "", contact: ""})
+        setUserProfile({ userId: "", name: "", department: "", contact: "" })
     }
 
     return (
@@ -40,8 +40,11 @@ export const Profile = () => {
                                 placeholder="번경할 아이디를 입력해주세요"
                                 margin="10px 0 10px 0"
                                 value={userProfile.userId}
-                                onChange={e => 
-                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                onChange={e =>
+                                    setUserProfile(state => ({
+                                        ...state,
+                                        [e.target.name]: e.target.value,
+                                    }))
                                 }
                             />
                             <Input
@@ -52,8 +55,11 @@ export const Profile = () => {
                                 placeholder="번경할 이름을 입력해주세요"
                                 margin="10px 0 10px 0"
                                 value={userProfile.name}
-                                onChange={e => 
-                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                onChange={e =>
+                                    setUserProfile(state => ({
+                                        ...state,
+                                        [e.target.name]: e.target.value,
+                                    }))
                                 }
                             />
                             <Input
@@ -64,8 +70,11 @@ export const Profile = () => {
                                 placeholder="번경할 소속부서를 입력해주세요"
                                 margin="10px 0 10px 0"
                                 value={userProfile.department}
-                                onChange={e => 
-                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                onChange={e =>
+                                    setUserProfile(state => ({
+                                        ...state,
+                                        [e.target.name]: e.target.value,
+                                    }))
                                 }
                             />
                         </CreateTextBox>
@@ -78,15 +87,20 @@ export const Profile = () => {
                                 placeholder="번경할 연락처를 입력해주세요"
                                 margin="10px 0 10px 0"
                                 value={userProfile.contact}
-                                onChange={e => 
-                                  setUserProfile(state => ({ ...state, [e.target.name]: e.target.value }))
+                                onChange={e =>
+                                    setUserProfile(state => ({
+                                        ...state,
+                                        [e.target.name]: e.target.value,
+                                    }))
                                 }
                             />
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                     <ActionBox>
                         <UploadButton onClick={onClickUserProfile}>수정완료</UploadButton>
-                        <UploadButton onClick={() => router.push("/user/profile")}>취소</UploadButton>
+                        <CancelButton onClick={() => router.push("/user/profile")}>
+                            취소
+                        </CancelButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
@@ -136,48 +150,6 @@ const CreateTextBox = styled.div`
     margin-right: 50px;
 `
 
-const InputWrapper = styled.div`
-    position: relative;
-`
-
-const ShowPasswordButton = styled.button`
-    position: absolute;
-    border: none;
-    background: none;
-    right: 10px;
-    top: 72px;
-    transform: translateY(-50%);
-    z-index: 10;
-`
-
-const NameBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100px;
-    height: 30px;
-    padding-left: 5px;
-    justify-content: center;
-    align-items: flex-start;
-    border-left-style: solid;
-    border-left-width: 5px;
-    border-color: #3d8bfd;
-    font-size: 20px;
-    margin-right: 80px;
-    margin-bottom: 60px;
-`
-
-// const TextBox = styled.input`
-//     width: 450px;
-//     height: 35px;
-//     margin-top: 20px;
-//     padding-left: 10px;
-//     justify-content: center;
-//     align-items: center;
-//     border-radius: 5px;
-//     border: 0;
-//     background-color: ${({ theme }) => theme.color.gray300};
-// `
-
 const ActionBox = styled.div`
     margin-top: 20px;
     width: auto;
@@ -196,9 +168,6 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-    &:nth-child(2) {
-      background-color: ${({ theme }) => theme.color.red};
-    }
 `
 
 const CancelButton = styled.button`
@@ -219,5 +188,3 @@ const ProfileIcon = styled.div`
     position: relative;
     text-align: center;
 `
-
-

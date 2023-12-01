@@ -1,36 +1,46 @@
 import { useUserProfileQuery } from "@/apis/user"
-import { IUserProfile } from "@/apis/user/type"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 import router from "next/router"
-import { useEffect, useState } from "react"
 
 export const Profile = () => {
-
-    const { data } = useUserProfileQuery();
+    const { data } = useUserProfileQuery()
 
     return (
         <Container>
             <Nav account="Employee" />
-            <TitleBoxContainer>
-                <CreateTitleBox>프로필</CreateTitleBox>
-                <CreateBox>
-                    <CreateTextBoxGroup>
-                        <CreateTextBox>
-                            <ProfileIcon>대충 여기 사람 로고 들어감</ProfileIcon>
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <NameBox>아이디: {data?.userId}</NameBox>
-                            <NameBox>이름: {data?.name}</NameBox>
-                            <NameBox>소속부서: {data?.department}</NameBox>
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <NameBox>연락처 : {data?.contact}</NameBox>
-                            <UploadButton onClick={() => router.push("/user/editProfile")}>프로필 수정하기</UploadButton>
-                        </CreateTextBox>
-                    </CreateTextBoxGroup>
-                </CreateBox>
-            </TitleBoxContainer>
+            <SectionContainer>
+                <TitleBox>프로필</TitleBox>
+                <BoxContainer>
+                    <BoxWrapper>
+                        
+                        <InfoContainer>
+                            <ProfileIcon></ProfileIcon>
+                            <InfoWrapper>
+                                <InfoBox>
+                                    <NameBox>아이디</NameBox>
+                                    <Value>SeojeohoByeong</Value>
+                                </InfoBox>
+                                <InfoBox>
+                                    <NameBox>이름</NameBox>
+                                    <Value>서지호</Value>
+                                </InfoBox>
+                                <InfoBox>
+                                    <NameBox>부서</NameBox>
+                                    <Value>산악협력부</Value>
+                                </InfoBox>
+                                <InfoBox>
+                                    <NameBox>연락처</NameBox>
+                                    <Value>012-1233-1234</Value>
+                                </InfoBox>
+                            </InfoWrapper>
+                        </InfoContainer>
+                        <UpdateButton onClick={() => router.push("/user/editProfile")}>
+                            프로필 수정하기
+                        </UpdateButton>
+                    </BoxWrapper>
+                </BoxContainer>
+            </SectionContainer>
         </Container>
     )
 }
@@ -42,53 +52,70 @@ const Container = styled.div`
     flex-direction: row;
 `
 
-const TitleBoxContainer = styled.div``
+const SectionContainer = styled.div`
+    padding: 120px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 1280px;
+    align-items: center;
+    justify-content: flex-start;
+`
 
-const CreateTitleBox = styled.div`
-    width: 400px;
+const TitleBox = styled.div`
+    min-width: 1000px;
     height: 200px;
     display: flex;
     align-items: center;
-    padding-left: 170px;
     font-size: 50px;
 `
 
-const CreateBox = styled.div`
-    width: 1000px;
-    height: 450px;
-    margin-left: 170px;
-    padding-top: 80px;
-    padding-left: 100px;
-    padding-right: 100px;
+const Value = styled.span`
+    font-size: 18px;
+`
+
+const InfoBox = styled.div`
     display: flex;
     flex-direction: column;
+    gap: 15px;
+`
+
+const BoxContainer = styled.div`
+    width: 1000px;
+    max-width: 1000px;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
     border-radius: 30px;
     box-shadow: 0px 0px 8px 0.1px rgba(0, 0, 0, 0.5);
 `
-const CreateTextBoxGroup = styled.div`
+const BoxWrapper = styled.div`
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
 `
 
-const CreateTextBox = styled.div`
-    width: auto;
-    height: auto;
-    justify-content: center;
+const InfoWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 60px;
+    width: 500px;
+    height: 317px;
+    column-gap: 60px;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+`
+
+const InfoContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    margin-right: 50px;
-`
-
-const InputWrapper = styled.div`
-    position: relative;
-`
-
-const ShowPasswordButton = styled.button`
-    position: absolute;
-    border: none;
-    background: none;
-    right: 10px;
-    top: 72px;
-    transform: translateY(-50%);
-    z-index: 10;
 `
 
 const NameBox = styled.div`
@@ -103,11 +130,9 @@ const NameBox = styled.div`
     border-left-width: 5px;
     border-color: #3d8bfd;
     font-size: 20px;
-    margin-right: 150px;
-    margin-bottom: 70px;
 `
 
-const UploadButton = styled.button`
+const UpdateButton = styled.button`
     width: 150px;
     height: 50px;
     font-size: 15px;
@@ -115,17 +140,6 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-    margin-top: 80px;
-`
-
-const CancelButton = styled.button`
-    width: 150px;
-    height: 50px;
-    font-size: 20px;
-    border-radius: 5px;
-    border: none;
-    color: ${({ theme }) => theme.color.white};
-    background-color: ${({ theme }) => theme.color.gray400};
 `
 
 const ProfileIcon = styled.div`
@@ -134,5 +148,4 @@ const ProfileIcon = styled.div`
     background-color: #d9d9d9;
     border-radius: 20px;
     position: relative;
-    text-align: center;
 `
