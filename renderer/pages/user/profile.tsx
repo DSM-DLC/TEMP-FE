@@ -7,7 +7,8 @@ export const Profile = () => {
     const { data } = useUserProfileQuery()
 
     return (
-        <Container>
+        <ProfileInner>
+          <Container>
             <Nav account="Employee" />
             <SectionContainer>
                 <TitleBox>프로필</TitleBox>
@@ -19,19 +20,19 @@ export const Profile = () => {
                             <InfoWrapper>
                                 <InfoBox>
                                     <NameBox>아이디</NameBox>
-                                    <Value>SeojeohoByeong</Value>
+                                    <Value>{data?.userId}</Value>
                                 </InfoBox>
                                 <InfoBox>
                                     <NameBox>이름</NameBox>
-                                    <Value>서지호</Value>
+                                    <Value>{data?.name}</Value>
                                 </InfoBox>
                                 <InfoBox>
                                     <NameBox>부서</NameBox>
-                                    <Value>산악협력부</Value>
+                                    <Value>{data?.department}</Value>
                                 </InfoBox>
                                 <InfoBox>
                                     <NameBox>연락처</NameBox>
-                                    <Value>012-1233-1234</Value>
+                                    <Value>{data?.contact}</Value>
                                 </InfoBox>
                             </InfoWrapper>
                         </InfoContainer>
@@ -42,29 +43,36 @@ export const Profile = () => {
                 </BoxContainer>
             </SectionContainer>
         </Container>
+        </ProfileInner>
     )
 }
 
 export default Profile
 
+const ProfileInner = styled.div`
+    width: 100vw;
+    height: auto;
+    `
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
-`
+    width: 100%;
+    height: 100%;
+  `
 
 const SectionContainer = styled.div`
-    padding: 120px;
+    padding: 120px 0;
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 1280px;
+    min-width: 1000px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 `
 
 const TitleBox = styled.div`
     min-width: 1000px;
-    height: 200px;
     display: flex;
     align-items: center;
     font-size: 50px;
