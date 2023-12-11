@@ -11,7 +11,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "@mui/material": "^5.14.18",
+    "@mui/material": "^5.14.19",
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
     "axios": "^1.5.0",
@@ -24,8 +24,8 @@
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.2",
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "electron": "^21.3.3",

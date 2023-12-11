@@ -9,3 +9,4 @@ export interface IUserProfile {
     department: string
     contact: string
 }
+

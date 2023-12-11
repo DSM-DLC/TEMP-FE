@@ -7,4 +7,5 @@ export const AdminNavMenu = [
 export const EmployeeNavMenu = [
     { url: "dashBoard", tab: "DashBoard" },
     { url: "profile", tab: "Profile" },
+    { url: "profile_upload", tab: "Upload"}
 ]
