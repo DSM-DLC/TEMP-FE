@@ -56,7 +56,7 @@ instanceArr.map(instance => {
                             {},
                             {
                                 headers: {
-                                    "refresh-token": `${beforeRefresh}`,
+                                    "Refresh-Token": `Bearer ${beforeRefresh}`,
                                 },
                             },
                         )
