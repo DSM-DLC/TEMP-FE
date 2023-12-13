@@ -5,10 +5,13 @@ import { useRouter } from "next/router"
 import { useState } from "react"
 import { Input } from "@/components/common/input/Input"
 import { useAdminPasswordMutation } from "@/apis/admin"
+import { useAdminProfileQuery } from "@/apis/admin"
 
 export const Profile = () => {
     const router = useRouter()
     const [showModal, setShowModal] = useState(false)
+
+    const { data: adminInfo } = useAdminProfileQuery()
 
     const openModal = () => {
         setShowModal(true)
@@ -19,7 +22,6 @@ export const Profile = () => {
     }
 
     const handlePasswordChange = () => {
-        // 비밀번호 변경 로직...
         closeModal()
     }
 
@@ -30,26 +32,29 @@ export const Profile = () => {
                 <CreateTitleBox>관리자 프로필</CreateTitleBox>
                 <CreateBox>
                     <CreateTextBoxGroup>
-                        <CreateTextBox>
-                            <ProfileIcon>
-                                <Human />
-                            </ProfileIcon>
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <NameBox>아이디</NameBox>
-                            <PasswordBox>비밀번호</PasswordBox>
-                            <button onClick={openModal}>비밀번호 변경</button>
-                            {showModal && (
-                                <ChangePasswordModal
-                                    closeModal={closeModal}
-                                    handlePasswordChange={handlePasswordChange}
-                                />
-                            )}
-                        </CreateTextBox>
-
-                        <UploadButton onClick={() => router.push("/admin/editProfile")}>
-                            프로필 수정하기
-                        </UploadButton>
+                        <InfoContainer>
+                            <CreateTextBox>
+                                <ProfileIcon>
+                                    <Human />
+                                </ProfileIcon>
+                            </CreateTextBox>
+                            <CreateTextBox>
+                                <InfoBox>
+                                    <NameBox>아이디</NameBox>
+                                    <Value>{adminInfo?.adminId}</Value>
+                                </InfoBox>
+                                <InfoBox>
+                                    <PasswordBox>비밀번호</PasswordBox>
+                                    <UploadButton onClick={openModal}>비밀번호 변경</UploadButton>
+                                    {showModal && (
+                                        <ChangePasswordModal
+                                            closeModal={closeModal}
+                                            handlePasswordChange={handlePasswordChange}
+                                        />
+                                    )}
+                                </InfoBox>
+                            </CreateTextBox>
+                        </InfoContainer>
                     </CreateTextBoxGroup>
                 </CreateBox>
             </TitleBoxContainer>
@@ -58,13 +63,37 @@ export const Profile = () => {
 }
 
 const ChangePasswordModal = ({ closeModal, handlePasswordChange }) => {
-    const [newPassword, setNewPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
-    const [values, setValues] = useState({
-        id: "",
+    const { mutate: passwordMutate } = useAdminPasswordMutation()
+    const [baseValues, setBaseValues] = useState({
         pass: "",
         showPassword: false,
     })
+
+    const [changeValues, setChangeValues] = useState({
+        pass: "",
+        showPassword: false,
+    })
+
+    const [checkValues, setCheckValues] = useState({
+        pass: "",
+        showPassword: false,
+    })
+
+    const onChangePassword = () => {
+        passwordMutate(
+            {
+                password: baseValues.pass,
+                newPassword: changeValues.pass,
+                newPasswordCheck: changeValues.pass,
+            },
+            {
+                onSuccess: () => {
+                    closeModal()
+                    handlePasswordChange()
+                },
+            },
+        )
+    }
 
     return (
         <Modal>
@@ -75,52 +104,52 @@ const ChangePasswordModal = ({ closeModal, handlePasswordChange }) => {
                 </ModalTitleBox>
                 <NewPassBox>
                     <Input
-                        type={values.showPassword ? "text" : "password"}
+                        type={baseValues.showPassword ? "text" : "password"}
                         label="기존 비밀번호"
                         border="none"
                         backgroundColor="#e0e0e0"
                         width="540px"
                         placeholder="기존 비밀번호를 입력하세요."
                         margin="20px 0 0 0"
-                        value={values.pass}
+                        value={baseValues.pass}
                         onChange={Pass => {
-                            setValues({ ...values, pass: Pass.target.value })
+                            setBaseValues({ ...baseValues, pass: Pass.target.value })
                         }}
                     />
                 </NewPassBox>
                 <NewPassBox>
                     <Input
-                        type={values.showPassword ? "text" : "password"}
+                        type={changeValues.showPassword ? "text" : "password"}
                         label="변경할 비밀번호"
                         border="none"
                         backgroundColor="#e0e0e0"
                         width="540px"
                         placeholder="변경할 비밀번호를 입력하세요."
                         margin="20px 0 0 0"
-                        value={values.pass}
+                        value={changeValues.pass}
                         onChange={Pass => {
-                            setValues({ ...values, pass: Pass.target.value })
+                            setChangeValues({ ...changeValues, pass: Pass.target.value })
                         }}
                     />
                 </NewPassBox>
                 <NewPassBox>
                     <Input
-                        type={values.showPassword ? "text" : "password"}
+                        type={checkValues.showPassword ? "text" : "password"}
                         label="비밀번호 확인"
                         border="none"
                         backgroundColor="#e0e0e0"
                         width="540px"
                         placeholder="다시 한번 입력해세요."
                         margin="20px 0 0 0"
-                        value={values.pass}
+                        value={checkValues.pass}
                         onChange={Pass => {
-                            setValues({ ...values, pass: Pass.target.value })
+                            setCheckValues({ ...checkValues, pass: Pass.target.value })
                         }}
                     />
                 </NewPassBox>
                 <BtnBox>
-                    <CheckButton>확인</CheckButton>
-                    <CancelButton>취소</CancelButton>
+                    <CheckButton onClick={onChangePassword}>확인</CheckButton>
+                    <CancelButton onClick={closeModal}>취소</CancelButton>
                 </BtnBox>
             </ModalPage>
         </Modal>
@@ -134,39 +163,48 @@ const Container = styled.div`
     flex-direction: row;
 `
 
-const TitleBoxContainer = styled.div``
+const TitleBoxContainer = styled.div`
+    padding: 120px 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 1000px;
+    align-items: center;
+    justify-content: space-evenly;
+`
 
 const CreateTitleBox = styled.div`
-    width: auto;
-    height: 200px;
+    min-width: 1000px;
     display: flex;
     align-items: center;
-    padding-left: 170px;
     font-size: 50px;
 `
 
 const CreateBox = styled.div`
     width: 1000px;
-    height: 450px;
-    margin-left: 170px;
-    padding-top: 80px;
-    padding-left: 100px;
-    padding-right: 100px;
+    max-width: 1000px;
+    padding: 60px;
     display: flex;
     flex-direction: column;
+    gap: 60px;
     border-radius: 30px;
     box-shadow: 0px 0px 8px 0.1px rgba(0, 0, 0, 0.5);
 `
 const CreateTextBoxGroup = styled.div`
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
 `
 
 const CreateTextBox = styled.div`
+    display: flex;
+    flex-direction: column;
     width: auto;
-    height: auto;
-    justify-content: center;
-    align-items: center;
-    margin-right: 50px;
+    height: 317px;
+    justify-content: space-evenly;
+    align-items: flex-start;
 `
 
 const NameBox = styled.div`
@@ -174,14 +212,12 @@ const NameBox = styled.div`
     flex-direction: column;
     width: 100px;
     height: 30px;
-    padding-left: 5px;
     justify-content: center;
     align-items: flex-start;
     border-left-style: solid;
-    border-left-width: 5px;
     border-color: #3d8bfd;
+    padding-left: 5px;
     font-size: 20px;
-    margin-right: 150px;
 `
 
 const PasswordBox = styled.div`
@@ -189,15 +225,12 @@ const PasswordBox = styled.div`
     flex-direction: column;
     width: 100px;
     height: 30px;
-    padding-left: 5px;
     justify-content: center;
     align-items: flex-start;
     border-left-style: solid;
-    border-left-width: 5px;
     border-color: #3d8bfd;
     font-size: 20px;
-    margin-right: 150px;
-    margin-top: 60px;
+    padding-left: 5px;
 `
 
 const UploadButton = styled.button`
@@ -208,7 +241,6 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-    margin-top: 250px;
 `
 
 const ProfileIcon = styled.div`
@@ -264,7 +296,6 @@ const TitleNameBox = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 30px;
-    padding-bottom: 10px;
     color: ${({ theme }) => theme.color.black};
 `
 
@@ -312,4 +343,23 @@ const BtnBox = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     gap: 30px;
+`
+
+const InfoContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 60px;
+`
+
+const Value = styled.span`
+    font-size: 18px;
+`
+
+const InfoBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 `

@@ -13,7 +13,7 @@ export const userInstance = axios.create({
 })
 
 export const adminInstance = axios.create({
-    baseURL: `${TEMPBaseURL}/amdin`,
+    baseURL: `${TEMPBaseURL}/admin`,
 })
 
 export const infoInstance = axios.create({
@@ -24,7 +24,7 @@ export const departInstance = axios.create({
     baseURL: `${TEMPBaseURL}/department`,
 })
 
-const instanceArr = [ authInstance, userInstance, adminInstance, infoInstance, departInstance]
+const instanceArr = [authInstance, userInstance, adminInstance, infoInstance, departInstance]
 
 instanceArr.map(instance => {
     instance.interceptors.request.use(
@@ -39,7 +39,8 @@ instanceArr.map(instance => {
     )
     instance.interceptors.response.use(
         config => {
-            return config        },
+            return config
+        },
         async error => {
             if (axios.isAxiosError(error) && error.response) {
                 const { config, response } = error
@@ -54,7 +55,7 @@ instanceArr.map(instance => {
                             {},
                             {
                                 headers: {
-                                    "RefreshToken": `Bearer ${beforeRefresh}`,
+                                    RefreshToken: `Bearer ${beforeRefresh}`,
                                 },
                             },
                         )
