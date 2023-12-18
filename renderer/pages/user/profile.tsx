@@ -8,41 +8,40 @@ export const Profile = () => {
 
     return (
         <ProfileInner>
-          <Container>
-            <Nav account="Employee" />
-            <SectionContainer>
-                <TitleBox>프로필</TitleBox>
-                <BoxContainer>
-                    <BoxWrapper>
-                        
-                        <InfoContainer>
-                            <ProfileIcon></ProfileIcon>
-                            <InfoWrapper>
-                                <InfoBox>
-                                    <NameBox>아이디</NameBox>
-                                    <Value>{data?.userId}</Value>
-                                </InfoBox>
-                                <InfoBox>
-                                    <NameBox>이름</NameBox>
-                                    <Value>{data?.name}</Value>
-                                </InfoBox>
-                                <InfoBox>
-                                    <NameBox>부서</NameBox>
-                                    <Value>{data?.department}</Value>
-                                </InfoBox>
-                                <InfoBox>
-                                    <NameBox>연락처</NameBox>
-                                    <Value>{data?.contact}</Value>
-                                </InfoBox>
-                            </InfoWrapper>
-                        </InfoContainer>
-                        <UpdateButton onClick={() => router.push("/user/editProfile")}>
-                            프로필 수정하기
-                        </UpdateButton>
-                    </BoxWrapper>
-                </BoxContainer>
-            </SectionContainer>
-        </Container>
+            <Container>
+                <Nav account="Employee" />
+                <SectionContainer>
+                    <TitleBox>프로필</TitleBox>
+                    <BoxContainer>
+                        <BoxWrapper>
+                            <InfoContainer>
+                                <ProfileIcon></ProfileIcon>
+                                <InfoWrapper>
+                                    <InfoBox>
+                                        <NameBox>아이디</NameBox>
+                                        <Value>{data?.userId}</Value>
+                                    </InfoBox>
+                                    <InfoBox>
+                                        <NameBox>이름</NameBox>
+                                        <Value>{data?.name}</Value>
+                                    </InfoBox>
+                                    <InfoBox>
+                                        <NameBox>부서</NameBox>
+                                        <Value>{data?.department}</Value>
+                                    </InfoBox>
+                                    <InfoBox>
+                                        <NameBox>연락처</NameBox>
+                                        <Value>{data?.contact}</Value>
+                                    </InfoBox>
+                                </InfoWrapper>
+                            </InfoContainer>
+                            <UpdateButton onClick={() => router.push("/user/editProfile")}>
+                                프로필 수정하기
+                            </UpdateButton>
+                        </BoxWrapper>
+                    </BoxContainer>
+                </SectionContainer>
+            </Container>
         </ProfileInner>
     )
 }
@@ -52,14 +51,14 @@ export default Profile
 const ProfileInner = styled.div`
     width: 100vw;
     height: auto;
-    `
+`
 
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100%;
-  `
+`
 
 const SectionContainer = styled.div`
     padding: 120px 0;
@@ -68,7 +67,8 @@ const SectionContainer = styled.div`
     width: 100%;
     min-width: 1000px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 100px;
 `
 
 const TitleBox = styled.div`
