@@ -6,8 +6,11 @@ import { Search } from "@/assets/Search"
 import { Paginations } from "@/components/pagination"
 import { dayFormat } from "@/libs/utils/dayFormat"
 import { useInfoListMutation } from "@/apis/info"
+import { useRouter } from "next/router"
 
 export const DashBoard = () => {
+    const router = useRouter()
+
     const [page, setPage] = useState<number>(1)
     const [name, setName] = useState<string>("")
     const [birthDate, setBirthDate] = useState<string>("")
@@ -60,8 +63,11 @@ export const DashBoard = () => {
                                 <Add>주소</Add>
                             </ResultCard>
                             {info &&
-                                info.contents?.map((e, index) => (
-                                    <ResultCard key={index}>
+                                info.contents?.map(e => (
+                                    <ResultCard
+                                        key={e.id}
+                                        onClick={() => router.push("/user/workforce_profile")}
+                                    >
                                         <Name>{e.name}</Name>
                                         <Date>{dayFormat(e.birthDate)}</Date>
                                         <Add>{e.address}</Add>
