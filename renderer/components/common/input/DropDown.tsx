@@ -96,7 +96,7 @@ export const DropDown = <T extends string | number | object>({
                             {props?.list?.map(e => {
                                 return (
                                     <Option onClick={() => onClick(e)}>
-                                        {props?.list ? e[props.objectKey as string] : e}
+                                        {props.objectKey ? e[props.objectKey] : e}
                                     </Option>
                                 )
                             })}

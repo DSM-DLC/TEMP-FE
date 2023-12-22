@@ -3,8 +3,9 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { customCookie } from "@/libs/cookie/cookie"
 import { IAuthorization } from "../type"
-import { IUserLoginParam, IUserProfile } from "./type"
+import { IUserLoginParam, IUserPasswordParam, IUserProfile } from "./type"
 import { TEMPBaseURL, userInstance } from ".."
+import toast from "react-hot-toast"
 
 export const useUserLoginMutation = () => {
     const router = useRouter()
@@ -15,10 +16,10 @@ export const useUserLoginMutation = () => {
     }
     return useMutation(response, {
         onError: () => {
-            console.log("login error")
+            toast.error("로그인 실패")
         },
         onSuccess: res => {
-            console.log("로그인 성공")
+            toast.success("로그인 성공")
             const { accessToken, refreshToken } = res
             customCookie.set.token(accessToken, refreshToken)
             router.push("/user/dashBoard")
@@ -31,20 +32,37 @@ export const useUserProfileQuery = () => {
         const { data } = await userInstance.get<IUserProfile>(`/profile`)
         return data
     }
-    return useQuery(['UserProfile'], response)
+    return useQuery(["UserProfile"], response)
 }
 
 export const useUserProfileMutation = () => {
+    const router = useRouter()
     const response = async (param: IUserProfile) => {
         const { data } = await userInstance.patch(`/profile/update`, param)
         return data
     }
     return useMutation(response, {
         onError: () => {
-            console.log("수정 실패")
+            toast.error("수정 실패")
         },
         onSuccess: () => {
-            console.log("수정 성공")
+            toast.success("수정 성공")
+            router.push("/home")
+        },
+    })
+}
+
+export const useAdminPasswordMutation = () => {
+    const response = async (param: IUserPasswordParam) => {
+        const { data } = await userInstance.patch(`password`, param)
+        return data
+    }
+    return useMutation(response, {
+        onError: () => {
+            toast.error("비번 변경 실패")
+        },
+        onSuccess: () => {
+            toast.success("비번 변경 성공")
         },
     })
 }

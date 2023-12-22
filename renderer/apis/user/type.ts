@@ -10,3 +10,8 @@ export interface IUserProfile {
     contact: string
 }
 
+export interface IUserPasswordParam {
+    password: string
+    newPassword: string
+    newPasswordCheck: string
+}

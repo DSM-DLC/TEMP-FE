@@ -1,5 +1,5 @@
 import { Human } from "@/assets/Human"
-import { Nav } from "@/components/nav/nav"
+import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -8,10 +8,8 @@ import { useAdminPasswordMutation } from "@/apis/admin"
 import { useAdminProfileQuery } from "@/apis/admin"
 
 export const Profile = () => {
-    const router = useRouter()
-    const [showModal, setShowModal] = useState(false)
-
     const { data: adminInfo } = useAdminProfileQuery()
+    const [showModal, setShowModal] = useState(false)
 
     const openModal = () => {
         setShowModal(true)
@@ -21,10 +19,6 @@ export const Profile = () => {
         setShowModal(false)
     }
 
-    const handlePasswordChange = () => {
-        closeModal()
-    }
-
     return (
         <Container>
             <Nav account="Admin" />
@@ -32,25 +26,23 @@ export const Profile = () => {
                 <CreateBox>
                     <CreateTextBoxGroup>
                         <CreateTextBox>
-                <CreateTitleBox>관리자 프로필</CreateTitleBox>
+                            <CreateTitleBox>
+                                <Human />
+                            </CreateTitleBox>
                         </CreateTextBox>
-                            <NameBox>아이디: {data?.adminId}</NameBox>
                         <CreateTextBox>
+                            <NameBox>아이디: {adminInfo?.adminId}</NameBox>
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                 </CreateBox>
+                <UploadButton onClick={openModal}>비밀번호 변경</UploadButton>
+                {showModal && <ChangePasswordModal closeModal={closeModal} />}
             </TitleBoxContainer>
         </Container>
-                                    {showModal && (
-                                        <ChangePasswordModal
-                                            closeModal={closeModal}
-                                        />
-                                            handlePasswordChange={handlePasswordChange}
-                                    <Human />
     )
 }
 
-const ChangePasswordModal = ({ closeModal, handlePasswordChange }) => {
+const ChangePasswordModal = ({ closeModal }) => {
     const { mutate: passwordMutate } = useAdminPasswordMutation()
     const [baseValues, setBaseValues] = useState({
         pass: "",
@@ -77,7 +69,6 @@ const ChangePasswordModal = ({ closeModal, handlePasswordChange }) => {
             {
                 onSuccess: () => {
                     closeModal()
-                    handlePasswordChange()
                 },
             },
         )
@@ -149,6 +140,15 @@ export default Profile
 const Container = styled.div`
     display: flex;
     flex-direction: row;
+`
+
+const BtnBox = styled.div`
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 30px;
 `
 
 const TitleBoxContainer = styled.div`
@@ -229,17 +229,6 @@ const UploadButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-`
-
-const ProfileIcon = styled.div`
-    display: flex;
-    height: 250px;
-    width: 200px;
-    background-color: #d9d9d9;
-    border-radius: 20px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
 `
 
 const Modal = styled.div`

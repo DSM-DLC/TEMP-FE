@@ -6,6 +6,7 @@ import { IAdminPasswordParam, IAdminProfile, IAmdinLoginParam, IIssueParam } fro
 import { IAuthorization } from "../type"
 import { TEMPBaseURL, adminInstance } from ".."
 import { useQuery } from "@tanstack/react-query"
+import toast from "react-hot-toast"
 
 export const useAdminLoginMutation = () => {
     const router = useRouter()
@@ -16,10 +17,10 @@ export const useAdminLoginMutation = () => {
     }
     return useMutation(response, {
         onError: () => {
-            console.log("로그인 실패")
+            toast.error("로그인 실패")
         },
         onSuccess: res => {
-            console.log("로그인 성공")
+            toast.success("로그인 성공")
             const { accessToken, refreshToken } = res
             customCookie.set.token(accessToken, refreshToken)
             router.push("/admin/dashBoard")
@@ -34,10 +35,10 @@ export const useAdminIssueMutation = () => {
     }
     return useMutation(response, {
         onError: () => {
-            console.log("계정 발급 실패")
+            toast.error("계정 발급 실패")
         },
         onSuccess: () => {
-            console.log("계정 발급 성공")
+            toast.success("계정 발급 성공")
         },
     })
 }
@@ -57,10 +58,10 @@ export const useAdminPasswordMutation = () => {
     }
     return useMutation(response, {
         onError: () => {
-            console.log("비번 변경 실패")
+            toast.error("비번 변경 실패")
         },
         onSuccess: () => {
-            console.log("비번 변경 성공")
+            toast.success("비번 변경 성공")
         },
     })
 }

@@ -1,20 +1,32 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { infoInstance } from ".."
-import { IInfoDetail, IInfoList, IInfoParam } from "./type"
+import { IInfoDetail, IInfoDetailParam, IInfoList, IInfoParam } from "./type"
+import toast from "react-hot-toast"
 
 export const useInfoListMutation = () => {
-    const response = async ({ page, birthDate, name }: IInfoParam) => {
-        const { data } = await infoInstance.get<IInfoList>(
-            `/find?page=${page}&name=${name}&birthDate=${birthDate}`,
-        )
+    const response = async ({ page, birthDate, name, sort }: IInfoParam) => {
+        const { data } = await infoInstance.get<IInfoList>(`/find`, {
+            params: {
+                page: page,
+                birthDate: birthDate,
+                name: name,
+                sort: sort,
+            },
+        })
         return data
     }
     return useMutation(["InfoList"], response)
 }
 
-export const useInfoDetailQuery = (id: string) => {
+export const useInfoDetailQuery = ({ name, birthDate, address }: IInfoDetailParam) => {
     const response = async () => {
-        const { data } = await infoInstance.get<IInfoDetail>(`/detail?id=${id}`)
+        const { data } = await infoInstance.get<IInfoDetail>(`/detail`, {
+            params: {
+                name: name,
+                birthDate: birthDate,
+                address: address,
+            },
+        })
         return data
     }
     return useQuery(["InfoDetail"], response)
@@ -39,10 +51,10 @@ export const useInfoUploadMutation = () => {
     }
     return useMutation(response, {
         onError: () => {
-            console.log("인적사항 업로드 성공")
+            toast.error("인적사항 업로드 실패")
         },
         onSuccess: () => {
-            console.log("인적사항 업로드 실패")
+            toast.success("인적사항 업로드 성공")
         },
     })
 }

@@ -2,6 +2,7 @@ export interface IInfoParam {
     page: number
     name?: string
     birthDate?: string
+    sort: string
 }
 
 export interface IInfoList {
@@ -16,7 +17,7 @@ export interface IInfo {
     address: string
 }
 
-export interface IInfoDetail {  
+export interface IInfoDetail {
     name: string
     birthDate: string
     address: string
@@ -29,4 +30,10 @@ export interface IInfoDetail {
     issuanceDepartment: string
     picName: string
     picContact: string
+}
+
+export interface IInfoDetailParam {
+    name: string
+    birthDate: string
+    address: string
 }
