@@ -3,15 +3,17 @@ import styled from "@emotion/styled"
 import { useState } from "react"
 import { Nav } from "@/components/nav"
 import { IInfoDetail } from "@/apis/info/type"
+import { useInfoUploadMutation } from "@/apis/info"
 
 export const ProfileUpload = () => {
+    const { mutate: uploadMutation } = useInfoUploadMutation()
     const [values, setValues] = useState<IInfoDetail>({
         name: "",
         birthDate: "",
         address: "",
         budgetBasis: "",
-        cost: null,
-        workHour: null,
+        cost: 0,
+        workHour: 0,
         fourInsurance: false,
         jobType: "",
         period: "",
@@ -19,6 +21,10 @@ export const ProfileUpload = () => {
         picName: "",
         picContact: "",
     })
+
+    const uploadInfo = () => {
+        uploadMutation(values)
+    }
 
     return (
         <Container>
@@ -35,7 +41,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="이름을 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.name}
                                 onChange={name => {
                                     setValues({ ...values, name: name.target.value })
@@ -50,7 +55,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="생년월일을 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.birthDate}
                                 onChange={birthDate => {
                                     const value = birthDate.target.value.replace(/[^\d]/g, "")
@@ -78,7 +82,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="주소를 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.address}
                                 onChange={address => {
                                     setValues({ ...values, address: address.target.value })
@@ -95,7 +98,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="예산근거를 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.budgetBasis}
                                 onChange={budgetBasis => {
                                     setValues({ ...values, budgetBasis: budgetBasis.target.value })
@@ -111,12 +113,10 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="총인권비를 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.cost}
-
-                                // onChange={cost => {
-                                //     setValues({ ...values, cost: cost.target.value })
-                                // }}
+                                onChange={cost => {
+                                    setValues({ ...values, cost: Number(cost.target.value) })
+                                }}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
@@ -128,11 +128,13 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="근로시간을 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.workHour}
-                                // onChange={workHour => {
-                                //     setValues({ ...values, workHour: workHour.target.value })
-                                // }}
+                                onChange={workHour => {
+                                    setValues({
+                                        ...values,
+                                        workHour: Number(workHour.target.value),
+                                    })
+                                }}
                             />
                         </CreatTextBox>
                     </CreatTextBoxGroup>
@@ -147,8 +149,7 @@ export const ProfileUpload = () => {
                                         value="yes"
                                         checked={values.fourInsurance === false}
                                         width="20px"
-                                        margin="0 0 0 0"
-                                        //onChange={handleInputChange}
+                                        // onChange={handleInputChange}
                                     />
                                 </RadioBox>
                                 <RadioBox>
@@ -159,8 +160,7 @@ export const ProfileUpload = () => {
                                         value="no"
                                         checked={values.fourInsurance === false}
                                         width="20px"
-                                        margin="0 0 0 0"
-                                        //onChange={}
+                                        // onChange={}
                                     />
                                 </RadioBox>
                             </RadioBoxs>
@@ -173,7 +173,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="직종을 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.jobType}
                                 onChange={jobType => {
                                     setValues({ ...values, jobType: jobType.target.value })
@@ -188,7 +187,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="비밀번호를 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.period}
                                 onChange={period => {
                                     setValues({ ...values, period: period.target.value })
@@ -205,7 +203,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="발급부서를 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.issuanceDepartment}
                                 onChange={issuanceDepartment => {
                                     setValues({
@@ -223,7 +220,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="담당자 이름을 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.picName}
                                 onChange={picName => {
                                     setValues({ ...values, picName: picName.target.value })
@@ -238,7 +234,6 @@ export const ProfileUpload = () => {
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="담당자 연락처를 입력해주세요"
-                                margin="20px 0 0 0"
                                 value={values.picContact}
                                 onChange={picContact => {
                                     const value = picContact.target.value.replace(/[^\d]/g, "")
@@ -260,7 +255,7 @@ export const ProfileUpload = () => {
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <ActionBox>
-                        <UploadButton>업로드</UploadButton>
+                        <UploadButton onClick={uploadInfo}>업로드</UploadButton>
                         <CancelButton>취소</CancelButton>
                     </ActionBox>
                 </CreateBox>
