@@ -32,8 +32,25 @@ export interface IInfoDetail {
     picContact: string
 }
 
+export interface IInfoDetailData {
+    id: string
+    name: string
+    birthDate: string
+    address: string
+    budgetBasis: string
+    cost: number
+    workHour: number
+    fourInsurance: boolean
+    jobType: string
+    period: string
+    issuanceDepartment: string
+    picName: string
+    picContact: string
+}
+
 export interface IInfoDetailParam {
     name: string
     birthDate: string
     address: string
+    detailData: IInfoDetailData
 }

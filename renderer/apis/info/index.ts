@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { infoInstance } from ".."
-import { IInfoDetail, IInfoDetailParam, IInfoList, IInfoParam } from "./type"
+import { IInfoDetail, IInfoDetailData, IInfoDetailParam, IInfoList, IInfoParam } from "./type"
 import toast from "react-hot-toast"
 
 export const useInfoListMutation = () => {
@@ -18,9 +18,9 @@ export const useInfoListMutation = () => {
     return useMutation(["InfoList"], response)
 }
 
-export const useInfoDetailQuery = ({ name, birthDate, address }: IInfoDetailParam) => {
+export const useInfoDetailQuery = ({ name, birthDate, address, detailData }: IInfoDetailParam) => {
     const response = async () => {
-        const { data } = await infoInstance.get<IInfoDetail>(`/detail`, {
+        const { data } = await infoInstance.get<IInfoDetailData>(`/detail`, {
             params: {
                 name: name,
                 birthDate: birthDate,
@@ -29,7 +29,7 @@ export const useInfoDetailQuery = ({ name, birthDate, address }: IInfoDetailPara
         })
         return data
     }
-    return useQuery(["InfoDetail"], response)
+    return useQuery(["InfoDetail", name, birthDate, address], response, { initialData: detailData })
 }
 
 export const useInfoDeleteMutation = () => {
@@ -55,6 +55,22 @@ export const useInfoUploadMutation = () => {
         },
         onSuccess: () => {
             toast.success("인적사항 업로드 성공")
+        },
+    })
+}
+
+export const useInfoUpdateMutation = () => {
+    const response = async (param: IInfoDetailData) => {
+        const { data } = await infoInstance.patch(`update`, param)
+        return data
+    }
+
+    return useMutation(response, {
+        onError: () => {
+            toast.error("인적사항 수정 실패")
+        },
+        onSuccess: () => {
+            toast.success("인적사항 수정 성공")
         },
     })
 }

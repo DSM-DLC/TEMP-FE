@@ -1,8 +1,17 @@
-import { Input } from "@/components/common/input/Input"
+import { infoInstance } from "@/apis"
+import { useInfoDeleteMutation, useInfoDetailQuery, useInfoListMutation } from "@/apis/info"
+import { IInfoDetailData, IInfoList } from "@/apis/info/type"
+import { Radio } from "@/components/common/input/Radio"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
+import { info } from "console"
+import { useRouter } from "next/router"
 
-export const WorkforceProfile = () => {
+export const WorkforceProfile = ({ name, birthDate, address, detailData }) => {
+    const router = useRouter()
+    const { data } = useInfoDetailQuery({ name, birthDate, address, detailData })
+    const { mutate: deleteMutate } = useInfoDeleteMutation()
+
     return (
         <Container>
             <Nav account="Employee" />
@@ -12,87 +21,74 @@ export const WorkforceProfile = () => {
                     <CreatTextBoxGroup>
                         <CreatTextBox>
                             <NameBox>이름</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.name}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
                             <NameBox>생년월일</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.birthDate}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
                             <NameBox>주소</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.address}</TextBox>
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <CreatTextBoxGroup>
                         <CreatTextBox>
-                            <NameBox>예산근거</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <NameBox>사업명</NameBox>
+                            <TextBox>{data?.budgetBasis}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
-                            <NameBox>총인권비</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <NameBox>총인권비(천단위 원)</NameBox>
+                            <TextBox>{data?.cost / 1000}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
                             <NameBox>근로시간</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.workHour}</TextBox>
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <CreatTextBoxGroup>
                         <CreatTextBox>
                             <NameBox>사대보험 가입유무</NameBox>
                             <RadioBoxs>
-                                <RadioBox>
-                                    <Input
-                                        label="가입"
-                                        type="radio"
-                                        name="radioGroup"
-                                        value="option1"
-                                        width="20px"
-                                        margin="0 0 0 0"
-                                    />
-                                </RadioBox>
-                                <RadioBox>
-                                    <Input
-                                        label="미가입"
-                                        type="radio"
-                                        name="radioGroup"
-                                        value="option2"
-                                        width="20px"
-                                        margin="0 0 0 0"
-                                    />
-                                </RadioBox>
+                                <Radio radioId="가입" isRadioSelected={data?.fourInsurance} />
+                                <Radio radioId="미가입" isRadioSelected={!data?.fourInsurance} />
                             </RadioBoxs>
                         </CreatTextBox>
                         <CreatTextBox>
-                            <NameBox>직종</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <NameBox>주근무일</NameBox>
+                            <TextBox>{data?.jobType}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
                             <NameBox>재직기간</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.period}</TextBox>
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <CreatTextBoxGroup>
                         <CreatTextBox>
                             <NameBox>발급부서</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.issuanceDepartment}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
                             <NameBox>담당자 이름</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.picName}</TextBox>
                         </CreatTextBox>
                         <CreatTextBox>
                             <NameBox>담당자 연락처</NameBox>
-                            <TextBox>김민수</TextBox>
+                            <TextBox>{data?.picContact}</TextBox>
                         </CreatTextBox>
                     </CreatTextBoxGroup>
-                    <CreatTextBox>
-                        <NameBox>문서 저장하기</NameBox>
-                        <SaveButton>다운로드</SaveButton>
-                    </CreatTextBox>
                     <ActionBox>
-                        <UpdateButton>수정하기</UpdateButton>
-                        <DeleteButton>삭제하기</DeleteButton>
+                        <UpdateButton onClick={() => router.push(`/user/post/${data?.id}`)}>
+                            수정하기
+                        </UpdateButton>
+                        <DeleteButton
+                            onClick={() => {
+                                deleteMutate(data?.id)
+                                router.push("/user/dashBoard")
+                            }}
+                        >
+                            삭제하기
+                        </DeleteButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
@@ -102,28 +98,71 @@ export const WorkforceProfile = () => {
 
 export default WorkforceProfile
 
+export const getStaticPaths = async () => {
+    try {
+        const { data } = await infoInstance.get<IInfoList>(
+            "/find?page=0&size=10000000&sort=name,desc",
+        )
+
+        const paths = data.contents.map(e => ({
+            params: {
+                param: [e.id.toString()],
+            },
+        }))
+
+        return { paths, fallback: false }
+    } catch (error) {
+        console.error("Error fetching user data:", error)
+        return { paths: [], fallback: false }
+    }
+}
+
+export const getStaticProps = async ({ params }) => {
+    const [name, birthDate, address] = params.param
+
+    try {
+        const res = await infoInstance.get<IInfoDetailData>(`/detail`, {
+            params: {
+                name,
+                birthDate,
+                address,
+            },
+        })
+
+        if (res.status === 200) {
+            const datailData = res.data
+            return { props: { name, birthDate, address, datailData } }
+        }
+        return { props: { name, birthDate, address } }
+    } catch (error) {
+        console.log(error)
+        return { props: { name, birthDate, address } }
+    }
+}
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
 `
 
-const TitleBoxContainer = styled.div``
+const TitleBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 1000px;
+    align-items: center;
+    justify-content: space-evenly;
+`
 
 const CreateTitleBox = styled.div`
-    width: 535px;
-    height: 180px;
+    min-width: 1250px;
     display: flex;
     align-items: center;
-    padding-left: 170px;
     font-size: 50px;
 `
 const CreateBox = styled.div`
-    width: 1250px;
-    height: 825px;
-    margin-left: 170px;
-    padding-top: 50px;
-    padding-left: 100px;
-    padding-right: 100px;
+    min-width: 1250px;
+    padding: 60px;
     display: flex;
     flex-direction: column;
     border-radius: 30px;
@@ -171,7 +210,7 @@ const TextBox = styled.div`
     border-radius: 10px;
     border: 0;
     color: ${({ theme }) => theme.color.black};
-    background-color: ${({ theme }) => theme.color.gray400};
+    background-color: ${({ theme }) => theme.color.gray300};
     vertical-align: middle;
     line-height: normal;
 `
@@ -180,6 +219,8 @@ const RadioBoxs = styled.div`
     height: auto;
     display: flex;
     justify-content: left;
+    gap: 30px;
+    margin-top: 15px;
 `
 const RadioBox = styled.div`
     width: auto;

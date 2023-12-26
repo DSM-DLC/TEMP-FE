@@ -1,41 +1,34 @@
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/router"
+import { Radio } from "@/components/common/input/Radio"
+import { useInfoUpdateMutation } from "@/apis/info"
 
 export const ProfileUpdate = () => {
     const [value, setValue] = useState({
         name: "",
-        birth: "",
+        birthDate: "",
         address: "",
-        budget: "",
-        humanrights: "",
-        worktime: "",
-        insurance: "",
-        job: "",
+        budgetBasis: "",
+        cost: 0,
+        workHour: 0,
+        fourInsurance: false,
+        jobType: "",
         period: "",
-        depart: "",
-        managername: "",
-        contact: "",
+        issuanceDepartment: "",
+        picName: "",
+        picContact: "",
     })
-    const [isFormComplete, setIsFormComplete] = useState(false)
 
     const router = useRouter()
-    useEffect(() => {
-        const checkFormCompletion = () => {
-            const isComplete = Object.values(value).every(v => v !== "")
-            setIsFormComplete(isComplete)
-        }
-
-        checkFormCompletion()
-    }, [value])
+    const id = router.query["id"] as string
+    const { mutate: updateMutate } = useInfoUpdateMutation()
 
     const handleUpload = () => {
-        if (isFormComplete) {
-            router.push("/user/workforce_profile")
-        } else {
-            alert("모든 항목을 입력해주세요.")
+        if (value) {
+            updateMutate({ id, ...value })
         }
     }
     const handleInputChange = e => {
@@ -66,14 +59,14 @@ export const ProfileUpdate = () => {
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="birth"
+                                name="birthDate"
                                 label="생년월일"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="생년월일을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.birth}
+                                value={value.birthDate}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
@@ -94,83 +87,70 @@ export const ProfileUpdate = () => {
                     <CreatTextBoxGroup>
                         <CreatTextBox>
                             <Input
-                                name="budget"
-                                label="예산근거"
+                                name="budgetBasis"
+                                label="사업명"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
-                                placeholder="예산근거를 입력해주세요"
+                                placeholder="사업명을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.budget}
+                                value={value.budgetBasis}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="humanrights"
-                                label="총인권비"
+                                name="cost"
+                                label="총인권비 (천단위 원)"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="총인권비를 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.humanrights}
+                                value={value.cost}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="worktime"
+                                name="workHour"
                                 label="근로시간"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="근로시간을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.worktime}
+                                value={value.workHour}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <CreatTextBoxGroup>
                         <CreatTextBox>
+                            <NameBox>사대보험 가입유무</NameBox>
                             <RadioBoxs>
-                                <RadioBox>
-                                    <Input
-                                        name="insurance"
-                                        label="가입"
-                                        type="radio"
-                                        value="yes"
-                                        checked={value.insurance === "yes"}
-                                        onChange={handleInputChange}
-                                        width="20px"
-                                        margin="0 0 0 0"
-                                    />
-                                </RadioBox>
-                                <RadioBox>
-                                    <Input
-                                        name="insurance"
-                                        type="radio"
-                                        value="no"
-                                        checked={value.insurance === "no"}
-                                        onChange={handleInputChange}
-                                        label="미가입"
-                                        width="20px"
-                                        margin="0 0 0 0"
-                                    />
-                                </RadioBox>
+                                <Radio
+                                    radioId="가입"
+                                    isRadioSelected={value.fourInsurance}
+                                    onClick={() => setValue({ ...value, fourInsurance: true })}
+                                />
+                                <Radio
+                                    radioId="미가입"
+                                    isRadioSelected={!value.fourInsurance}
+                                    onClick={() => setValue({ ...value, fourInsurance: false })}
+                                />
                             </RadioBoxs>
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="job"
-                                label="직종"
+                                name="jobType"
+                                label="주근무일"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
-                                placeholder="직종을 입력해주세요"
+                                placeholder="주근무일을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.job}
+                                value={value.jobType}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
@@ -191,47 +171,47 @@ export const ProfileUpdate = () => {
                     <CreatTextBoxGroup>
                         <CreatTextBox>
                             <Input
-                                name="depart"
+                                name="issuanceDepartment"
                                 label="발급부서"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="발급부서를 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.depart}
+                                value={value.issuanceDepartment}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="managername"
+                                name="picName"
                                 label="담당자 이름"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="담당자 이름을 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.managername}
+                                value={value.picName}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="contact"
+                                name="picContact"
                                 label="담당자 연락처"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
                                 placeholder="담당자 연락처를 입력해주세요"
                                 margin="20px 0 0 0"
-                                value={value.contact}
+                                value={value.picContact}
                                 onChange={handleInputChange}
                             />
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <ActionBox>
                         <UploadButton onClick={handleUpload}>업로드</UploadButton>
-                        <CancelButton>취소</CancelButton>
+                        <CancelButton onClick={() => router.back()}>취소</CancelButton>
                     </ActionBox>
                 </CreateBox>
             </TitleBoxContainer>
@@ -246,23 +226,24 @@ const Container = styled.div`
     flex-direction: row;
 `
 
-const TitleBoxContainer = styled.div``
+const TitleBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 1000px;
+    align-items: center;
+    justify-content: space-evenly;
+`
 
 const CreateTitleBox = styled.div`
-    width: 530px;
-    height: 200px;
+    min-width: 1250px;
     display: flex;
     align-items: center;
-    padding-left: 170px;
     font-size: 50px;
 `
 const CreateBox = styled.div`
-    width: 1250px;
-    height: 750px;
-    margin-left: 170px;
-    padding-top: 80px;
-    padding-left: 100px;
-    padding-right: 100px;
+    min-width: 1250px;
+    padding: 60px;
     display: flex;
     flex-direction: column;
     border-radius: 30px;
@@ -310,6 +291,8 @@ const RadioBoxs = styled.div`
     height: auto;
     display: flex;
     justify-content: left;
+    gap: 30px;
+    margin-top: 15px;
 `
 const RadioBox = styled.div`
     width: auto;
