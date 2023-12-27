@@ -1,16 +1,22 @@
-import { infoInstance } from "@/apis"
-import { useInfoDeleteMutation, useInfoDetailQuery, useInfoListMutation } from "@/apis/info"
-import { IInfoDetailData, IInfoList } from "@/apis/info/type"
+import { useInfoDeleteMutation, useInfoDetailMutation } from "@/apis/info"
 import { Radio } from "@/components/common/input/Radio"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
-import { info } from "console"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
-export const WorkforceProfile = ({ name, birthDate, address, detailData }) => {
-    const router = useRouter()
-    const { data } = useInfoDetailQuery({ name, birthDate, address, detailData })
+export const WorkforceProfile = () => {
+    const { data, mutate: detailMutate } = useInfoDetailMutation()
     const { mutate: deleteMutate } = useInfoDeleteMutation()
+    const router = useRouter()
+    const params = router.query.param as string[] | undefined
+
+    useEffect(() => {
+        if (params) {
+            const [name, birthDate, address] = params
+            detailMutate({ name, birthDate, address })
+        }
+    }, [])
 
     return (
         <Container>
@@ -78,7 +84,7 @@ export const WorkforceProfile = ({ name, birthDate, address, detailData }) => {
                         </CreatTextBox>
                     </CreatTextBoxGroup>
                     <ActionBox>
-                        <UpdateButton onClick={() => router.push(`/user/post/${data?.id}`)}>
+                        <UpdateButton onClick={() => router.push(`/user/${data?.id}`)}>
                             수정하기
                         </UpdateButton>
                         <DeleteButton
@@ -97,48 +103,6 @@ export const WorkforceProfile = ({ name, birthDate, address, detailData }) => {
 }
 
 export default WorkforceProfile
-
-export const getStaticPaths = async () => {
-    try {
-        const { data } = await infoInstance.get<IInfoList>(
-            "/find?page=0&size=10000000&sort=name,desc",
-        )
-
-        const paths = data.contents.map(e => ({
-            params: {
-                param: [e.id.toString()],
-            },
-        }))
-
-        return { paths, fallback: false }
-    } catch (error) {
-        console.error("Error fetching user data:", error)
-        return { paths: [], fallback: false }
-    }
-}
-
-export const getStaticProps = async ({ params }) => {
-    const [name, birthDate, address] = params.param
-
-    try {
-        const res = await infoInstance.get<IInfoDetailData>(`/detail`, {
-            params: {
-                name,
-                birthDate,
-                address,
-            },
-        })
-
-        if (res.status === 200) {
-            const datailData = res.data
-            return { props: { name, birthDate, address, datailData } }
-        }
-        return { props: { name, birthDate, address } }
-    } catch (error) {
-        console.log(error)
-        return { props: { name, birthDate, address } }
-    }
-}
 
 const Container = styled.div`
     display: flex;

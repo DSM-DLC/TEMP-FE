@@ -52,5 +52,4 @@ export interface IInfoDetailParam {
     name: string
     birthDate: string
     address: string
-    detailData: IInfoDetailData
 }

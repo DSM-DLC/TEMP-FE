@@ -18,8 +18,8 @@ export const useInfoListMutation = () => {
     return useMutation(["InfoList"], response)
 }
 
-export const useInfoDetailQuery = ({ name, birthDate, address, detailData }: IInfoDetailParam) => {
-    const response = async () => {
+export const useInfoDetailMutation = () => {
+    const response = async ({ name, birthDate, address }: IInfoDetailParam) => {
         const { data } = await infoInstance.get<IInfoDetailData>(`/detail`, {
             params: {
                 name: name,
@@ -29,7 +29,7 @@ export const useInfoDetailQuery = ({ name, birthDate, address, detailData }: IIn
         })
         return data
     }
-    return useQuery(["InfoDetail", name, birthDate, address], response, { initialData: detailData })
+    return useMutation(response)
 }
 
 export const useInfoDeleteMutation = () => {

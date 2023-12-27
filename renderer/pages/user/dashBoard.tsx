@@ -97,15 +97,15 @@ export const DashBoard = () => {
                                 info.contents?.map(e => (
                                     <ResultCard
                                         key={e.id}
-                                        onClick={() =>
+                                        onClick={() => {
+                                            console.log(e)
                                             router.push({
-                                                pathname: `/user/post/${encodeURIComponent(
-                                                    e.name,
-                                                )}/${encodeURIComponent(
-                                                    e.birthDate,
-                                                )}/${encodeURIComponent(e.address)}`,
+                                                pathname: "/user/[...param]",
+                                                query: {
+                                                    param: [e.name, e.birthDate, e.address],
+                                                },
                                             })
-                                        }
+                                        }}
                                     >
                                         <Name>{e.name}</Name>
                                         <Date>{e.birthDate}</Date>
@@ -204,3 +204,4 @@ const ResultCard = styled.div`
     gap: 280px;
     border-bottom: 1px solid black;
 `
+

@@ -75,7 +75,8 @@ instanceArr.map(instance => {
                     } catch (error) {
                         if (
                             error.response.data.status === 400 ||
-                            error.response.data.status === 403
+                            error.response.data.status === 403 ||
+                            error.response.data.status === 401
                         ) {
                             router.push("/home")
                             typeof window !== "undefined" &&

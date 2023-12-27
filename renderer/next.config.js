@@ -6,7 +6,7 @@ module.exports = {
             config.target = "electron-renderer"
         }
 
-        config.resolve.alias["@"] = path.join(__dirname, "renderer")
+        config.resolve.alias["@"] = path.join(__dirname, "./renderer")
 
         return config
     },
