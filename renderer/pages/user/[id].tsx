@@ -275,17 +275,7 @@ const NameBox = styled.div`
     border-color: #3d8bfd;
     font-size: 17px;
 `
-const TextBox = styled.input`
-    width: 450px;
-    height: 35px;
-    margin-top: 20px;
-    padding-left: 10px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    border: 0;
-    background-color: ${({ theme }) => theme.color.gray300};
-`
+
 const RadioBoxs = styled.div`
     width: 320px;
     height: auto;
@@ -294,13 +284,7 @@ const RadioBoxs = styled.div`
     gap: 30px;
     margin-top: 15px;
 `
-const RadioBox = styled.div`
-    width: auto;
-    height: auto;
-    flex-direction: column;
-    font-size: 10px;
-    padding: 10px;
-`
+
 const ActionBox = styled.div`
     width: auto;
     height: auto;

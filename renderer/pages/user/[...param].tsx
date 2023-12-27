@@ -186,13 +186,6 @@ const RadioBoxs = styled.div`
     gap: 30px;
     margin-top: 15px;
 `
-const RadioBox = styled.div`
-    width: auto;
-    height: auto;
-    flex-direction: column;
-    font-size: 10px;
-    padding: 10px;
-`
 const ActionBox = styled.div`
     width: auto;
     height: auto;
@@ -209,18 +202,6 @@ const UpdateButton = styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.blue400};
-`
-const SaveButton = styled.button`
-    width: 150px;
-    height: 50px;
-    font-size: 20px;
-    border-radius: 5px;
-    border: none;
-    color: ${({ theme }) => theme.color.white};
-    background-color: ${({ theme }) => theme.color.blue400};
-    margin: 20px 0 12px 0;
-    margin-top: 20px;
-    padding-left: 10px;
 `
 const DeleteButton = styled.button`
     width: 150px;
