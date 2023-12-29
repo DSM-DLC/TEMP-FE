@@ -183,7 +183,7 @@ const ShowPasswordButton = styled.button`
     border: none;
     background: none;
     right: 10px;
-    top: 67px;
+    top: 58px;
     transform: translateY(-50%);
     z-index: 10;
 `

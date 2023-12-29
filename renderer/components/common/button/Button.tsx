@@ -48,4 +48,5 @@ const ButtonBox = styled.button<buttonType>`
     font-weight: 400;
     line-height: normal;
     text-align: ${props => props.textAlign ?? "center"};
+    cursor: pointer;
 `

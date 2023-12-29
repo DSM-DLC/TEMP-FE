@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { customCookie } from "@/libs/cookie/cookie"
 import { IAuthorization } from "../type"
 import { IUserLoginParam, IUserPasswordParam, IUserProfile } from "./type"
 import { TEMPBaseURL, userInstance } from ".."
@@ -21,7 +20,10 @@ export const useUserLoginMutation = () => {
         onSuccess: res => {
             toast.success("로그인 성공")
             const { accessToken, refreshToken } = res
-            customCookie.set.token(accessToken, refreshToken)
+            if (typeof window !== "undefined") {
+                window.localStorage.setItem("accessToken", accessToken)
+                window.localStorage.setItem("refreshToken", refreshToken)
+            }
             router.push("/user/dashBoard")
         },
     })

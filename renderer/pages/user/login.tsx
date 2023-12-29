@@ -59,8 +59,6 @@ export const Home = () => {
     )
 }
 
-//getSersideRendering Function
-
 export default Home
 
 const BackGroundImage = styled.div`

@@ -176,7 +176,7 @@ const PlaceHolderValueInner = styled.div<{ isOpen: string }>`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    color: ${props => (props.isOpen ? props.theme.color.black : props.theme.color.gray500)};
+    color: ${props => (props.isOpen ? props.theme.color.gray500 : props.theme.color.black)};
 `
 
 const Option = styled.div`

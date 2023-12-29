@@ -4,15 +4,19 @@ import { Nav } from "@/components/nav"
 import { Input } from "@/components/common/input/Input"
 import { Search } from "@/assets/Search"
 import { Paginations } from "@/components/pagination"
-import { dayFormat } from "@/libs/utils/dayFormat"
 import { useInfoListMutation } from "@/apis/info"
 import { useRouter } from "next/router"
+import { Sort } from "@/constant/Sort"
+import { DropDown } from "@/components/common/input/DropDown"
+
+const sortList = ["이름 내림차순", "이름 오름차순", "업로드 내림차순", "업로드 오름차순"]
 
 export const DashBoard = () => {
     const router = useRouter()
 
     const [page, setPage] = useState<number>(1)
     const [name, setName] = useState<string>("")
+    const [sortValue, setSortValue] = useState("업로드 내림차순")
     const [birthDate, setBirthDate] = useState<string>("")
     const handleChange = (_event: ChangeEvent<unknown>, value: number) => {
         setPage(value)
@@ -21,11 +25,11 @@ export const DashBoard = () => {
     const { data: info, mutate: pageInfoMutation } = useInfoListMutation()
 
     const onClickSearch = () => {
-        pageInfoMutation({ page: page - 1, birthDate, name })
+        pageInfoMutation({ page: page - 1, birthDate, name, sort: Sort[sortValue] })
     }
 
     useEffect(() => {
-        pageInfoMutation({ page: page - 1, birthDate, name })
+        pageInfoMutation({ page: page - 1, birthDate, name, sort: Sort[sortValue] })
     }, [page])
 
     return (
@@ -40,18 +44,45 @@ export const DashBoard = () => {
                                 <Input
                                     placeholder="이름을 입력해주세요"
                                     margin="0"
+                                    backgroundColor="#E0E0E0"
+                                    border="none"
                                     value={name}
                                     onChange={e => {
                                         setName(e.target.value)
                                     }}
                                 />
                                 <Input
-                                    type="date"
+                                    placeholder="생년월일을 입력해주세요"
                                     margin="0"
+                                    backgroundColor="#E0E0E0"
+                                    border="none"
                                     value={birthDate}
                                     onChange={e => {
-                                        setBirthDate(e.target.value)
+                                        const value = e.target.value.replace(/[^\d]/g, "")
+                                        let formattedValue = ""
+
+                                        if (value.length <= 6) {
+                                            formattedValue = value
+                                        } else if (value.length <= 7) {
+                                            formattedValue = `${value.slice(0, 6)}-${value.slice(
+                                                6,
+                                            )}`
+                                        } else {
+                                            formattedValue = `${value.slice(0, 6)}-${value.slice(
+                                                6,
+                                                7,
+                                            )}`
+                                        }
+
+                                        setBirthDate(formattedValue)
                                     }}
+                                />
+                                <DropDown
+                                    list={sortList}
+                                    onClick={e => {
+                                        setSortValue(e)
+                                    }}
+                                    value={sortValue}
                                 />
                                 <Search onClick={onClickSearch} />
                             </InputBoxWrapper>
@@ -66,10 +97,18 @@ export const DashBoard = () => {
                                 info.contents?.map(e => (
                                     <ResultCard
                                         key={e.id}
-                                        onClick={() => router.push("/user/workforce_profile")}
+                                        onClick={() => {
+                                            console.log(e)
+                                            router.push({
+                                                pathname: "/user/[...param]",
+                                                query: {
+                                                    param: [e.name, e.birthDate, e.address],
+                                                },
+                                            })
+                                        }}
                                     >
                                         <Name>{e.name}</Name>
-                                        <Date>{dayFormat(e.birthDate)}</Date>
+                                        <Date>{e.birthDate}</Date>
                                         <Add>{e.address}</Add>
                                     </ResultCard>
                                 ))}
@@ -165,3 +204,4 @@ const ResultCard = styled.div`
     gap: 280px;
     border-bottom: 1px solid black;
 `
+

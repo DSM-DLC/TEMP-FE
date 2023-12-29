@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import backGround from "@/assets/background.png"
 import { LoginBox } from "@/components/common/box/LoginBox"
 import { Button } from "@/components/common/button/Button"
@@ -23,8 +22,6 @@ function Home() {
         </React.Fragment>
     )
 }
-
-//getSersideRendering Function
 
 export default Home
 

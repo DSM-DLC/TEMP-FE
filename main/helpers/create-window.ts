@@ -1,16 +1,12 @@
-import {
-  screen,
-  BrowserWindow,
-} from 'electron';
-import Store from 'electron-store';
+import { screen, BrowserWindow } from "electron";
+import Store from "electron-store";
+import type { BrowserWindowConstructorOptions, Rectangle } from "electron";
 
-import type {
-  BrowserWindowConstructorOptions,
-  Rectangle
-} from "electron";
-
-export default (windowName: string, options: BrowserWindowConstructorOptions): BrowserWindow => {
-  const key = 'window-state';
+export default (
+  windowName: string,
+  options: BrowserWindowConstructorOptions
+): BrowserWindow => {
+  const key = "window-state";
   const name = `window-state-${windowName}`;
   const store = new Store<Rectangle>({ name });
   const defaultSize = {
@@ -50,8 +46,8 @@ export default (windowName: string, options: BrowserWindowConstructorOptions): B
     });
   };
 
-  const ensureVisibleOnSomeDisplay = windowState => {
-    const visible = screen.getAllDisplays().some(display => {
+  const ensureVisibleOnSomeDisplay = (windowState) => {
+    const visible = screen.getAllDisplays().some((display) => {
       return windowWithinBounds(windowState, display.bounds);
     });
     if (!visible) {
@@ -74,7 +70,7 @@ export default (windowName: string, options: BrowserWindowConstructorOptions): B
   const browserOptions: BrowserWindowConstructorOptions = {
     ...state,
     ...options,
-    autoHideMenuBar:true,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -83,7 +79,7 @@ export default (windowName: string, options: BrowserWindowConstructorOptions): B
   };
   win = new BrowserWindow(browserOptions);
 
-  win.on('close', saveState);
+  win.on("close", saveState);
 
   return win;
 };

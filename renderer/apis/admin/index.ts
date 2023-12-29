@@ -1,4 +1,3 @@
-import { customCookie } from "@/libs/cookie/cookie"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useMutation, useQueries } from "@tanstack/react-query"
@@ -22,8 +21,11 @@ export const useAdminLoginMutation = () => {
         onSuccess: res => {
             toast.success("로그인 성공")
             const { accessToken, refreshToken } = res
-            customCookie.set.token(accessToken, refreshToken)
-            router.push("/admin/dashBoard")
+            if (typeof window !== "undefined") {
+                window.localStorage.setItem("accessToken", accessToken)
+                window.localStorage.setItem("refreshToken", refreshToken)
+            }
+            router.push("/admin/createAcc")
         },
     })
 }

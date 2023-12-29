@@ -10,7 +10,6 @@ import { useAdminProfileQuery } from "@/apis/admin"
 import { IAdminProfile } from "@/apis/admin/type"
 import { IUserProfile } from "@/apis/user/type"
 import { Logout } from "@/assets/Logout"
-import { customCookie } from "@/libs/cookie/cookie"
 import { useLogoutMutation } from "@/apis/auth"
 
 interface accountType {
@@ -36,7 +35,7 @@ export const Nav = ({ account }: accountType) => {
 
     const displayRole = accountBool[account] ? "관리자" : (profileInfo as IUserProfile)?.department
 
-    const refreshToken = customCookie.get.refresh_token()
+    const refreshToken = typeof window !== "undefined" ? localStorage.getItem("refreshToken") : ""
 
     const onLogout = () => {
         LogoutMutation(refreshToken)

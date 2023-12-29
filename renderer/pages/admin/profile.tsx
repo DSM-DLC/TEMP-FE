@@ -1,7 +1,6 @@
 import { Human } from "@/assets/Human"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
-import { useRouter } from "next/router"
 import { useState } from "react"
 import { Input } from "@/components/common/input/Input"
 import { useAdminPasswordMutation } from "@/apis/admin"
@@ -23,20 +22,25 @@ export const Profile = () => {
         <Container>
             <Nav account="Admin" />
             <TitleBoxContainer>
+                <CreateTitleBox>관리자 프로필</CreateTitleBox>
                 <CreateBox>
                     <CreateTextBoxGroup>
+                        <ProfileIcon>
+                            <Human />
+                        </ProfileIcon>
                         <CreateTextBox>
-                            <CreateTitleBox>
-                                <Human />
-                            </CreateTitleBox>
-                        </CreateTextBox>
-                        <CreateTextBox>
-                            <NameBox>아이디: {adminInfo?.adminId}</NameBox>
+                            <InfoBox>
+                                <NameBox>아이디</NameBox>
+                                <Value>{adminInfo?.adminId}</Value>
+                            </InfoBox>
+                            <InfoBox>
+                                <PasswordBox>비밀번호</PasswordBox>
+                                <UploadButton onClick={openModal}>비밀번호 변경</UploadButton>
+                                {showModal && <ChangePasswordModal closeModal={closeModal} />}
+                            </InfoBox>
                         </CreateTextBox>
                     </CreateTextBoxGroup>
                 </CreateBox>
-                <UploadButton onClick={openModal}>비밀번호 변경</UploadButton>
-                {showModal && <ChangePasswordModal closeModal={closeModal} />}
             </TitleBoxContainer>
         </Container>
     )
@@ -180,10 +184,10 @@ const CreateBox = styled.div`
 `
 const CreateTextBoxGroup = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 30px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 60px;
 `
 
 const CreateTextBox = styled.div`
@@ -318,6 +322,17 @@ const ProfileIcon = styled.div`
     width: 200px;
     background-color: #d9d9d9;
     border-radius: 20px;
-    position: relative;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const Value = styled.span`
+    font-size: 18px;
+`
+
+const InfoBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 `

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Nav } from "@/components/nav"
 import { IInfoDetail } from "@/apis/info/type"
 import { useInfoUploadMutation } from "@/apis/info"
+import { Radio } from "@/components/common/input/Radio"
 
 export const ProfileUpload = () => {
     const { mutate: uploadMutation } = useInfoUploadMutation()
@@ -23,7 +24,7 @@ export const ProfileUpload = () => {
     })
 
     const uploadInfo = () => {
-        uploadMutation(values)
+        uploadMutation({ ...values, cost: values.cost * 1000 })
     }
 
     return (
@@ -56,20 +57,18 @@ export const ProfileUpload = () => {
                                 width="320px"
                                 placeholder="생년월일을 입력해주세요"
                                 value={values.birthDate}
-                                onChange={birthDate => {
-                                    const value = birthDate.target.value.replace(/[^\d]/g, "")
+                                onChange={e => {
+                                    const value = e.target.value.replace(/[^\d]/g, "")
                                     let formattedValue = ""
 
-                                    if (value.length <= 4) {
+                                    if (value.length <= 6) {
                                         formattedValue = value
-                                    } else if (value.length <= 6) {
-                                        formattedValue = `${value.slice(0, 4)}-${value.slice(4, 6)}`
+                                    } else if (value.length <= 7) {
+                                        formattedValue = `${value.slice(0, 6)}-${value.slice(6)}`
                                     } else {
-                                        formattedValue = `${value.slice(0, 4)}-${value.slice(
-                                            4,
-                                            6,
-                                        )}-${value.slice(6, 8)}`
+                                        formattedValue = `${value.slice(0, 6)}-${value.slice(6, 7)}`
                                     }
+
                                     setValues({ ...values, birthDate: formattedValue })
                                 }}
                             />
@@ -93,11 +92,11 @@ export const ProfileUpload = () => {
                         <CreatTextBox>
                             <Input
                                 name="budgetBasis"
-                                label="예산근거"
+                                label="사업명"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
-                                placeholder="예산근거를 입력해주세요"
+                                placeholder="사업명을 입력해주세요"
                                 value={values.budgetBasis}
                                 onChange={budgetBasis => {
                                     setValues({ ...values, budgetBasis: budgetBasis.target.value })
@@ -107,7 +106,7 @@ export const ProfileUpload = () => {
                         <CreatTextBox>
                             <Input
                                 name="cost"
-                                label="총인권비"
+                                label="총인권비(천단위 원)"
                                 type="number"
                                 border="none"
                                 backgroundColor="#e0e0e0"
@@ -140,39 +139,28 @@ export const ProfileUpload = () => {
                     </CreatTextBoxGroup>
                     <CreatTextBoxGroup>
                         <CreatTextBox>
+                            <NameBox>사대보험 가입유무</NameBox>
                             <RadioBoxs>
-                                <RadioBox>
-                                    <Input
-                                        name="insurance"
-                                        label="가입"
-                                        type="radio"
-                                        value="yes"
-                                        checked={values.fourInsurance === false}
-                                        width="20px"
-                                        // onChange={handleInputChange}
-                                    />
-                                </RadioBox>
-                                <RadioBox>
-                                    <Input
-                                        name="insurance"
-                                        label="미가입"
-                                        type="radio"
-                                        value="no"
-                                        checked={values.fourInsurance === false}
-                                        width="20px"
-                                        // onChange={}
-                                    />
-                                </RadioBox>
+                                <Radio
+                                    radioId="가입"
+                                    isRadioSelected={values.fourInsurance}
+                                    onClick={() => setValues({ ...values, fourInsurance: true })}
+                                />
+                                <Radio
+                                    radioId="미가입"
+                                    isRadioSelected={!values.fourInsurance}
+                                    onClick={() => setValues({ ...values, fourInsurance: false })}
+                                />
                             </RadioBoxs>
                         </CreatTextBox>
                         <CreatTextBox>
                             <Input
-                                name="job"
-                                label="직종"
+                                name="jobType"
+                                label="주근무일"
                                 border="none"
                                 backgroundColor="#e0e0e0"
                                 width="320px"
-                                placeholder="직종을 입력해주세요"
+                                placeholder="주근무일 입력해주세요"
                                 value={values.jobType}
                                 onChange={jobType => {
                                     setValues({ ...values, jobType: jobType.target.value })
@@ -271,20 +259,24 @@ const Container = styled.div`
     flex-direction: row;
 `
 
-const TitleBoxContainer = styled.div``
+const TitleBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 1000px;
+    align-items: center;
+    justify-content: space-evenly;
+`
 
 const CreateTitleBox = styled.div`
-    width: 530px;
-    height: 200px;
+    min-width: 1250px;
     display: flex;
     align-items: center;
-    padding-left: 170px;
     font-size: 50px;
 `
 const CreateBox = styled.div`
-    width: 1250px;
+    min-width: 1250px;
     height: 750px;
-    margin-left: 170px;
     padding-top: 80px;
     padding-left: 100px;
     padding-right: 100px;
@@ -310,14 +302,10 @@ const RadioBoxs = styled.div`
     height: auto;
     display: flex;
     justify-content: left;
+    gap: 30px;
+    margin-top: 15px;
 `
-const RadioBox = styled.div`
-    width: auto;
-    height: auto;
-    flex-direction: column;
-    font-size: 10px;
-    padding: 10px;
-`
+
 const ActionBox = styled.div`
     width: auto;
     height: auto;
@@ -325,6 +313,20 @@ const ActionBox = styled.div`
     display: flex;
     justify-content: right;
     gap: 40px;
+`
+
+const NameBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 170px;
+    height: 20px;
+    padding-left: 5px;
+    justify-content: center;
+    align-items: flex-start;
+    border-left-style: solid;
+    border-left-width: 5px;
+    border-color: #3d8bfd;
+    font-size: 17px;
 `
 const UploadButton = styled.button`
     width: 150px;

@@ -1,5 +1,6 @@
 import { useUserProfileMutation } from "@/apis/user"
 import { IUserProfile } from "@/apis/user/type"
+import { Human } from "@/assets/Human"
 import { Input } from "@/components/common/input/Input"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
@@ -29,7 +30,9 @@ export const Profile = () => {
                 <BoxContainer>
                     <BoxWrapper>
                         <InfoContainer>
-                            <ProfileIcon></ProfileIcon>
+                            <ProfileIcon>
+                                <Human />
+                            </ProfileIcon>
                             <InfoWrapper>
                                 <InfoBox>
                                     <NameBox>아이디</NameBox>
@@ -143,8 +146,9 @@ const ProfileIcon = styled.div`
     width: 200px;
     background-color: #d9d9d9;
     border-radius: 20px;
-    position: relative;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const InfoContainer = styled.div`

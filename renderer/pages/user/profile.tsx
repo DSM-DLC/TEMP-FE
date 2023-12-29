@@ -1,4 +1,5 @@
 import { useUserProfileQuery } from "@/apis/user"
+import { Human } from "@/assets/Human"
 import { Nav } from "@/components/nav"
 import styled from "@emotion/styled"
 import router from "next/router"
@@ -15,7 +16,9 @@ export const Profile = () => {
                     <BoxContainer>
                         <BoxWrapper>
                             <InfoContainer>
-                                <ProfileIcon></ProfileIcon>
+                                <ProfileIcon>
+                                    <Human />
+                                </ProfileIcon>
                                 <InfoWrapper>
                                     <InfoBox>
                                         <NameBox>아이디</NameBox>
@@ -155,5 +158,7 @@ const ProfileIcon = styled.div`
     width: 200px;
     background-color: #d9d9d9;
     border-radius: 20px;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
